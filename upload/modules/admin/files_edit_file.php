@@ -93,7 +93,7 @@ if ($uam->permitted('acp_files_edit_file'))
 		
 		if (empty($error))
 		{
-			$dbim->query('UPDATE '.DB_PREFIX.'files
+			$dbim->pquery('UPDATE '.DB_PREFIX.'files
 							SET category_id = "'.$_REQUEST['category'].'", 
 								name = "'.$_REQUEST['name'].'", 
 								description_small = "'.$_REQUEST['description_small'].'", 
@@ -123,26 +123,26 @@ if ($uam->permitted('acp_files_edit_file'))
 					if (!empty($_REQUEST['custom_field_'.$i.'_id']))
 					{
 						// Update
-						$dbim->query('UPDATE '.DB_PREFIX.'customfields_data
-										SET value = "'.$_REQUEST['custom_field_'.$i.'_value'].'"
-										WHERE (id = '.$_REQUEST['custom_field_'.$i.'_id'].')');					
+						$dbim->pquery('UPDATE '.DB_PREFIX.'customfields_data
+								SET value = "'.$_REQUEST['custom_field_'.$i.'_value'].'"
+								WHERE (id = '.$_REQUEST['custom_field_'.$i.'_id'].')');
 						
 					}
 					else
 					{
 						// Add
-						$dbim->query('INSERT INTO '.DB_PREFIX.'customfields_data
-										SET field_id = '.$_REQUEST['custom_field_'.$i.'_field_id'].',
-											file_id = '.$_REQUEST['file_id'].',
-											value = "'.$_REQUEST['custom_field_'.$i.'_value'].'"');
+						$dbim->pquery('INSERT INTO '.DB_PREFIX.'customfields_data
+								SET field_id = '.$_REQUEST['custom_field_'.$i.'_field_id'].',
+									file_id = '.$_REQUEST['file_id'].',
+									value = "'.$_REQUEST['custom_field_'.$i.'_value'].'"');
 					}
 				}
 				else
 				{
 					if (!empty($_REQUEST['custom_field_'.$i.'_id']))
 					{
-						$dbim->query('DELETE FROM '.DB_PREFIX.'customfields_data
-										WHERE (id = '.$_REQUEST['custom_field_'.$i.'_id'].')');
+						$dbim->pquery('DELETE FROM '.DB_PREFIX.'customfields_data
+								WHERE (id = '.$_REQUEST['custom_field_'.$i.'_id'].')');
 					}
 				}
 			}
@@ -160,17 +160,17 @@ if ($uam->permitted('acp_files_edit_file'))
 					if (intval($details['delete']) == 1)
 					{
 						// Delete
-						$dbim->query('DELETE FROM '.DB_PREFIX.'mirrors
-										WHERE id = '.$mirror_id);
+						$dbim->pquery('DELETE FROM '.DB_PREFIX.'mirrors
+							WHERE id = '.$mirror_id);
 					}
 					elseif (($details['name'] != '') && ($details['location'] != '') && ($details['url'] != ''))
 					{
 						// All is good, so update
-						$dbim->query('UPDATE '.DB_PREFIX.'mirrors
-										SET name = "'.$details['name'].'",
-											location = "'.$details['location'].'",
-											url = "'.$details['url'].'"
-										WHERE id = '.$mirror_id);
+						$dbim->pquery('UPDATE '.DB_PREFIX.'mirrors
+							SET name = "'.$details['name'].'",
+								location = "'.$details['location'].'",
+								url = "'.$details['url'].'"
+							WHERE id = '.$mirror_id);
 					}
 					elseif (!(($details['name'] == '') && ($details['location'] == '') && ($details['url'] == '')) 
 							&& (($details['name'] == '') || ($details['location'] == '') || ($details['url'] == '')))
@@ -200,11 +200,11 @@ if ($uam->permitted('acp_files_edit_file'))
 						($details['url'] != ''))
 					{
 						// All is good, so update
-						$dbim->query('INSERT INTO '.DB_PREFIX.'mirrors
-										SET name = "'.$details['name'].'",
-											location = "'.$details['location'].'",
-											url = "'.$details['url'].'",
-											file_id = '.$_REQUEST['file_id']);
+						$dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
+									SET name = "'.$details['name'].'",
+										location = "'.$details['location'].'",
+										url = "'.$details['url'].'",
+										file_id = '.$_REQUEST['file_id']);
 					}
 					elseif (!(($details['name'] == '') && ($details['location'] == '') 
 							&& ($details['url'] == '')) && (($details['name'] == '') || 
@@ -253,9 +253,9 @@ if ($uam->permitted('acp_files_edit_file'))
 		}
 		
 		// Output
-		$file_result = $dbim->query('SELECT id, category_id, name, description_small, description_big, downloads, views, size, agreement_id, rating_votes, rating_value, password, date, status , convert_newlines, keywords, activate_at 
-										FROM '.DB_PREFIX.'files
-										WHERE (id = '.$_REQUEST['file_id'].')');	
+		$file_result = $dbim->pquery('SELECT id, category_id, name, description_small, description_big, downloads, views, size, agreement_id, rating_votes, rating_value, password, date, status , convert_newlines, keywords, activate_at 
+						FROM '.DB_PREFIX.'files
+						WHERE (id = '.$_REQUEST['file_id'].')');
 		$file_row = $dbim->fetch_array($file_result);
 		
 		// Put the date in the correct format
@@ -305,9 +305,9 @@ if ($uam->permitted('acp_files_edit_file'))
 		if (!is_null($file_row['category_id']) && $file_row['category_id'] != 0)
 		{	
 			// Get current category name
-			$category_result = $dbim->query('SELECT id, name
-												FROM '.DB_PREFIX.'categories
-												WHERE (id = '.$file_row['category_id'].')');		
+			$category_result = $dbim->pquery('SELECT id, name
+						FROM '.DB_PREFIX.'categories
+						WHERE (id = '.$file_row['category_id'].')');
 			$category_row = $dbim->fetch_array($category_result);
 		}
 		else
@@ -318,9 +318,9 @@ if ($uam->permitted('acp_files_edit_file'))
 		$edit_file->assign_var('current_category_name', $category_row['name']);
 		
 		// Get current agreement name
-		$agreement_result = $dbim->query('SELECT id, name
-											FROM '.DB_PREFIX.'agreements
-											WHERE (id = '.$file_row['agreement_id'].')');		
+		$agreement_result = $dbim->pquery('SELECT id, name
+					FROM '.DB_PREFIX.'agreements
+					WHERE (id = '.$file_row['agreement_id'].')');
 		$agreement_row = $dbim->fetch_array($agreement_result);
 		
 		if ($dbim->num_rows($agreement_result) == 0)
@@ -336,8 +336,8 @@ if ($uam->permitted('acp_files_edit_file'))
  		$fcm->generate_category_list($edit_file, 'category', 'cats');
 		
 		// Get the agreements
-		$agreements_result = $dbim->query('SELECT id, name, contents
-											FROM '.DB_PREFIX.'agreements');
+		$agreements_result = $dbim->pquery('SELECT id, name, contents
+						FROM '.DB_PREFIX.'agreements');
 											
 		while ($agreement = $dbim->fetch_array($agreements_result))
 		{
@@ -347,17 +347,17 @@ if ($uam->permitted('acp_files_edit_file'))
 		
 		// Custom fields:
 		// 1. Get a list of fields:
-		$custom_query = $dbim->query('SELECT id, label
-										FROM '.DB_PREFIX.'customfields');
+		$custom_query = $dbim->pquery('SELECT id, label
+					FROM '.DB_PREFIX.'customfields');
 		
 		$id = 1;
 		while ($custom_fields = $dbim->fetch_array($custom_query))
 		{
 			// 2. Get the value (if any) for the current field
-			$cf_value_query = $dbim->query('SELECT id, field_id, value 
-											FROM '.DB_PREFIX.'customfields_data
-											WHERE (field_id = '.$custom_fields['id'].')
-												AND (file_id = '.$_REQUEST['file_id'].')');
+			$cf_value_query = $dbim->pquery('SELECT id, field_id, value 
+						FROM '.DB_PREFIX.'customfields_data
+						WHERE (field_id = '.$custom_fields['id'].')
+							AND (file_id = '.$_REQUEST['file_id'].')');
 			
 			$cf_value_array = $dbim->fetch_array($cf_value_query);
 			
@@ -390,9 +390,9 @@ if ($uam->permitted('acp_files_edit_file'))
 			$good_mirror_sql = '';
 		}
 		
-		$mirrors_result = $dbim->query('SELECT id, file_id, name, location, url
-										FROM '.DB_PREFIX.'mirrors
-										WHERE (file_id = '.$_REQUEST['file_id'].')'.$good_mirror_sql);
+		$mirrors_result = $dbim->pquery('SELECT id, file_id, name, location, url
+						FROM '.DB_PREFIX.'mirrors
+						WHERE (file_id = '.$_REQUEST['file_id'].')'.$good_mirror_sql);
 											
 		while ($mirror = $dbim->fetch_array($mirrors_result))
 		{
