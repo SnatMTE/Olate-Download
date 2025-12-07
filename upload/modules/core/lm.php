@@ -21,11 +21,11 @@ class lm
 	var $language_row;
 	
 	// Constructor - get current language from database
-	function lm()
+	function __construct()
 	{
 		// Need to use DBIM & $site_config
 		global $dbim, $site_config;
-		
+
 		$this->load_language();
 	}
 	

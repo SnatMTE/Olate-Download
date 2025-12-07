@@ -23,11 +23,11 @@ class ehm
 	var $debug_level = 0;
 
 	// Constructor
-	function ehm($debug_level = 0)
+	function __construct($debug_level = 0)
 	{
 		// Populate class variables
 		$this->debug_level = $debug_level;
-		
+
 		// Knock the PHP error handling out of the damn way
 		set_error_handler(array($this, 'handle_error'));
 	}

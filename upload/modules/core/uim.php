@@ -23,19 +23,19 @@ class uim_main
 	var $theme;
 	
 	// Constructor - get the theme
-	function uim_main($theme = false)
-	{		
+	function __construct($theme = false)
+	{       
 		global $site_config;
-		
+        
 		if ($theme != false) 
-		{			
-			$this->theme = $theme;			
+		{           
+			$this->theme = $theme;          
 		}
 		else 
-		{			
-			$this->theme = $site_config['template'];		
-		}		
-		
+		{           
+			$this->theme = $site_config['template'];       
+		}       
+        
 		// Start output buffering for the generate() call
 		ob_start();
 	}
@@ -114,14 +114,14 @@ class uim_template
 	var $file, $dir, $vars, $lang, $template, $blocks;
 	
 	// Constructor
-	function uim_template($dir, $file)
-	{		
+	function __construct($dir, $file)
+	{       
 		$this->dir = $dir;
 		$this->file = $file;
-		
+        
 		// Get the contents
 		$this->get_file();
-			
+            
 		// Assign global vars
 		$this->assign_globals();
 	}
