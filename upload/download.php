@@ -47,7 +47,7 @@ if (isset($_REQUEST['file']))
 			if (!empty($details))
 			{	
 				// Get mirrors
-				$mirrors_result = $dbim->query('SELECT id, file_id, name, location, url
+				$mirrors_result = $dbim->pquery('SELECT id, file_id, name, location, url
 												FROM '.DB_PREFIX.'mirrors
 												WHERE (file_id = '.$_REQUEST['file'].')');
 				
@@ -110,13 +110,13 @@ if (isset($_REQUEST['file']))
 			
 			// Incrememnt and update
 			$details['downloads']++;
-			$update = $dbim->query('UPDATE '.DB_PREFIX.'files 
+			$update = $dbim->pquery('UPDATE '.DB_PREFIX.'files 
 									SET downloads = '.$details['downloads'].'
 									WHERE (id = '.$_REQUEST['file'].')');
 										
 			if ($site_config['enable_stats'])
 			{
-				$dbim->query('INSERT INTO '.DB_PREFIX.'stats 
+				$dbim->pquery('INSERT INTO '.DB_PREFIX.'stats 
 								SET file_id = '.$_REQUEST['file'].', 
 									timestamp = "'.time().'", 
 									ip = "'.$_SERVER['REMOTE_ADDR'].'", 
@@ -125,7 +125,7 @@ if (isset($_REQUEST['file']))
 			}
 																	
 			// Get URL
-			$mirrors_result = $dbim->query('SELECT id, url
+			$mirrors_result = $dbim->pquery('SELECT id, url
 											FROM '.DB_PREFIX.'mirrors
 											WHERE (id = '.$_REQUEST['mirror'].')');
 												

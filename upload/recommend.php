@@ -188,10 +188,10 @@ if ($site_config['enable_recommend_friend'])
 			{
 				// Check for there already being an entry
 				$sql = 'SELECT COUNT(*) as count
-						FROM '.DB_PREFIX.'recommend_blocklist
-						WHERE address = "'.$_REQUEST['address'].'"';
-				
-				$result = $dbim->query($sql);
+					FROM '.DB_PREFIX.'recommend_blocklist
+					WHERE address = "'.$_REQUEST['address'].'"';
+                
+				$result = $dbim->pquery($sql);
 				$row = $dbim->fetch_array($result);
 				
 				if (intval($row['count']) > 0)
@@ -217,9 +217,9 @@ if ($site_config['enable_recommend_friend'])
 									(address)
 								VALUES
 									("'.$_REQUEST['address'].'")';
-						
+                        
 						// Insert into database
-						$dbim->query($sql);
+						$dbim->pquery($sql);
 						
 						$template->assign_var('message', $lm->language('frontend', 'email_blocked'));
 					}
@@ -254,11 +254,11 @@ if ($site_config['enable_recommend_friend'])
 			{
 				// Find data relating to that hash
 				$sql = 'SELECT id, timestamp, ip_address, file_id, sender_name, sender_email, rcpt_name, rcpt_email, message, confirmed 
-						FROM '.DB_PREFIX.'recommend_log 
-						WHERE (confirm_hash = "'.$_REQUEST['hash'].'")
-						LIMIT 1';
-				
-				$result = $dbim->query($sql);
+					FROM '.DB_PREFIX.'recommend_log 
+					WHERE (confirm_hash = "'.$_REQUEST['hash'].'")
+					LIMIT 1';
+                
+				$result = $dbim->pquery($sql);
 				
 				if ($row = $dbim->fetch_array($result))
 				{
@@ -285,7 +285,7 @@ if ($site_config['enable_recommend_friend'])
 						{
 							$template->assign_var('message', $message_success);
 							
-							$dbim->query('UPDATE '.DB_PREFIX.'recommend_log
+							$dbim->pquery('UPDATE '.DB_PREFIX.'recommend_log
 											SET confirmed = 1
 											WHERE id = '.$row['id']);
 						}
@@ -374,13 +374,13 @@ if ($site_config['enable_recommend_friend'])
 				
 				// Check sender/recipient addresses aren't blocked
 				$sql = 'SELECT address, COUNT(*) AS count
-						FROM '.DB_PREFIX.'recommend_blocklist
-						WHERE (address = "'.$_REQUEST['sender_email'].'")
-								OR (address = "'.$_REQUEST['rcpt_email'].'")
-						GROUP BY address';
-				
-				$result = $dbim->query($sql);
-				
+					FROM '.DB_PREFIX.'recommend_blocklist
+					WHERE (address = "'.$_REQUEST['sender_email'].'")
+						OR (address = "'.$_REQUEST['rcpt_email'].'")
+					GROUP BY address';
+                
+				$result = $dbim->pquery($sql);
+                
 				while ($row = $dbim->fetch_array($result))
 				{
 					if ($row['count'] > 0)
@@ -453,8 +453,8 @@ if ($site_config['enable_recommend_friend'])
 									message = "'.$_POST['message'].'",
 									confirm_hash = "'.$email_content['confirm_hash'].'",
 									confirmed = '.$confirmed;
-					
-					$dbim->query($sql);
+                    
+					$dbim->pquery($sql);
 					
 					// Template
 					$template->show();

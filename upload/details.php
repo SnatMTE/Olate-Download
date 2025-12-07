@@ -54,9 +54,9 @@ if (isset($_REQUEST['file']))
 	{
 		// Increment file view count
 		$details['views'] = $details['views'] + 1;	
-		$dbim->query('UPDATE '.DB_PREFIX.'files
-						SET views = '.$details['views'].'
-						WHERE (id = '.$_REQUEST['file'].')');
+		$dbim->pquery('UPDATE '.DB_PREFIX.'files
+				SET views = '.$details['views'].'
+				WHERE (id = '.$_REQUEST['file'].')');
 		
 		if (empty($details['password']) || isset($_SESSION[$_REQUEST['file'].'_auth']))
 		{
@@ -71,7 +71,7 @@ if (isset($_REQUEST['file']))
 				{					
 					$status = $site_config['approve_comments'] ? 0 : 1;
 					
-					$dbim->query('INSERT INTO '.DB_PREFIX.'comments
+					$dbim->pquery('INSERT INTO '.DB_PREFIX.'comments
 									SET file_id = '.$_REQUEST['file'].', 
 										timestamp = '.time().', 
 										name = "'.$_REQUEST['name'].'", 
@@ -115,7 +115,7 @@ if (isset($_REQUEST['file']))
 					$new_rating_formatted = number_format($new_rating, 2, '.', '');
 					
 					// Update
-					$dbim->query('UPDATE '.DB_PREFIX.'files
+					$dbim->pquery('UPDATE '.DB_PREFIX.'files
 									SET rating_votes = '.$new_count.', 
 										rating_value = "'.$new_rating_formatted.'"
 									WHERE (id = '.$_REQUEST['file'].')');
@@ -168,7 +168,7 @@ if (isset($_REQUEST['file']))
 			$details_files->use_block('file');
 			
 			// Custom fields
-			$custom_query = $dbim->query('SELECT cf.label AS label, cfd.value AS value
+			$custom_query = $dbim->pquery('SELECT cf.label AS label, cfd.value AS value
 											FROM '.DB_PREFIX.'customfields_data AS cfd,
 												'.DB_PREFIX.'customfields AS cf
 											WHERE (cfd.file_id = '.$_REQUEST['file'].') 

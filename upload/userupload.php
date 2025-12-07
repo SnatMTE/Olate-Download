@@ -266,7 +266,7 @@ if ($site_config['enable_useruploads'] == 1)
 							$filesize = floatval($_REQUEST['size']);
 						}
 						
-						$dbim->query('INSERT INTO '.DB_PREFIX.'files
+						$dbim->pquery('INSERT INTO '.DB_PREFIX.'files
 										SET category_id = "'.$_REQUEST['category'].'", 
 											name = "'.$_REQUEST['name'].'", 
 											description_small = "'.$_REQUEST['description_small'].'", 
@@ -285,7 +285,7 @@ if ($site_config['enable_useruploads'] == 1)
 						$inserted = true;
 					}
 					
-					$dbim->query('INSERT INTO '.DB_PREFIX.'mirrors
+					$dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
 									SET file_id = '.$file_id.', 
 										name = "'.$_REQUEST['mirror'.$i.'_name'].'", 
 										location = "'.$_REQUEST['mirror'.$i.'_location'].'", 
@@ -354,7 +354,7 @@ if ($site_config['enable_useruploads'] == 1)
 	$fcm->generate_category_list($add_file, 'category', 'cats');
 	
 	// Get the agreements
-	$agreements_result = $dbim->query('SELECT id, name, contents
+			$agreements_result = $dbim->pquery('SELECT id, name, contents
 										FROM '.DB_PREFIX.'agreements');
 										
 	while ($agreement = $dbim->fetch_array($agreements_result))
@@ -364,7 +364,7 @@ if ($site_config['enable_useruploads'] == 1)
 	}
 	
 	// Custom fields
-	$custom_query = $dbim->query('SELECT id, label, value
+	$custom_query = $dbim->pquery('SELECT id, label, value
 									FROM '.DB_PREFIX.'customfields');
 	
 	$rows = $dbim->num_rows($custom_query);  
