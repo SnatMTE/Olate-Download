@@ -52,7 +52,7 @@ $dbim->query('ALTER TABLE '.DB_PREFIX.'files
 				
 // Add upload extension restrictions (#0000139)
 $dbim->query('ALTER TABLE '.DB_PREFIX.'config 
-				ADD uploads_allowed_ext TEXT NOT NULL');
+				ADD uploads_allowed_ext TEXT NOT NULL DEFAULT ""');
 				
 // More advanced leech protection
 $dbim->query('ALTER TABLE '.DB_PREFIX.'config

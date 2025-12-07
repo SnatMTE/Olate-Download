@@ -68,7 +68,7 @@ $tables_sql[] = "CREATE TABLE `downloads_config` (
   `enable_mirrors` int(1) NOT NULL default '0',
   `enable_leech_protection` int(1) NOT NULL default '1',
   `mirrors` int(2) NOT NULL default '5',
-  `uploads_allowed_ext` TEXT NOT NULL,
+  `uploads_allowed_ext` TEXT NOT NULL DEFAULT '',
   `userupload_always_approve` int(1) NOT NULL default '0',
   `filter_cats` INT(1) DEFAULT '0' NOT NULL,
   `ip_restrict_mode` TINYINT( 1 ) DEFAULT '0' NOT NULL,
