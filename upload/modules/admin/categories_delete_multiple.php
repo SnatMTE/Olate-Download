@@ -113,13 +113,13 @@ if ($uam->permitted('acp_categories_delete_multiple'))
 				foreach ($_POST['categories'] as $category => $value)
 				{
 					// Start by moving anything
-					$dbim->query('UPDATE '.DB_PREFIX.'files SET category_id="'.$_REQUEST['move'].'" WHERE category_id="'.$category.'"');
-					
+					$dbim->pquery('UPDATE '.DB_PREFIX.'files SET category_id="'.$_REQUEST['move'].'" WHERE category_id="'.$category.'"');
+
 					// Now, the children
-					$dbim->query('UPDATE '.DB_PREFIX.'categories SET parent_id="'.$_REQUEST['move'].'" WHERE parent_id="'.$category.'"');
-					
+					$dbim->pquery('UPDATE '.DB_PREFIX.'categories SET parent_id="'.$_REQUEST['move'].'" WHERE parent_id="'.$category.'"');
+
 					// And finally, delete the category
-					$dbim->query('DELETE FROM '.DB_PREFIX.'categories WHERE id="'.$category.'"');
+					$dbim->pquery('DELETE FROM '.DB_PREFIX.'categories WHERE id="'.$category.'"');
 				}
 				
 				// And show the message

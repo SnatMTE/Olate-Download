@@ -25,9 +25,9 @@ if ($uam->permitted('acp_categories_delete'))
 	{
 		validate_types($_REQUEST, array('id' => 'INT'));
 		
-		$check_result = $dbim->query('SELECT count(id) as count
-										FROM '.DB_PREFIX.'files
-										WHERE (category_id = '.$_REQUEST['id'].')');
+		$check_result = $dbim->pquery('SELECT count(id) as count
+						FROM '.DB_PREFIX.'files
+						WHERE (category_id = '.$_REQUEST['id'].')');
 		
 		$check_row = $dbim->fetch_array($check_result);
 		
@@ -53,9 +53,9 @@ if ($uam->permitted('acp_categories_delete'))
 			elseif (!empty($_REQUEST['confirm_yes']))
 			{
 				// There are no files in the category
-				$dbim->query('DELETE FROM '.DB_PREFIX.'categories
-								WHERE (id = '.$_REQUEST['id'].')
-								LIMIT 1');
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'categories
+						WHERE (id = '.$_REQUEST['id'].')
+						LIMIT 1');
 				
 				// And show the message
 				$categories_delete->assign_var('result', 1);
@@ -123,13 +123,13 @@ if ($uam->permitted('acp_categories_delete'))
 		elseif (!empty($_REQUEST['confirm_yes']))
 		{
 			// Firstly, move all files
-			$dbim->query('UPDATE '.DB_PREFIX.'files SET category_id="'.$_REQUEST['move'].'" WHERE category_id="'.$_REQUEST['current'].'"');
-			
-			// Now, the children
-			$dbim->query('UPDATE '.DB_PREFIX.'categories SET parent_id="'.$_REQUEST['move'].'" WHERE parent_id="'.$_REQUEST['current'].'"');
-			
-			// And finally, delete the category
-			$dbim->query('DELETE FROM '.DB_PREFIX.'categories WHERE id="'.$_REQUEST['current'].'"');
+				$dbim->pquery('UPDATE '.DB_PREFIX.'files SET category_id="'.$_REQUEST['move'].'" WHERE category_id="'.$_REQUEST['current'].'"');
+
+				// Now, the children
+				$dbim->pquery('UPDATE '.DB_PREFIX.'categories SET parent_id="'.$_REQUEST['move'].'" WHERE parent_id="'.$_REQUEST['current'].'"');
+
+				// And finally, delete the category
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'categories WHERE id="'.$_REQUEST['current'].'"');
 			
 			// And show the message
 			$categories_delete->assign_var('result', 1);

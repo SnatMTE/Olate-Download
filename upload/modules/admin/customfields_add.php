@@ -26,7 +26,7 @@ if ($uam->permitted('acp_customfields_add'))
 	{
 		validate_types($_REQUEST, array('label' => 'STR', 'value' => 'STR'));
 		
-		$dbim->query('INSERT INTO '.DB_PREFIX.'customfields
+		$dbim->pquery('INSERT INTO '.DB_PREFIX.'customfields
 						SET label = "'.$_REQUEST['label'].'", 
 							value = "'.$_REQUEST['value'].'"');
 	

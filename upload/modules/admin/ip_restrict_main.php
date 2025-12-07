@@ -27,13 +27,13 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		$config_sql = 'UPDATE '.DB_PREFIX.'config
 						SET ip_restrict_mode = '.$new_mode;
 		
-		$config_result = $dbim->query($config_sql);
+		$config_result = $dbim->pquery($config_sql);
 		
 		// Update ip_restrict table
 		$table_sql = 'UPDATE '.DB_PREFIX.'ip_restrict
 						SET action = '.$new_mode;
 		
-		$table_result = $dbim->query($table_sql);
+		$table_result = $dbim->pquery($table_sql);
 		
 		$success = true;
 		$redirect_to = 'admin.php?cmd=ip_restrict_main';
@@ -159,7 +159,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 									'.intval($_REQUEST['filter_active']).'
 								)';
 					
-					$result = $dbim->query($sql);
+					$result = $dbim->pquery($sql);
 					
 					$success = true;
 					$redirect_to = 'admin.php?cmd=ip_restrict_main&amp;act=new_ipaddress';
@@ -244,7 +244,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 									'.intval($_REQUEST['filter_active']).'
 								)';
 					
-					$result = $dbim->query($sql);
+						$result = $dbim->pquery($sql);
 					
 					$success = true;
 					$redirect_to = 'admin.php?cmd=ip_restrict_main&amp;act=new_iprange';
@@ -449,7 +449,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 					$sql .= implode(",\n", $sql_bits);
 					$sql .= "\nWHERE id = $id";
 					
-					$dbim->query($sql);
+					$dbim->pquery($sql);
 					
 					// Unset this entry from list as it is finished
 					$key = array_search($id, $id_list);
@@ -607,7 +607,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 				$sql .= ')';
 				
 				// Run it
-				$dbim->query($sql);
+				$dbim->pquery($sql);
 				
 				// Closing vars
 				$message = $lm->language('admin', 'ip_restrict_entries_deleted');
@@ -657,7 +657,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 			$sql .= ')';
 			
 			// Run it
-			$dbim->query($sql);
+			$dbim->pquery($sql);
 			
 			// Closing vars
 			$message = $lm->language('admin', 'ip_restrict_entry_updated');
@@ -731,7 +731,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		$count_sql = 'SELECT COUNT(*) AS count
 				FROM '.DB_PREFIX.'ip_restrict_log';
 		
-		$count_result = $dbim->query($count_sql);
+		$count_result = $dbim->pquery($count_sql);
 		$count_row = $dbim->fetch_array($count_result);
 		
 		$template->assign_var('denial_count', $count_row['count']);
@@ -742,7 +742,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 						ORDER BY timestamp DESC
 						LIMIT 1';
 		
-		$denial_result = $dbim->query($denial_sql);
+		$denial_result = $dbim->pquery($denial_sql);
 		$denial_row = $dbim->fetch_array($denial_result);
 		
 		if ($dbim->num_rows($denial_result) == 0)
@@ -829,7 +829,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		$filter_sql = 'SELECT * FROM '.DB_PREFIX.'ip_restrict
 						ORDER BY '.$field.' '.strtoupper($direction);
 		
-		$filter_result = $dbim->query($filter_sql);
+		$filter_result = $dbim->pquery($filter_sql);
 		
 		while ($filter_row = $dbim->fetch_array($filter_result))
 		{

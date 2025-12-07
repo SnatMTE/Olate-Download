@@ -25,9 +25,9 @@ if ($uam->permitted('acp_categories_edit'))
 		// Template
 		$categories_edit = $uim->fetch_template('admin/categories_edit');
 
-		$category_result = $dbim->query('SELECT id, parent_id, name, description, sort, keywords
-											FROM '.DB_PREFIX.'categories
-											WHERE (id = '.$_REQUEST['id'].')');										
+		$category_result = $dbim->pquery('SELECT id, parent_id, name, description, sort, keywords
+						FROM '.DB_PREFIX.'categories
+						WHERE (id = '.$_REQUEST['id'].')');					
 		$category_row = $dbim->fetch_array($category_result);
 		$categories_edit->assign_var('current_category', $category_row);
 		
@@ -43,9 +43,9 @@ if ($uam->permitted('acp_categories_edit'))
 		$listing->list_cat_combo_box($categories_edit, 'category', 'cats', $cats_filtered);
 		
 		// Get the name and ID of the parent category
-		$category_result = $dbim->query('SELECT id, name
-											FROM '.DB_PREFIX.'categories
-											WHERE (id = '.$category_row['parent_id'].')');		
+		$category_result = $dbim->pquery('SELECT id, name
+						FROM '.DB_PREFIX.'categories
+						WHERE (id = '.$category_row['parent_id'].')');		
 		$category_row = $dbim->fetch_array($category_result);
 	
 		// Assign name/ID
@@ -65,13 +65,13 @@ if ($uam->permitted('acp_categories_edit'))
 		// Template
 		$categories_edit = $uim->fetch_template('admin/categories_edit');
 
-		$dbim->query('UPDATE '.DB_PREFIX.'categories
-						SET name = "'.$_REQUEST['name'].'", 
-							description = "'.$_REQUEST['description'].'", 
-							parent_id = "'.$_REQUEST['parent_id'].'",
-							sort = "'.$_REQUEST['sort'].'",
-							keywords = "'.$_REQUEST['keywords'].'"
-						WHERE (id = '.$_REQUEST['id'].')');
+		$dbim->pquery('UPDATE '.DB_PREFIX.'categories
+					SET name = "'.$_REQUEST['name'].'", 
+						description = "'.$_REQUEST['description'].'", 
+						parent_id = "'.$_REQUEST['parent_id'].'",
+						sort = "'.$_REQUEST['sort'].'",
+						keywords = "'.$_REQUEST['keywords'].'"
+					WHERE (id = '.$_REQUEST['id'].')');
 						
 		$success = true;
 		$categories_edit->assign_var('success', $success);

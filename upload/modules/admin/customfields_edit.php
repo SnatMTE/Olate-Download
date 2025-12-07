@@ -25,9 +25,9 @@ if ($uam->permitted('acp_customfields_edit'))
 		// Template
 		$customfields_edit = $uim->fetch_template('admin/customfields_edit');
 		
-		$customfields_query = $dbim->query('SELECT id, label, value
-											FROM '.DB_PREFIX.'customfields
-											WHERE (id = '.$_REQUEST['id'].')');
+		$customfields_query = $dbim->pquery('SELECT id, label, value
+						    FROM '.DB_PREFIX.'customfields
+						    WHERE (id = '.$_REQUEST['id'].')');
 		$customfields = $dbim->fetch_array($customfields_query);
 		$customfields_edit->assign_var('customfield', $customfields);
 	}
@@ -38,7 +38,7 @@ if ($uam->permitted('acp_customfields_edit'))
 		
 		validate_types($_REQUEST, array('label' => 'STR', 'value' => 'STR_HTML'));
 		
-		$dbim->query('UPDATE '.DB_PREFIX.'customfields
+		$dbim->pquery('UPDATE '.DB_PREFIX.'customfields
 						SET label = "'.$_REQUEST['label'].'", 
 							value = "'.$_REQUEST['value'].'"
 						WHERE (id = '.$_REQUEST['id'].')');
@@ -51,8 +51,8 @@ if ($uam->permitted('acp_customfields_edit'))
 		// Template
 		$customfields_edit = $uim->fetch_template('admin/customfields_edit_select');
 		
-		$customfields_query = $dbim->query('SELECT id, label
-											FROM '.DB_PREFIX.'customfields');
+		$customfields_query = $dbim->pquery('SELECT id, label
+						    FROM '.DB_PREFIX.'customfields');
 		
 		while ($customfields = $dbim->fetch_array($customfields_query))
 		{		
