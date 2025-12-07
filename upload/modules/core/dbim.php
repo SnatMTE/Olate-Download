@@ -102,6 +102,46 @@ class dbim
 		}
 	}
 
+	// Prepared query with parameters. Returns DBResult for SELECTs.
+	public function pquery($sql = false, $params = array())
+	{
+		if ($sql === false)
+		{
+			trigger_error('[DBIM] No Query Specified', E_USER_ERROR);
+		}
+
+		if ($this->in_query)
+		{
+			trigger_error('[DBIM] Already in query', E_USER_ERROR);
+		}
+
+		$this->in_query = true;
+		try
+		{
+			$stmt = $this->pdo->prepare($sql);
+			$ok = $stmt->execute($params);
+			$this->lastStatement = $stmt;
+
+			$rows = array();
+			// If it's a SELECT query, fetch rows
+			$lower = ltrim(strtolower($sql));
+			if ($ok && (strpos($lower, 'select') === 0 || strpos($lower, 'pragma') === 0))
+			{
+				try { $rows = $stmt->fetchAll(PDO::FETCH_ASSOC); } catch (Exception $e) { $rows = array(); }
+			}
+
+			$this->query_count++;
+			$this->in_query = false;
+
+			return new DBResult($rows);
+		}
+		catch (Exception $e)
+		{
+			$this->in_query = false;
+			trigger_error('[DBIM] pQuery Failed: '. $e->getMessage() .' Query: '. $sql, E_USER_ERROR);
+		}
+	}
+
 	// Return result row as an associative array
 	public function fetch_array($result)
 	{

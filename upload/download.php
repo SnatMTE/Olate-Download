@@ -48,8 +48,8 @@ if (isset($_REQUEST['file']))
 			{	
 				// Get mirrors
 				$mirrors_result = $dbim->pquery('SELECT id, file_id, name, location, url
-												FROM '.DB_PREFIX.'mirrors
-												WHERE (file_id = '.$_REQUEST['file'].')');
+									FROM '.DB_PREFIX.'mirrors
+									WHERE (file_id = ?)', array($_REQUEST['file']));
 				
 				// 4. If $dbim->num_rows($mirrors_result) == 1 redirect to get it
 				if ($dbim->num_rows($mirrors_result) == 1)
@@ -111,24 +111,19 @@ if (isset($_REQUEST['file']))
 			// Incrememnt and update
 			$details['downloads']++;
 			$update = $dbim->pquery('UPDATE '.DB_PREFIX.'files 
-									SET downloads = '.$details['downloads'].'
-									WHERE (id = '.$_REQUEST['file'].')');
+							SET downloads = ?
+							WHERE (id = ?)', array($details['downloads'], $_REQUEST['file']));
 										
 			if ($site_config['enable_stats'])
 			{
 				$dbim->pquery('INSERT INTO '.DB_PREFIX.'stats 
-								SET file_id = '.$_REQUEST['file'].', 
-									timestamp = "'.time().'", 
-									ip = "'.$_SERVER['REMOTE_ADDR'].'", 
-									referrer = "'.$_SERVER['HTTP_REFERRER'].'", 
-									user_agent = "'.$_SERVER['HTTP_USER_AGENT'].'"');
+						SET file_id = ?, timestamp = ?, ip = ?, referrer = ?, user_agent = ?', array($_REQUEST['file'], time(), $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERRER'], $_SERVER['HTTP_USER_AGENT']));
 			}
 																	
 			// Get URL
 			$mirrors_result = $dbim->pquery('SELECT id, url
-											FROM '.DB_PREFIX.'mirrors
-											WHERE (id = '.$_REQUEST['mirror'].')');
-												
+							FROM '.DB_PREFIX.'mirrors
+							WHERE (id = ?)', array($_REQUEST['mirror']));
 			$mirror = $dbim->fetch_array($mirrors_result);
 				
 			if ($dbim->num_rows($mirrors_result) == 0)

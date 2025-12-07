@@ -74,35 +74,35 @@ if ($site_config['enable_useruploads'] == 1)
 					$filesize = $_REQUEST['size'];
 				}
 				
-				$dbim->pquery('INSERT INTO '.DB_PREFIX.'files
-							SET category_id = "'.$_REQUEST['category'].'", 
-								name = "'.$_REQUEST['name'].'", 
-								description_small = "'.$_REQUEST['description_small'].'", 
-								description_big = "'.$_REQUEST['description_big'].'", 
-								downloads = "'.$_REQUEST['downloads'].'", 
-								size = "'.$_REQUEST['size'].'", 
-								date = "'.$time.'",
-								agreement_id = "'.$_REQUEST['agreement'].'",
-								password = "'.$password.'",
-								status = 0,
-								convert_newlines = '.$convert_newlines);
-				
+				$sql = 'INSERT INTO '.DB_PREFIX.'files
+						SET category_id = ?,
+							name = ?,
+							description_small = ?,
+							description_big = ?,
+							downloads = ?,
+							size = ?,
+							date = ?,
+							agreement_id = ?,
+							password = ?,
+							status = 0,
+							convert_newlines = ?';
+				$params = array($_REQUEST['category'], $_REQUEST['name'], $_REQUEST['description_small'], $_REQUEST['description_big'], $_REQUEST['downloads'], $_REQUEST['size'], $time, $_REQUEST['agreement'], $password, $convert_newlines);
+				$dbim->pquery($sql, $params);
 				$file_id = $dbim->insert_id();
 				
 				// File was uploaded successfully - add as a mirror
-				$dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
-							SET file_id = '.$file_id.', 
-								name = "Mirror 1", 
-								location = "Earth", 
-								url = "'.$site_config['url'].'uploads/upload-'.$time.'-'.basename($_FILES['uploadfile']['name']).'"');
+				$sql = 'INSERT INTO '.DB_PREFIX.'mirrors
+						SET file_id = ?, name = ?, location = ?, url = ?';
+				$params = array($file_id, 'Mirror 1', 'Earth', $site_config['url'].'uploads/upload-'.$time.'-'.basename($_FILES['uploadfile']['name']));
+				$dbim->pquery($sql, $params);
 				
 				// Get filesize in bytes
 				$filesize = filesize('./uploads/upload-'.$time.'-'.basename($_FILES['uploadfile']['name']));
 				
 				// Update file size
 				$dbim->pquery('UPDATE '.DB_PREFIX.'files
-							SET size = '.$filesize.'
-							WHERE id = '.$file_id);
+							SET size = ?
+							WHERE id = ?', array($filesize, $file_id));
 				
 				// Template
 				$add_file = $uim->fetch_template('files/userupload_add');
@@ -111,8 +111,8 @@ if ($site_config['enable_useruploads'] == 1)
 				{
 					// Set file as active
 					$dbim->pquery('UPDATE '.DB_PREFIX.'files
-							SET status = 1
-							WHERE id = '.$file_id);
+								SET status = 1
+								WHERE id = ?', array($file_id));
 					
 					$success = true; // For redirect EOF
 					$add_file->assign_var('id', $file_id);
@@ -266,19 +266,10 @@ if ($site_config['enable_useruploads'] == 1)
 							$filesize = floatval($_REQUEST['size']);
 						}
 						
-						$dbim->pquery('INSERT INTO '.DB_PREFIX.'files
-										SET category_id = "'.$_REQUEST['category'].'", 
-											name = "'.$_REQUEST['name'].'", 
-											description_small = "'.$_REQUEST['description_small'].'", 
-											description_big = "'.$_REQUEST['description_big'].'", 
-											downloads = "'.$_REQUEST['downloads'].'", 
-											size = "'.$filesize.'", 
-											date = "'.time().'",
-											agreement_id = "'.$_REQUEST['agreement'].'",
-											password = "'.$password.'",
-											status = 0,
-											convert_newlines = '.$convert_newlines);
-						
+						$sql = 'INSERT INTO '.DB_PREFIX.'files
+								SET category_id = ?, name = ?, description_small = ?, description_big = ?, downloads = ?, size = ?, date = ?, agreement_id = ?, password = ?, status = 0, convert_newlines = ?';
+						$params = array($_REQUEST['category'], $_REQUEST['name'], $_REQUEST['description_small'], $_REQUEST['description_big'], $_REQUEST['downloads'], $filesize, time(), $_REQUEST['agreement'], $password, $convert_newlines);
+						$dbim->pquery($sql, $params);
 						$file_id = $dbim->insert_id();
 						
 						// We have now, and don't want to do it again
@@ -286,10 +277,7 @@ if ($site_config['enable_useruploads'] == 1)
 					}
 					
 					$dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
-									SET file_id = '.$file_id.', 
-										name = "'.$_REQUEST['mirror'.$i.'_name'].'", 
-										location = "'.$_REQUEST['mirror'.$i.'_location'].'", 
-										url = "'.$_REQUEST['mirror'.$i.'_url'].'"');
+								SET file_id = ?, name = ?, location = ?, url = ?', array($file_id, $_REQUEST['mirror'.$i.'_name'], $_REQUEST['mirror'.$i.'_location'], $_REQUEST['mirror'.$i.'_url']));
 					$success = true;
 				}
 			}	
@@ -305,10 +293,8 @@ if ($site_config['enable_useruploads'] == 1)
 						validate_types($_REQUEST, array('custom_field_'.$i.'_value' => 'STR'));
 						
 						// Add
-						$dbim->query('INSERT INTO '.DB_PREFIX.'customfields_data
-										SET field_id = '.$_REQUEST['custom_field_'.$i.'_field_id'].',
-										file_id = '.$file_id.',
-										value = "'.$_REQUEST['custom_field_'.$i.'_value'].'"');
+						$dbim->pquery('INSERT INTO '.DB_PREFIX.'customfields_data
+									SET field_id = ?, file_id = ?, value = ?', array($_REQUEST['custom_field_'.$i.'_field_id'], $file_id, $_REQUEST['custom_field_'.$i.'_value']));
 					}
 				}
 			
@@ -323,9 +309,9 @@ if ($site_config['enable_useruploads'] == 1)
 				{
 					$message .= " You can see it at \n\n".$site_config['url']."details.php?file=".$file_id;
 					
-					$dbim->query('UPDATE '.DB_PREFIX.'files
-									SET status = 1
-									WHERE id = '.$file_id);
+					$dbim->pquery('UPDATE '.DB_PREFIX.'files
+							SET status = 1
+							WHERE id = ?', array($file_id));
 				}
 				
 				// Send
