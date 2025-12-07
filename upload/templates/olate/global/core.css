@@ -1,0 +1,390 @@
+/* Global */
+html, body {
+	font : 10pt verdana, tahoma, sans-serif;
+	margin : 0; padding : 0;
+}
+
+/* Layout - Wrapper */
+#wrapper {
+	background : url(../images/bg.gif) repeat-y;
+	line-height : 1.2;
+}
+
+/* Layout - Logo */
+#logo {
+	padding : 10px 0;
+	background : #FFF;
+}
+
+/* Layout - Left Bar */
+#leftbar {
+	width : 200px;
+	float : left;
+	border-top : 4px solid #5575B7;
+}
+
+/* Layout - Content Area */
+#contentarea { 
+	margin-left : 200px; 
+	border-top : 4px solid #5575B7;
+	padding-left : 2px;
+}
+
+/* Left Bar - Categories */
+#leftbar h2 { 
+	margin : 0; padding : 0;
+	padding : 3px;
+	color : white;
+	font : 10pt tahoma, arial, sans-serif;
+	text-align : center;
+	background : #8CAEDC;
+}
+
+#leftbar .root_categories {
+	margin : 0;
+	padding : 0;
+	list-style : none; 
+}
+
+#leftbar .root_categories li p { 
+	position : relative; 
+	margin : 0; 
+	padding : 5px; 
+	border-bottom : 1px solid #899EC8; 
+	background : #E4EBF6;
+}
+#leftbar .root_categories li p a:link, #leftbar .root_categories li p a:visited, #leftbar .root_categories li p a:active {
+	color : #2B4B8B;
+	font-weight : normal;
+	font : 10pt tahoma, arial, sans-serif;
+	text-decoration : none;
+	text-align : center;
+	padding : 4px;
+}
+#leftbar .root_categories li p a:hover { color : #5B78B3; }
+#leftbar .root_categories li p a.collapse { position : absolute; right : 0; padding : 5px; }
+#leftbar .root_categories li p a.collapse:hover { color : white; }
+#leftbar .root_categories li p>a.collapse { margin-top : -4px; }
+a.collapse:hover { background : #8CAEDC; color : #CFDAE9; }
+.box h2 .collapse { padding : 4px; }
+
+/* Left Bar - Categories - Children */
+.children { display:block; }
+.children, .children li { margin : 0; padding : 0; list-style : none; }
+.children li { display : block; }
+.children a:link, .children a:visited {
+	font : 9pt verdana, arial, sans-serif;
+	color : #556584;
+	text-decoration : none;
+	display : block;
+	height : 20px;
+	padding : 4px 4px 4px 20px;
+	border-bottom : 1px dotted #B0BFDE;
+	background : url(../images/bullet.gif) no-repeat 12px;
+}
+.children .nolink {
+	color : #556584;
+	text-decoration : none;
+	display : block;
+	height : 20px;
+	padding : 4px 4px 4px 20px;
+	border-bottom : 1px dotted #B0BFDE;
+	background : url(../images/bullet.gif) no-repeat 12px;
+}
+.children .nolink a:link, .children .nolink a:visited {
+	color : #2B4B8B;
+	font-weight : normal;
+	font : 10pt tahoma, arial, sans-serif;
+	text-decoration : none;
+	padding : 4px;
+	display : inline;
+	border : 0;
+	background : white;
+}
+.children .nolink a:hover { color : #5B78B3; }
+.children>li>a:link, .children>li>a:visited, .children>.nolink { height : auto }
+.children a:hover { background : #C7DAF4 url(../images/wbullet.gif) no-repeat 12px; }
+
+/* Content Area - Menu */
+#menu { 
+	margin : 0; padding : 3px 0;
+	background : #6A92C9 right no-repeat; 
+}
+#menu li {
+	margin : 0;	padding : 0;
+	display : inline;
+	color : white;
+	font : 10pt tahoma, arial, sans-serif;
+	text-align : center;
+	list-style : none;
+}
+#menu a:link, #menu a:visited {
+	padding : 3px 6px; 
+	color : white; 
+	text-decoration : none;
+	border-right : 1px solid #5781BA;
+}
+#menu a:hover { color : #DDD; background : #8CAEDC; }
+
+/* Content Area */
+div.box {
+	margin : 8px;
+	border : 1px solid #899EC8; 
+}
+#contentarea h1 {
+	margin : 0;
+	font : 11pt tahoma, arial, verdana, sans-serif;
+	color : #0A2C70;
+	border-bottom : 1px solid #6A92C9;
+	padding : 3px 4px;
+	background : #C8D9F3;
+}
+#contentarea>h1 { padding : 4px; }
+#contentarea h1 a:link, #contentarea h1 a:visited {
+	color : #0A2C70;
+	text-decoration : none;
+}
+#contentarea h1 a:hover { text-decoration : underline; }
+#contentarea h2 {
+	color : #2B4B8B;
+	font-weight : normal;
+	font-size : 10pt;
+	margin : 0;
+	padding : 3px;
+	background : #E4EBF6;
+}
+#contentarea h2 a:link, #contentarea h2 a:visited {
+	color : #2B4B8B;
+	font-weight : normal;
+	font-size : 10pt;
+	text-decoration : none;
+}
+#contentarea h2 a:hover { color : #5B7BBC; }
+#contentarea h3 {
+	color : #444;
+	font-weight : normal;
+	font-size : 10pt;
+	margin : 0;
+	padding : 2px;
+	background : #FFF;
+}
+p {
+	padding : 4px;
+	font-size : 9pt;
+	color : #222;
+	border-bottom : 1px dotted #899EC8; 
+	margin : 0;
+}
+.box p {
+	border-top : 1px dotted #899EC8; 
+}
+#contentarea h3 a:link, #contentarea h3 a:visited {
+	color : #222;
+	font-weight : normal;
+	font-size : 10pt;
+	text-decoration : none;
+}
+#contentarea h3 a:hover { color : #666; }
+a.downloads { margin-top : -2px; }
+a.more:link, a.more:visited, a.downloads:link, a.downloads:visited {
+	position : absolute;
+	right : 14px;
+}
+a.downloads:hover { color : black; }
+a.downloads { padding-top : 2px; }
+.small { font-size : 8pt; }
+
+/* Files - Toolbox */
+#toolbox h2 { border-bottom : 1px solid #899EC8; text-align : center; }
+#toolbox .comments { margin : 4px; border : 1px solid #899EC8; }
+#toolbox .comments h3 { background : #E4EBF6; color : #1C315C; }
+#toolbox_left {
+	float : left;
+	width : 40%;
+}
+#toolbox_left p { word-wrap : break-word; /* IE only fix :( */ }
+#toolbox_right {
+	margin-left : 40%;
+}
+#toolbox_left #pages {
+	margin : 4px;
+}
+#toolbox_left #pages p {
+	border : 0;
+}
+#toolbox_left #pages h2 {
+	text-align : left;
+}
+
+/* Footer */
+#footer {
+	position : relative;
+	clear : both;
+	border-top : 1px solid #5781BA;
+	background : #6A92C9;
+	color : white;
+	font-size : 10px;
+	padding : 4px 5px 5px 5px;
+}
+#footer p {
+	position : absolute;
+	right : 5px;
+	top : 4px;
+	margin : 1px 0 0 0; 
+	padding : 0;
+	color : white;
+	font-size : 10px;
+	border : 0;
+}
+#footer>p { margin : 0; }
+
+/* Global Links */
+a:link, a:visited { color : #333; }
+a:hover { text-decoration : none; }
+
+/* Miscellaneous Fixes */
+form { margin : 0; }
+
+/* Admin CP - Forms */
+table.form { font-size : 8pt; }
+.align_top { vertical-align: top; }
+.formleft { width : 18%; }
+.formleft_small { width : 10%; }
+input, select, textarea, option { font : 10pt verdana, arial, sans-serif; border : 1px solid #BBC9DD; background : #fff; padding : 1px; }
+option { border : 0; }
+#contentarea>#search_gap { display : none; }
+#breaknote { display : none; }
+#toolbox_right>#breaknote { display : block; }
+
+/* Category/file listing styles */
+#contentarea .box h2 .cat_head_options {
+	display: inline;
+	font-size: 8pt;
+}
+
+#contentarea .box h2 .cat_head_options a {
+	font-size: 8pt;
+}
+
+/* IP RESTRICTION CLASSES */
+
+.new_entry {
+	text-align: center;
+	padding: 5px;
+}
+
+.new_entry td {
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.label {
+	font-weight: bold;
+}
+
+.new_entry a {
+	text-decoration: none;
+}
+
+.new_entry a img {
+	border: 0;
+	text-decoration: none;
+}
+
+.filter_mode label {
+	cursor: pointer;
+}
+
+.ip_list {
+	padding: 5px;
+}
+
+.ip_list td {
+	padding: 5px;
+}
+
+.ip_list a img {
+	border: 0;
+}
+
+.ip_restrict_row:hover, .ip_restrict_row_hover{
+	background-color: #C7DAF4;
+}
+
+
+/* File details box styles */
+
+.filebox_breadcrumb {
+	color : #2B4B8B;
+	font-weight : normal;
+	font-size : 10pt;
+	margin : 0;
+	padding : 3px;
+	background : #E4EBF6;
+}
+.filebox_breadcrumb a:link, .filebox_breadcrumb a:visited {
+	color : #2B4B8B;
+	font-weight : normal;
+	font-size : 10pt;
+	text-decoration : none;
+}
+.filebox_breadcrumb a:hover { color : #5B7BBC; }
+
+.filebox_links {
+	color : #444;
+	font-weight : normal;
+	font-size : 8pt;
+	padding : 2px;
+	margin: 0;
+	line-height: 1.5;
+}
+
+.more_link a:link, .more_link a:visited {
+	color : #222;
+	font-weight : normal;
+	font-size : 10pt;
+	text-decoration : none;
+	margin: 2px;
+}
+
+.download_link, .more_link {
+	margin: 2px 4px 2px 2px;
+	float: right;
+}
+
+.downloads a:hover { color : black; }
+.downloads a { padding-top : 2px; }
+
+ul.confirm_item_list {	
+	padding-left: 20px;
+}
+
+/* WYSIWYG editor styles */
+#contentarea .wysiwyg
+{
+	border-bottom : 1px dotted #899EC8; 
+	padding: 3px;
+}
+
+#contentarea .wysiwyg h1, #contentarea .wysiwyg h2, #contentarea .wysiwyg h3
+{
+	background : white;
+	color : black;
+	border : 0;
+	font-weight : bold;
+}
+
+#contentarea .wysiwyg h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+#contentarea .wysiwyg h2 {
+  font-size: 1.5em;
+  margin: .83em 0;
+}
+
+#contentarea .wysiwyg h3 {
+  font-size: 1.17em;
+  margin: 1em 0;
+}

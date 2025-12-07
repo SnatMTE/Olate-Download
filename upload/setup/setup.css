@@ -1,0 +1,105 @@
+body {
+	font : 10pt arial, verdana, sans-serif;
+	margin : 0;
+}
+#logo {	height : 90px; }
+#main {	width : 100%; border-bottom : 1px solid #DDD; }
+#left { width : 20%; }
+#right { width : 80%; }
+#top td {
+	border-top : 4px solid #5575B7;
+	padding : 3px;
+	color : white;
+	font : 12pt arial, verdana, sans-serif;
+	text-align : center;
+}
+#top #left {
+	background : #8CAEDC;
+	border-right : 2px solid #5575B7;
+}
+#top #right { background : #6A92C9 url(images/top_bg.gif) right no-repeat; }
+#progress {
+	border-right : 2px dashed #5575B7;
+	padding : 4px;
+	vertical-align:top;
+}
+#content { padding : 4px; vertical-align : top; }
+
+/* Progress Lists */
+li.first, li.complete {
+	margin : 0; padding : 4px 0;
+	color : #2B4B8B;
+	font-size : 11pt;
+}
+li.first span {
+	display : block;
+	border-bottom : 1px solid #899EC8;
+}
+ul.second li {
+	color : #868686;
+	padding : 2px 4px;
+	font-size : 10pt;
+	border-bottom : 0;
+}
+ul {
+	margin : 0; padding : 0;
+}
+ul.second li.done {
+	color : #1F5FDF;
+}
+ul.second li.error {
+	color : #DF1F1F;
+}
+
+/* Content */
+h1, h2, h3, p { margin : 0; padding : 0; }
+h1, h2, h3 {
+	padding : 2px;
+	color : #1E4376;
+	font : 14pt arial, verdana, sans-serif;
+}
+h2 {
+	font-size : 14pt;
+	color : #395D8F;
+}
+h3 {
+	font-size : 12pt;
+	border-bottom : 1px solid #839DD3;
+}
+p#intro {
+	padding-left : 8px;
+	color : #416CA8;
+	font : 10pt arial, verdana, sans-serif;
+}
+a:link, a:visited {
+	color : #1F5FDF;
+	text-decoration : none;
+}
+a:hover {
+	color : #1F5FDF;
+	text-decoration : underline;
+}
+#options {
+	margin : 2px 10px;
+}
+#options p {
+	color : #555;
+	padding : 10px 5px;
+}
+#grey {
+	opacity : 0.35;
+	-moz-opacity : 0.35;
+}
+.begin a:link, .begin a:visited {
+	color : white;
+	background : #5575B7;
+	border : 1px solid #3A5C86;
+	padding : 2px 4px;
+	margin : 4px;
+	font-size : 8pt;
+	text-align : center;
+}
+.begin a:hover {
+	background : #3A5C86;
+	color : #D7E3F3;
+}

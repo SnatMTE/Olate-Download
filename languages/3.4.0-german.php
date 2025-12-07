@@ -1,0 +1,681 @@
+<?php
+/**********************************
+* Olate Download 3.4.0
+* http://www.olate.co.uk/od3
+**********************************
+* Copyright Olate Ltd 2005
+*
+* @author $Author: dsalisbury $ (Olate Ltd)
+* @version $Revision: 208 $
+* @package od
+*
+* Updated: $Date: 2005-12-18 21:03:48 +0000 (Sun, 18 Dec 2005) $
+*/
+
+// Language details
+$language['config']['full_name']	= 'Deutsch (Deutsch)';			// Full Language Name
+$language['config']['short_name']	= 'german_neutral';				// Short name (lowercase, no spaces or symbols)
+$language['config']['version']		= '3.4'; 						// Designed for Olate Download version
+$language['config']['released']		= '18/12/05'; 					// Release date
+
+// Author/Translator Details
+$language['config']['author']		= 'Stefanie Pagel'; 			// Author/Translator Name
+$language['config']['url']			= 'http://www.alexparks.de'; 	// Author/Translator Web Address
+$language['config']['email']		= 'pagel@web.de'; 				// Author/Translator E-Mail Address
+
+// Character set for this language
+$language['text']['general']['charset']	= 'iso-8859-1';
+
+// Phrases/Words - General
+$language['text']['general']['title']	= 'Olate Download';
+
+
+/****
+* Note to anyone translating:
+* ---------------------------
+* Wherever you see something enclosed with underscores (_) such as
+* _NAME_, please leave it intact as Olate Download will replace that 
+* automatically when needed
+****/
+
+// Phrases/Words - Front End
+// 3.2.1
+$language['text']['frontend']['add_file']					= 'Datei hochladen';
+$language['text']['frontend']['added_pending']				= 'Die Datei wurde hinzugefügt und wartet nun auf die Freischaltung eines Administrators.';
+$language['text']['frontend']['agreement']					= 'Zustimmung';
+$language['text']['frontend']['agree']						= 'Zustimmen';
+$language['text']['frontend']['all_files']					= 'Alle Dateien';
+$language['text']['frontend']['at']							= 'am';
+$language['text']['frontend']['ascending']					= 'Aufsteigend';
+$language['text']['frontend']['bold']						= 'fett';
+$language['text']['frontend']['categories']					= 'Kategorien';
+$language['text']['frontend']['category_empty']				= 'leere Kategorie';
+$language['text']['frontend']['child_categories']			= 'Unterkategorien';
+$language['text']['frontend']['comment']					= 'Kommentar';
+$language['text']['frontend']['comment_add']				= 'Kommentar hinzufügen';
+$language['text']['frontend']['comment_added']				= 'Kommentar wurde erfolgreich gespeichert.';
+$language['text']['frontend']['comment_approval']			= 'Kommentar wurde hinzugefügt und wartet nun auf die Freischaltung eines Administrators.';
+$language['text']['frontend']['comments']					= 'Kommentare';
+$language['text']['frontend']['comments_add']				= 'Kommentar hinzufügen';
+$language['text']['frontend']['comments_none']				= 'Keine Kommentare zu dieser Datei vorhanden.';
+$language['text']['frontend']['continue']					= 'Fortsetzen';
+$language['text']['frontend']['date']						= 'Datum';
+$language['text']['frontend']['descending']					= 'Absteigend';
+$language['text']['frontend']['description']				= 'Beschreibung';
+$language['text']['frontend']['disabled']					= 'Deaktiviert';
+$language['text']['frontend']['disabled_display_feature']	= 'Diese Ansichtsfunktion wurde vom Administrator deaktiviert.';
+$language['text']['frontend']['disagree']					= 'Ich stimme zu';
+$language['text']['frontend']['download']					= 'Download';
+$language['text']['frontend']['downloads']					= 'Downloads';
+$language['text']['frontend']['email']						= 'E-Mail Adresse';
+$language['text']['frontend']['error']						= 'Fehler';
+$language['text']['frontend']['error_no_file']				= 'Die angegebene Datei konnte nicht gefunden werden.';
+$language['text']['frontend']['error_no_files']				= 'Diese Kategorie ist leer.';
+$language['text']['frontend']['error_no_id']				= 'Die eingegebene Datei-ID ist ungültig.';
+$language['text']['frontend']['invalid_file']				= 'ungültige Datei';
+$language['text']['frontend']['invalid_password']			= 'Falsches Passwort';
+$language['text']['frontend']['invalid_username']			= 'Falscher Benutzername';
+$language['text']['frontend']['italic']						= 'kursiv';
+$language['text']['frontend']['index']						= 'Inhalt';
+$language['text']['frontend']['latest_files']				= 'Neue Dateien';
+$language['text']['frontend']['logo']						= 'Logo';
+$language['text']['frontend']['lowest']						= 'Niedrig';
+$language['text']['frontend']['highest']					= 'Hoch';
+$language['text']['frontend']['fill_out_fields']			= 'Bitte alle Felder ausfüllen.';
+$language['text']['frontend']['files']						= 'Dateien';
+$language['text']['frontend']['files_lc']					= 'Dateien';
+$language['text']['frontend']['filesize']					= 'Dateigröße';
+$language['text']['frontend']['formatting']					= 'Formatierung';
+$language['text']['frontend']['mirrors']					= 'Spiegel-Server';
+$language['text']['frontend']['name']						= 'Name';
+$language['text']['frontend']['no_files']					= 'Für diese ID gibt es keine Dateien.';
+$language['text']['frontend']['none']						= 'keine';
+$language['text']['frontend']['on']							= 'am/auf';
+$language['text']['frontend']['page']						= 'Seite';
+$language['text']['frontend']['pages']						= 'Seiten';
+$language['text']['frontend']['password']					= 'Passwort';
+$language['text']['frontend']['passwords_match']			= 'Das Passwort ist ungültig.';
+$language['text']['frontend']['please_select_group']		= 'Bitte eine Gruppe auswählen.';
+$language['text']['frontend']['posted_by']					= 'Von:';
+$language['text']['frontend']['protected_file']				= 'geschützte Datei';
+$language['text']['frontend']['protected_file_desc']		= 'Diese Datei ist passwortgeschützt. Bitte Passwort eingeben um fortzufahren.';
+$language['text']['frontend']['rate']						= 'Bewerten';
+$language['text']['frontend']['rate_file']					= 'Datei bewerten';
+$language['text']['frontend']['rating']						= 'Bewertung';
+$language['text']['frontend']['rating_enter']				= 'Bitte eine Bewerung eingeben.';
+$language['text']['frontend']['rating_once']				= 'Abstimmung ist nur einmal möglich.';
+$language['text']['frontend']['rating_thanks']				= 'Vielen Dank für die Dateiberwertung';
+$language['text']['frontend']['results']					= 'Ergebnisse';
+$language['text']['frontend']['results_lc']					= 'Ergebnisse';
+$language['text']['frontend']['report_desc']				= 'Bitte alle Felder ausfüllen um mehr Informationen über das zu meldende Problem zu erhalten.';
+$language['text']['frontend']['report_problem']				= 'Problem melden';
+$language['text']['frontend']['report_thanks']				= 'Vielen Dank. Die Meldung wurde dem Administrator per Email zugesandt.';
+$language['text']['frontend']['report_flood']				= 'Bitte 60 Sekunden warten um ein weiteres Problem zu melden.';
+$language['text']['frontend']['required_fields']			= 'Bitte alle benötigten Felder ausfüllen.';
+$language['text']['frontend']['rss_disabled']				= 'RSS deaktiviert';
+$language['text']['frontend']['search']						= 'Suche';
+$language['text']['frontend']['select_mirror']				= 'Bitte einen Spiegelserver auswählen.';
+$language['text']['frontend']['search_desc']				= 'Suchbegriff in das Feld unten eingeben';
+$language['text']['frontend']['search_disabled']			= 'Die Suchfunktion ist vorübergehend deaktiviert.';
+$language['text']['frontend']['search_returned']			= 'Die Suche war erfolgreich:';
+$language['text']['frontend']['search_zero_returned']		= 'Die Suche erzielte leider keine Ergebnisse';
+$language['text']['frontend']['send_report']				= 'Meldung senden';
+$language['text']['frontend']['showing_files']				= 'Zeige alle Dateien in';
+$language['text']['frontend']['sort_by']					= 'Sortiere nach';
+$language['text']['frontend']['success']					= 'Erfolgreich';
+$language['text']['frontend']['toolbox']					= 'Datei Toolbox';
+$language['text']['frontend']['top']						= 'Top';
+$language['text']['frontend']['top_downloads']				= 'Top Downloads';
+$language['text']['frontend']['views']						= 'Ansichten';
+$language['text']['frontend']['viewing']					= 'ansehen';
+$language['text']['frontend']['view_full']					= 'Volle Informationen ansehen';
+$language['text']['frontend']['votes']						= 'Abstimmung';
+$language['text']['frontend']['underline']					= 'unterstrichen';
+$language['text']['frontend']['uploads_disabled']			= 'Benutzer dürfen keine Dateien hochladen.';
+$language['text']['frontend']['username_taken']				= 'Dieser Benutzername ist bereits vergeben, bitte einen anderen Benutzernahmen wählen.';
+
+// 3.3.1
+$language['text']['frontend']['address_blocked_rcpt']		= 'Die Emailadresse des Empfängers wurde blockiert.';
+$language['text']['frontend']['address_blocked_sender']		= 'Die Emailadresse des Absenders wurde blockiert.';
+$language['text']['frontend']['address_exists']				= 'Diese Emailadresse iat bereits vorhanden';
+$language['text']['frontend']['allowed_extensions']			= 'Erlaubte Dateiendungen';
+$language['text']['frontend']['confirm_message_failed']		= 'Die Email zur Überprüfung der gültigen Emailadresse konnte leider nicht versandt werden.';
+$language['text']['frontend']['download_file']				= 'Datei herunterladen';
+$language['text']['frontend']['email_blocked']				= 'Die Emailadresse wurde blockiert';
+$language['text']['frontend']['email_not_blocked']			= 'Die Emailadresse wurde nicht blockiert.';
+$language['text']['frontend']['invalid_hash']				= 'Ungültiger Hash';
+$language['text']['frontend']['invalid_sender_email']		= 'Die Absenderadresse scheint ungültig zu sein (z.B. mailbox@domain.tld)';
+$language['text']['frontend']['invalid_recipient_email']	= 'Die Empfängeradresse scheint ungültig zu sein (z.B. mailbox@domain.tld)';
+$language['text']['frontend']['max_upload_size']			= 'Max. Dateigröße';
+$language['text']['frontend']['must_specify_email']			= 'Eine E-Mailadresse muss angegeben werden';
+$language['text']['frontend']['need_to_confirm']			= 'Alle Empfehlungen müssen zuerst durch den Absender freigeschaltet werden. Eine Email mit der Anleitung zum Freischalten der Empfehlung wurde an die Emailadresse des Absenders geschickt.';
+$language['text']['frontend']['recommend_already_sent']		= 'Diese Empfehlung wurde bereits verschickt';
+$language['text']['frontend']['recommend_block']			= 'E-Mailadresse blockieren';
+$language['text']['frontend']['recommend_block_desc']		= 'Untenstehende Emailadresse als Empfänger oder Absender von Empfehlungen wirklich ausschliessen?';
+$language['text']['frontend']['recommend_file']				= 'Diese Datei empfehlen';
+$language['text']['frontend']['recommend_friend']			= 'Diese Datei einem Freund empfehlen';
+$language['text']['frontend']['recommend_friend_desc']		= 'Alle untenstehenden Felder ausfüllen um diese Datei einem Freund zu empfehlen.';
+$language['text']['frontend']['recommend_friend_logged']	= 'Notiz: Wir speichern alle Empfehlungen zusammen mit der IP Addresse des Absenders, dem Datum und der Zeit des Versandes, der Emailaddresse des Empfängers und Absenders und dem Inhalt der Nachricht.';
+$language['text']['frontend']['recommendation_failed']		= 'Es war nicht möglich die Empfehlung zu versenden';
+$language['text']['frontend']['recommendation_sent']		= 'Die Empfehlung wurde versandt';
+$language['text']['frontend']['recipient_address']		    = 'Adresse des Empfängers';
+$language['text']['frontend']['recipient_details']			= 'Details des Empfängers';
+$language['text']['frontend']['recipient_name']				= 'Name des Empfängers';
+$language['text']['frontend']['search_query']				= 'Suchbegriff';
+$language['text']['frontend']['the_address_is']				= 'Die E-Mailadresse lautet ';
+$language['text']['frontend']['view_more_about']			= 'weitere Informationen über';
+$language['text']['frontend']['your_details']				= 'Deine Details';
+$language['text']['frontend']['your_email']					= 'Deine Emailadresse';
+$language['text']['frontend']['your_message']				= 'Deine Nachricht';
+$language['text']['frontend']['your_name']					= 'Dein Name';
+
+// 3.4.0
+$language['text']['frontend']['change_language']				= 'Sprache ändern';
+$language['text']['frontend']['change_language_desc']			= 'Die Sprache zur Anzeige dieser Seiten kann durch das Aktivieren einer der untenstehenden Sprachen geändert werden.';
+$language['text']['frontend']['choose_language']				= 'Bitte Sprache auswählen:';
+$language['text']['frontend']['file_not_active']				= 'Diese Datei ist noch nicht aktiviert.';
+$language['text']['frontend']['language_changed']				= 'Die Sprache wurde geändert';
+$language['text']['frontend']['user_lang_disabled']				= 'Die Auswahle der Sprache ist leider nicht möglich, da dies vom Besitzer dieser Seite abgeschaltet wurde.';
+
+
+// Phrases/Words - Admin
+// 3.2.1
+$language['text']['admin']['add']								= 'hinzufügen';
+$language['text']['admin']['add_file']							= 'Datei hochladen';
+$language['text']['admin']['add_categories']					= 'Neue Kategorie hinzufügen';
+$language['text']['admin']['additional_options']				= 'Erweiterte Optionen';
+$language['text']['admin']['actions']							= 'Aktionen';
+$language['text']['admin']['active']							= 'aktiv';
+$language['text']['admin']['admin_email']						= 'Verwaltung E-Mail';
+$language['text']['admin']['admin_cp']							= 'Verwaltungsbereich';
+$language['text']['admin']['admin_index']						= 'Startseite Verwaltung';
+$language['text']['admin']['admin_panel']						= 'Verwaltungsbereich';
+$language['text']['admin']['admin_panel_welcome']				= 'Willkommen im Verwaltungsbereich!';
+$language['text']['admin']['agreement']							= 'Vereinbarung';
+$language['text']['admin']['agreement_add']						= 'Vereinbarung hinzufügen';
+$language['text']['admin']['agreement_added']					= 'Die Vereinbarung wurde gespeichert.';
+$language['text']['admin']['agreement_add_desc']				= 'Hier können Vereinbarungen erstellt werden. Diese müssen vom Benutzer vor dem Herunterladen einer Datei bestätigt werden. HTML zur Formatierung ist erlaubt.';
+$language['text']['admin']['agreement_delete']					= 'Vereinbarung löschen';
+$language['text']['admin']['agreement_delete_select']			= 'Zu löschende Vereinbarung auswählen.';
+$language['text']['admin']['agreement_deleted']					= 'Die gewählte Vereinbarung wurde gelöscht.';
+$language['text']['admin']['agreement_edit']					= 'Vereinbarung bearbeiten';
+$language['text']['admin']['agreement_edit_desc']				= 'Ausgewählte Vereinbarung bearbeiten. Bitte unten stehende Felder ändern. HTML zur Formattierung ist erlaubt.';
+$language['text']['admin']['agreement_edit_select']				= 'Vereinbarung zur Bearbeitung auswählen.';
+$language['text']['admin']['agreement_must_select']				= 'Die zu löschende Vereinbarung muss ausgewählt werden.';
+$language['text']['admin']['agreement_still_files']				= 'Es gibt noch Dateien die diese Vereinbarung benutzen. Diese Dateien müssen zuerst geändert werden.';
+$language['text']['admin']['agreements']						= 'Vereinbarungen';
+$language['text']['admin']['approve']							= 'Freigabe';
+$language['text']['admin']['approved']							= 'freigegeben';
+$language['text']['admin']['approved_comments']					= 'Freigegebene Kommentare zu diesem Thema werden unten angezeigt';
+$language['text']['admin']['at']								= 'am';
+$language['text']['admin']['base_url']							= 'Base URL (mit abschließendem Slash/)';
+$language['text']['admin']['bold']								= 'fett';
+$language['text']['admin']['cannot_delete']						= 'Die Kategorie kann nicht gelöscht werden.';
+$language['text']['admin']['categories']						= 'Kategorien';
+$language['text']['admin']['categories_add']					= 'Neue Kategorie hinzufügen';
+$language['text']['admin']['categories_added']					= 'Die Kategorie wurde hinzugefügt';
+$language['text']['admin']['categories_add_desc']				= 'Neue Kategorie hinzufügen. Alle Felder unten müssen ausgefüllt werden';
+$language['text']['admin']['categories_delete']					= 'Kategorie löschen';
+$language['text']['admin']['categories_delete_desc']			= 'Die ausgewählte Kategorie wurde gelöscht.';
+$language['text']['admin']['categories_delete_select']			= 'Zu löschende Kategorie wählen';
+$language['text']['admin']['categories_delete_still']			= 'Dieser Kategorie sind noch Dateien &amp; Unterkategorien zugewiesen.';
+$language['text']['admin']['categories_delete_multi']			= 'Mehrere Kategorien löschen';
+$language['text']['admin']['categories_delete_multi_desc']		= 'Bitte die zu löschende Kategorie auswählen und wohin die Unterkategorien oder Dateien verschoben werden sollen.';
+$language['text']['admin']['categories_deleted']				= 'Kategorien gelöscht';
+$language['text']['admin']['categories_deleted_multi_desc']		= 'Die gewählte Kategorie wurde erfolgreich gelöscht.';
+$language['text']['admin']['categories_edit']					= 'Bearbeite eine Kategorie';
+$language['text']['admin']['categories_edit_desc']				= 'Ausgewählte Kategorie bearbeiten indem die Felder unten bearbeitet werden';
+$language['text']['admin']['categories_edit_done']				= 'Die Änderungen wurden in die Datenbank übernommen.';
+$language['text']['admin']['categories_move']					= 'Dateien &amp; Unterkategorien verschieben';
+$language['text']['admin']['categories_move_to']				= 'Dateien &amp; Unterkategorien verschieben nach';
+$language['text']['admin']['categories_move_category']			= 'Verschiebe &amp; lösche Kategorie';
+$language['text']['admin']['categories_move_destination']		= 'Ziel';
+$language['text']['admin']['categories_ordering']				= 'Anordnung der Kategorien';
+$language['text']['admin']['categories_ordering_desc']			= 'Anordnung der unten stehenden Kategorien ändern. Kategorie auswählen um deren Unterkategorien anzusehen.';
+$language['text']['admin']['categories_ordering_done']			= 'Die Änderungen wurden in die Datenbank übernommen.';
+$language['text']['admin']['categories_ordering_none']			= 'Diese Kategorie hat keine Unterkategorien. <a href="javascript: history.go(-1)">Hier gehts zurück</a>.';
+$language['text']['admin']['categories_ordering_select']		= 'Die Unterkategorien der gewählten Kategorie werden unten angezeigt. Bitte eine Kategorie auswählen um deren Unterkategorien anzusehen.';
+$language['text']['admin']['categories_select']					= 'Eine Kategorie auswählen';
+$language['text']['admin']['categories_didnt_select']			= 'Es wurde keine Kategorie ausgewählt.';
+$language['text']['admin']['category']							= 'Kategorie';
+$language['text']['admin']['category_children']					= 'Unterkategorie';
+$language['text']['admin']['category_details']					= 'Details der Kategorie';
+$language['text']['admin']['category_parent']					= 'Hauptkategorie';
+$language['text']['admin']['comment']							= 'Kommentar';
+$language['text']['admin']['comment_details']					= 'Kommentar Details';
+$language['text']['admin']['comment_id']						= 'Kommentar ID';
+$language['text']['admin']['comments_approve']					= 'Kommentare freischalten';
+$language['text']['admin']['comments_approved']					= 'Der ausgewählte Kommentar wurde freigeschaltet.';
+$language['text']['admin']['comments_approved_p']				= 'Die ausgewählten Kommentare wurden freigeschaltet.';
+$language['text']['admin']['comments_delete']					= 'Kommentar löschen';
+$language['text']['admin']['comments_delete_existing']			= 'Kommentare löschen';
+$language['text']['admin']['comments_deleted']					= 'Der ausgewählte Kommentar wurde gelöscht.';
+$language['text']['admin']['comments_deleted_p']				= 'Die ausgewählten Kommentare wurden gelöscht.';
+$language['text']['admin']['comments_desc']						= 'Bitte unten stehenden Kommentare ansehen, bevor sie zur Ansicht freigeschaltet werden';
+$language['text']['admin']['comments_edit']						= 'Kommentar bearbeiten';
+$language['text']['admin']['comments_edit_existing']			= 'Kommentare bearbeiten';
+$language['text']['admin']['comments_edited']					= 'Der Kommentar wurde bearbeitet.';
+$language['text']['admin']['comments_edit_desc']				= 'Ausgewählten Kommentar bearbeiten indem die Felder unten geändert werden.';
+$language['text']['admin']['comments_enabled']					= 'Kommentare aktiviert';
+$language['text']['admin']['comments_manage']					= 'Kommentare verwalten';
+$language['text']['admin']['comments_none_pending']				= 'Es gibt keine Kommentare die auf eine Freischaltung warten.';
+$language['text']['admin']['comments_none']						= 'Für diese Datei gibt es keine Kommentare.';
+$language['text']['admin']['comments_require_approval']			= 'Kommentare benötigen Freischaltung';
+$language['text']['admin']['comments_specify']					= 'Es musst eine Kommentar ID festgelegt werden.';
+$language['text']['admin']['comments_updates_made']				= 'Die Änderungen wurden zur Datenbank hinzugefügt. Hier klicken um diese anzusehen.';
+$language['text']['admin']['comments_unapproved_p']				= 'Die ausgewählten Kommentare wurden nicht freigeschaltet.';
+$language['text']['admin']['comments']							= 'Kommentare';
+$language['text']['admin']['count_enabled']						= 'Dateizähler in Kategorie aktiviert';
+$language['text']['admin']['count_enabled']						= 'Dateizähler in Kategorie eingeschaltet';
+$language['text']['admin']['custom_fields']						= 'Benutzerdefinierte Felder';
+$language['text']['admin']['custom_fields_add']					= 'Benutzerdefinierte Felder hinzufügen';
+$language['text']['admin']['custom_fields_add_desc']			= 'Beschriftung des neuen benutzerdefinierten Feldes sowie eine optionale Aktion auswählen:';
+$language['text']['admin']['custom_fields_added']				= 'Das benutzerdefinierte Feld wurde erfolgreich hinzugefügt.';
+$language['text']['admin']['custom_fields_edit']				= 'Benutzerdefinierte Felder bearbeiten';
+$language['text']['admin']['custom_fields_edit_desc']			= 'Wähle das zu bearbeitende benutzerdefinierte Feld aus.';
+$language['text']['admin']['custom_fields_edited']				= 'Die benutzerdefinierten Felder wurden bearbeitet.';
+$language['text']['admin']['custom_fields_delete']				= 'Benutzerdefinierte Felder löschen';
+$language['text']['admin']['custom_fields_delete_desc']			= 'Das zu löschende benutzerdefinierte Feld auswählen';
+$language['text']['admin']['custom_fields_deleted']				= 'Die Benutzerdefinierten Felder wurden gelöscht.';
+$language['text']['admin']['date']								= 'Datum';
+$language['text']['admin']['date_format']						= 'Datumsformat';
+$language['text']['admin']['delete']							= 'Löschen';
+$language['text']['admin']['delete_categories']					= 'Kategorien löschen';
+$language['text']['admin']['description']						= 'Beschreibung';
+$language['text']['admin']['disabled']							= 'deaktiviert';
+$language['text']['admin']['download_locations']				= 'Download Positionen (Mirrors)';
+$language['text']['admin']['downloads_count']					= 'Download Zähler';
+$language['text']['admin']['edit']								= 'Bearbeiten';
+$language['text']['admin']['edit_categories']					= 'Vorhandene Kategorien bearbeiten.';
+$language['text']['admin']['edit_general_settings']				= 'Generelle Einstellungen bearbeiten';
+$language['text']['admin']['email']								= 'E-Mail';
+$language['text']['admin']['enable_topfiles']					= '\'Top x Dateien\' Ansicht aktivieren';
+$language['text']['admin']['enable_allfiles']					= '\'Alle Dateien\' Ansicht aktivieren';
+$language['text']['admin']['enter_group_name']					= 'Bitte gib einen Gruppennamen ein.';
+$language['text']['admin']['feature_options_general']			= 'Eigenschaften - Generell';
+$language['text']['admin']['feature_options_menu']				= 'Eigenschaften - Menüleiste';
+$language['text']['admin']['file']								= 'Datei';
+$language['text']['admin']['file_add']							= 'Eine neue Datei hinzufügen';
+$language['text']['admin']['file_add_desc']						= 'Alle Felder ausfüllen um eine neue Datei hinzuzufügen. Alle mit einem <span style="color:#CC0000; ">*</span> markierten Felder müssen ausfüllt werden.';
+$language['text']['admin']['file_added']						= 'Die übertragene Datei wurde hinzugefügt. Hier klicken um fortzufahren.';
+$language['text']['admin']['file_date']							= 'Datum';
+$language['text']['admin']['file_date_format']					= '(Bitte dieses Format benutzen: <em>dd/mm/yyyy</em>)';
+$language['text']['admin']['file_details']						= 'Dateieigenschaften';
+$language['text']['admin']['file_delete']						= 'Datei löschen';
+$language['text']['admin']['file_delete_desc']					= 'Den Namen der zu löschenden Datei auswählen';
+$language['text']['admin']['file_deleted']						= 'Datei gelöscht';
+$language['text']['admin']['file_deleted_desc']					= 'Die gewählte Datei, mit allen dazugehörigen Kommentaren, wurden gelöscht.';
+$language['text']['admin']['file_edit']							= 'Vorhandene Datei bearbeiten';
+$language['text']['admin']['file_edit_desc']					= 'Die gewählte Datei bearbeiten';
+$language['text']['admin']['file_edit_select_desc']				= 'Den Namen der zu bearbeitenden Datei auswählen';
+$language['text']['admin']['file_name']							= 'Dateiname';
+$language['text']['admin']['file_select']						= 'Datei auswählen';
+$language['text']['admin']['file_size']							= 'Dateigröße';
+$language['text']['admin']['file_size_format']					= 'Format für Dateigrößen';
+$language['text']['admin']['file_size_format_b']				= 'B';
+$language['text']['admin']['file_size_format_kb']				= 'KB';
+$language['text']['admin']['file_size_format_mb']				= 'MB';
+$language['text']['admin']['file_size_format_gb']				= 'GB';
+$language['text']['admin']['file_url']							= 'URL';
+$language['text']['admin']['files']								= 'Dateien';
+$language['text']['admin']['field_details']						= 'Feldinformationen';
+$language['text']['admin']['first_name']						= 'Vorname';
+$language['text']['admin']['flood_interval']					= 'Flutabstand';
+$language['text']['admin']['formatting_tags']					= 'Formatting Tags';
+$language['text']['admin']['general']							= 'Allgemein';
+$language['text']['admin']['general_options']					= 'Allgemeine Optionen';
+$language['text']['admin']['general_settings']					= 'Allgemeine Einstellungen';
+$language['text']['admin']['general_settings_desc']				= 'Hier kannst du die generellen Einstellungen dieses Scripts bearbeiten.';
+$language['text']['admin']['groups_add']						= 'Neue Gruppe hinzufügen';
+$language['text']['admin']['groups_all']						= 'Alle Gruppen';
+$language['text']['admin']['groups_delete']						= 'Alle vorhandenen Gruppen löschen';
+$language['text']['admin']['groups_delete_desc']				= 'Wähle den Namen der zu löschenden Gruppe aus';
+$language['text']['admin']['groups_delete_done']				= 'Die gewählte Benutzergruppe wurde gelöscht.';
+
+$language['text']['admin']['groups_delete_users']				= 'In dieser Benutzergruppe befinden sich noch Benutzer. Diese müssen zuerst in eine neue Gruppe verschoben werden.';
+$language['text']['admin']['groups_edit']						= 'Vorhandene Gruppe bearbeiten';
+$language['text']['admin']['groups_select']						= 'Gruppe auswählen';
+$language['text']['admin']['groups_select_desc']				= 'Wähle den Namen der zu bearbeitenden Gruppe aus';
+$language['text']['admin']['help']								= 'Hilfe';
+$language['text']['admin']['italic']							= 'kursiv';
+$language['text']['admin']['index']								= 'Inhalt';
+$language['text']['admin']['label']								= 'Label';
+$language['text']['admin']['language']							= 'Sprache';
+$language['text']['admin']['large_description']					= 'Lange Beschreibung';
+$language['text']['admin']['leave_blank']						= '(Leer lassen um keine anzugeben)';
+$language['text']['admin']['leave_blank_delete']				= '(Zum Löschen einfach leer lassen)';
+$language['text']['admin']['leave_blank_ignore']				= 'Leer lassen um zu deaktivieren';
+$language['text']['admin']['leech_protection_enabled']			= 'Leech Protection aktiviert';
+$language['text']['admin']['license']							= 'Lizenz';
+$language['text']['admin']['license_na']						= 'Die Lizenz kann zur Zeit nicht vom Olate Server abrufen. Bitte später versuchen.';
+$language['text']['admin']['location']							= 'Ort';
+$language['text']['admin']['login']								= 'Anmelden';
+$language['text']['admin']['logout']							= 'Abmelden';
+$language['text']['admin']['logged_in']							= 'Angemeldet';
+$language['text']['admin']['logged_out']						= 'Abgemeldet';
+$language['text']['admin']['logged_out_desc']					= 'Erfolgreich abgemeldet, <a href="admin.php">hier</a> gehts zurück zum Verwaltungsbereich oder <a href="index.php">hier</a> zur Startseite.';
+$language['text']['admin']['make_parent_category']				= 'Hauptkategorie erstellen';
+$language['text']['admin']['main']								= 'Inhalt';
+$language['text']['admin']['mirror_rows']						= 'Die Anzahl der Reihen kann in den <a href="admin.php?cmd=main_settings">Allgemeinen Einstellungen</a> geändert werden. Du musst mindestens eine Reihe ausfüllen.';
+$language['text']['admin']['must_select']						= 'Ein Kommentar/ eine Aktion muss ausgewählt werden.';
+$language['text']['admin']['na_parent']							= 'Nicht Verfügbar (Ist eine Hauptkategorie)';
+$language['text']['admin']['name']								= 'Name';
+$language['text']['admin']['none']								= 'keine';
+$language['text']['admin']['no_category']						= 'Keine Kategorie (Private Datei)';
+$language['text']['admin']['no_mirrors']						= 'Anzahl der Spiegelserver';
+$language['text']['admin']['no_files_page']						= 'Anzahl der Dateien/Seite';
+$language['text']['admin']['no_latest_files']					= 'Anzahl der angezeigten neusten Dateien';
+$language['text']['admin']['no_results']						= 'Zu den eingegebenen Suchkriterien gab es keine Ergebisse.';
+$language['text']['admin']['no_top_files']						= 'Anzahl der angezeigten Top-Dateien';
+$language['text']['admin']['on']								= 'am';
+$language['text']['admin']['optional_information']				= 'zusätzliche Informationen';
+$language['text']['admin']['order']								= 'ordnen';
+$language['text']['admin']['parent_category']					= 'Hauptkategorie';
+$language['text']['admin']['password']							= 'Passwort';
+$language['text']['admin']['password_confim']					= 'Passwort besätigen';
+$language['text']['admin']['permission_denied']					= 'Zugriff verweigert';
+$language['text']['admin']['permission_denied_desc']			= 'Zur Ansicht dieser Seite fehlen die nötigen Berechtigungen.';
+$language['text']['admin']['permissions']						= 'Berechtigungen';
+$language['text']['admin']['please_login']						= 'Bitte anmelden';
+$language['text']['admin']['poster_name']						= 'Poster Name';
+$language['text']['admin']['poster_email']						= 'Poster E-Mail';
+$language['text']['admin']['posted_by']							= 'Von:';
+$language['text']['admin']['rating']							= 'Bewertung';
+$language['text']['admin']['rating_enabled']					= 'Bewertungen aktiviert';
+$language['text']['admin']['remember_me']						= 'Angemeldet bleiben';
+$language['text']['admin']['remember_me_desc']					= 'Ja, speichere meine Logindaten. (Cookies werden benötigt)';
+$language['text']['admin']['reset_statistics']					= 'Statistiken zurücksetzen';
+$language['text']['admin']['required_information']				= 'Benötigte Informationen';
+$language['text']['admin']['rss_enabled']						= 'RSS aktiviert';
+$language['text']['admin']['search']							= 'Suche';
+$language['text']['admin']['search_enabled']					= 'Suche aktiviert';
+$language['text']['admin']['search_terms']						= 'Bitte gib Suchkriterien ein um die in Frage kommenden Kommentare anzuzeigen:';
+$language['text']['admin']['select']							= 'auswählen';
+$language['text']['admin']['select_action']						= '--Aktion auswählen--';
+$language['text']['admin']['select_agreement']					= '--AGB auswählen--';
+$language['text']['admin']['select_agreement_title']			= 'Wähle eine existierende Downloadbedingung (Vereinbarung) aus.';
+$language['text']['admin']['select_category']					= '--Kategorie auswählen--';
+$language['text']['admin']['select_file']						= '--Datei auswählen--';
+$language['text']['admin']['select_format']						= '--Format auswählen--';
+$language['text']['admin']['select_group']						= '--Gruppe auswählen--';
+$language['text']['admin']['select_language']					= '--Sprache auswählen--';
+$language['text']['admin']['select_status']						= '--Status auswählen--';
+$language['text']['admin']['select_template']					= '--Template auswählen--';
+$language['text']['admin']['selected_comments']					= 'ausgewählte Kommentare';
+$language['text']['admin']['settings']							= 'Einstellungen';
+$language['text']['admin']['short_description']					= 'Kurzbeschreibung';
+$language['text']['admin']['signature']							= 'Signatur';
+$language['text']['admin']['site_name']							= 'Name der Seite';
+$language['text']['admin']['status']							= 'Status';
+$language['text']['admin']['statistics']						= 'Statistiken';
+$language['text']['admin']['statistics_enabled']				= 'Statistiken aktiviert';
+$language['text']['admin']['statistics_reset_done']				= 'Die Downloadstatistiken wurden zurückgesetzt.';
+$language['text']['admin']['successfully_added']				= ', wurde erfolgreich hinzugefügt.';
+$language['text']['admin']['surname']							= 'Familienname';
+$language['text']['admin']['template']							= 'Layout Vorlage (Template)';
+$language['text']['admin']['the']								= 'Die';
+$language['text']['admin']['the_group']							= 'Die Gruppe,';
+$language['text']['admin']['the_results']						= 'Resultate der Suche werden unten angezeigt:';
+$language['text']['admin']['the_user']							= 'Der Benutzer,';
+$language['text']['admin']['total_downloads']					= 'Downloads insgesamt';
+$language['text']['admin']['total_comments']					= 'Kommentare insgesamt';
+$language['text']['admin']['total_comments_pending']			= 'Auf Freischaltung wartende Kommentare';
+$language['text']['admin']['total_files']						= 'Dateien insgesamt';
+$language['text']['admin']['total_users']						= 'Benutzer insgesamt';
+$language['text']['admin']['unapprove']							= 'nicht bestätigen';
+$language['text']['admin']['unapproved']						= 'Unbestätigt';
+$language['text']['admin']['underline']							= 'unterstrichen';
+$language['text']['admin']['username']							= 'Benutzername';
+$language['text']['admin']['user_group']						= 'Benutzergruppe';
+$language['text']['admin']['users']								= 'Benutzer';
+$language['text']['admin']['users_add']							= 'Einen neuen Benutzer hinzufügen';
+$language['text']['admin']['users_add_desc']					= 'Um einen Benutzer hinzuzufügen, bitte obenstehenden Felder ausfüllen';
+$language['text']['admin']['users_all']							= 'Alle Benutzer';
+$language['text']['admin']['users_delete']						= 'Lösche einen vorhandenen Benutzer';
+$language['text']['admin']['users_edit']						= 'Bearbeite einen vorhandenen Benutzer';
+$language['text']['admin']['users_groups']						= 'Benutzer/Gruppen';
+$language['text']['admin']['users_select']						= 'Wähle Benutzer';
+$language['text']['admin']['users_select_desc']					= 'Wähle einen Benutzernamen um dessen Benutzereigenschaften ändern zu können';
+$language['text']['admin']['update']							= 'Bearbeiten';
+$language['text']['admin']['updates']							= 'Updates';
+$language['text']['admin']['updates_available']					= 'Updates verfügbar';
+$language['text']['admin']['updates_available_desc_1']			= 'Diese Version ist';
+$language['text']['admin']['updates_available_desc_2']			= '; diese ist nicht mehr aktuell! Eine neue Version ';
+$language['text']['admin']['updates_current']					= 'Die aktuelle Version ist';
+$language['text']['admin']['updates_latest']					= 'Die neuste Version von Olate Download ist bereits installiert';
+$language['text']['admin']['updates_new']						= 'Die neuste Version ist';
+$language['text']['admin']['updates_not_latest']				= '<strong>Diese Version ist veraltet</strong>. Bitte umgehend auf eine neue Version umsteigen, um Bugs und möglichen Sicherheitslücken vorzubeugen.';
+$language['text']['admin']['updates_made']						= 'Die Änderungen wurden gespeichert.';
+$language['text']['admin']['upload']							= 'Hochladen';
+$language['text']['admin']['uploads_ext']						= 'Erlaubte Dateierweiterungen';
+$language['text']['admin']['upload_file']						= 'Datei hochladen';
+$language['text']['admin']['upload_file_desc_1']				= 'Die Datei kann entweder hochgeladen oder unten unter einem Mirror-Server angeben werden. Wenn die Datei hochgeladen werden soll, bitte das Kontrollkästchen aktivieren und auf Hochladen klicken. Im nächsten Schritt wird der Speicherort für die Datei abgefragt.';
+$language['text']['admin']['upload_file_desc_2']				= 'Bitte die Datei die hochgeladen werden soll auswählen, dann auf Hochladen klicken.';
+$language['text']['admin']['upload_error_1']					= 'Die Datei wurde erfolgreich hochgeladen.';
+$language['text']['admin']['upload_error_3']					= 'Die hochzuladende Datei überschreitet den Wert upload_max_filesize in der php.ini. Kontaktiere deinen Webhost um dieses Limit zu erhöhen.';
+$language['text']['admin']['upload_error_4']					= 'Die Datei wurde nur teilweise hochgeladen. Bitte den "Zurück" Button des Browsers benutzen um es erneut zu versuchen.';
+$language['text']['admin']['upload_error_ext']					= 'Es wurde keine Datei hochgeladen. Bitte den "Zurück" Button des Browsers benutzen um es erneut zu versuchen.';
+$language['text']['admin']['value']								= 'Standardeinstellung';
+$language['text']['admin']['view_acp']							= 'Verwaltungsbereich ansehen';
+$language['text']['admin']['view_site']							= 'Seite ansehen';
+$language['text']['admin']['views']								= 'Ansichten';
+$language['text']['admin']['votes']								= 'Bewertungen';
+
+// 3.3.1
+$language['text']['admin']['acp_check_extensions']				= 'Überprüfe Erweiterungem im Verwaltungsbereich';
+$language['text']['admin']['add_domain']						= 'Domain hinzufügen';
+$language['text']['admin']['add_file_check_required_fields']	= 'Hinzufügen der Datei fehlgeschlagen. Bitte überprüfe, ob alle benötigten Felder ausgefüllt sind und dass mindestens ein Mirror-Server oder ein Upload für die Datei ausgewählt wurde.';
+$language['text']['admin']['added_on']							= 'hinzugefügt am';
+$language['text']['admin']['agreement_delete_list_desc']		= 'Lösche Vereinbarung <strong>_NAME_</strong>';
+$language['text']['admin']['agreement_not_deleted']				= 'Die Vereinbarung wurde nicht gelöscht';
+$language['text']['admin']['all_fields_filled']					= 'Es müssen alle Felder ausgefüllt sein';
+$language['text']['admin']['always_allow']						= 'Immer erlauben';
+$language['text']['admin']['always_deny']						= 'Immer ablehnen';
+$language['text']['admin']['are_you_sure_list']					= 'Wirklich:';
+$language['text']['admin']['auto_detect']						= 'Automatisch erkennen';
+$language['text']['admin']['auto_select']						= 'Automatisch auswählen';
+$language['text']['admin']['cat_multi_move_root']				= 'Unterkategorie in Hauptkategorie umwandeln und Dateien auf privat umstellen';
+$language['text']['admin']['category_delete_list_desc']			= 'Lösche Kategorie <strong>_CAT_NAME_</strong>';
+$language['text']['admin']['category_move_list_desc']			= 'Verschiebe Dateien und Unterkategorien nach <strong>_CAT_NAME_</strong>';
+$language['text']['admin']['categories_edit_select']			= 'Zur Auswahl der zu bearbeitenden Kategorie bitte auf den Namen klicken';
+$language['text']['admin']['categories_not_deleted']			= 'Die ausgewählte Kategorie wurde nicht gelöscht';
+$language['text']['admin']['categories_not_deleted_plural']		= 'Die ausgewählten Kategorien wurden nicht gelöscht';
+$language['text']['admin']['check_uncheck_all']					= 'Alle auswählen/ Auswahl aufheben';
+$language['text']['admin']['convert_newlines']					= 'Konvertiere neue Zeilen zu Zeilenumbrüche?';
+$language['text']['admin']['convert_newlines_desc']				= '(Dies gilt nur für die zwei Beschreibungsfelder.  Umwandlung erfolgt nur, wenn die Daten angezeigt werden)';
+$language['text']['admin']['custom_field_list_desc']			= 'Lösche benutzerdefiniertes Feld <strong>_NAME_</strong>';
+$language['text']['admin']['custom_fields_not_deleted']			= 'Das ausgewählte benutzerdefinierte Feld wurde nicht gelöscht';
+$language['text']['admin']['delete_items_confirm']				= 'Sollen die folgenden Einträge wirklich gelöscht werden?';
+$language['text']['admin']['delete_selected_entries']			= 'Lösche ausgewählte Einträge';
+$language['text']['admin']['details']							= 'Details';
+$language['text']['admin']['domain_name_characters']			= 'Domainnamen können nur aus Buchstaben (a-z), Zahlen (0-9), einem Minuszeichen (-) und einem Stern (das als Wildcard benutzt wird) (*), bestehen.';
+$language['text']['admin']['enabled']							= 'Eingeschaltet';
+$language['text']['admin']['enabled_question']					= 'Eingeschaltet?';
+$language['text']['admin']['errors_with_submission']			= 'In der Eingabe sind Fehler';
+$language['text']['admin']['errors_highlighted_red']			= 'Sie sind rot hervorgehoben';
+$language['text']['admin']['errors_have_you_corrected']			= 'Wurden diese Fehler korrigiert?';
+$language['text']['admin']['feature_disabled']					= 'Dieses Feature wurde ausgeschaltet';
+$language['text']['admin']['file_delete_list_desc']				= 'Lösche Datei <strong>_FILE_</strong>';
+$language['text']['admin']['file_not_deleted']					= 'Die ausgewählte Datei wurde nicht gelöscht';
+$language['text']['admin']['files_approve']						= 'Dateien freigeben';
+$language['text']['admin']['files_approve_desc']				= 'Box auswählen um die Dateien freizugeben.';
+$language['text']['admin']['files_approve_failed']				= 'Die Freigabe einiger oder aller Dateien ist fehlgeschlagen.';
+$language['text']['admin']['files_approve_none']				= 'Es gibt keine freizugebenden Dateien.';
+$language['text']['admin']['files_approve_successful']			= 'Die ausgewählten Dateien wurden freigegeben.';
+$language['text']['admin']['filter_cats']						= 'Nur Kategorien mit Inhalt Anzeigen';
+$language['text']['admin']['for_example']						= 'Als Beispiel';
+$language['text']['admin']['groups_deleted_not']				= 'Die ausgewählte Gruppe wurde nicht gelöscht';
+$language['text']['admin']['groups_delete_list_desc']			= 'Lösche Gruppe <strong>_NAME_</strong>';
+$language['text']['admin']['hide_children']						= 'Unterkategorien verbergen';
+$language['text']['admin']['hide_files']						= 'Dateien verbergen';
+$language['text']['admin']['invalid_domain']					= 'Die eingegebene Domain ist ungültig.';
+$language['text']['admin']['ip_restriction']					= 'Beschränkung der IP Adressen';
+$language['text']['admin']['ip_restrict_add_desc']				= 'Fülle die untenstehenden Felder aus, um eine neue Beschränkung hinzuzufügen.';
+$language['text']['admin']['ip_restrict_add_ipaddress']			= 'IP Adresse hinzufügen';
+$language['text']['admin']['ip_restrict_add_iprange']			= 'IP Bereich hinzufügen';
+$language['text']['admin']['ip_restrict_add_network']			= 'Netzwerk hinzufügen';
+$language['text']['admin']['ip_restrict_allow_addy']			= 'Zugriff nur für unten aufgelistete Adressen';
+$language['text']['admin']['ip_restrict_change_type']			= 'Art der Änderungen';
+$language['text']['admin']['ip_restrict_changes_submit']		= 'Änderungen übertragen';
+$language['text']['admin']['ip_restrict_changes_undo']			= 'Änderungen rückgängig machen';
+$language['text']['admin']['ip_restrict_cidr_netmask']			= 'CIDR Subnetzmaske:';
+$language['text']['admin']['ip_restrict_default_update']		= 'Die Aktion des Standardfilters wurde aktualisiert';
+$language['text']['admin']['ip_restrict_deny_addy']				= 'Verweigere den Zugriff für alle unten aufgelisteten Adressen';
+$language['text']['admin']['ip_restrict_denials']				= 'Anzahl der Zugriffsverweigerungen';
+$language['text']['admin']['ip_restrict_del_desc_address']		= 'Lösche den Eintrag für die IP Adresse <strong>_ADDRESS_</strong>';
+$language['text']['admin']['ip_restrict_del_desc_range']		= 'Lösche den Eintrag für den IP Bereich <strong>_ADDRESS_START_</strong> - <strong>_ADDRESS_END_</strong>';
+$language['text']['admin']['ip_restrict_del_desc_network']		= 'Lösche den Eintrag für das Netzwerk <strong>_NETWORK_ADDRESS_</strong>/<strong>_NETWORK_MASK_</strong>';
+$language['text']['admin']['ip_restrict_delete_entries']		= 'Einträge löschen';
+$language['text']['admin']['ip_restrict_delete_selected']		= 'ausgewählte löschen';
+$language['text']['admin']['ip_restrict_disable_selected']		= 'ausgewählte ausschalten';
+$language['text']['admin']['ip_restrict_dotted_subnet']			= 'Punktierte Subnetzmaske:';
+$language['text']['admin']['ip_restrict_edit']					= 'Beschränkungen bearbeiten';
+$language['text']['admin']['ip_restrict_edit_desc']				= 'Ausgewählten Beschränkungen hier bearbeiten.  Bitte sicherstellen, dass alle Felder richtig ausgefüllt sind.';
+$language['text']['admin']['ip_restrict_edit_selected']			= 'ausgewählte bearbeiten';
+$language['text']['admin']['ip_restrict_enable_disable']		= 'Einträge an-/ausschalten';
+$language['text']['admin']['ip_restrict_enable_entry']			= 'Eintrag einschalten?';
+$language['text']['admin']['ip_restrict_enable_selected']		= 'ausgewählte einschalten';
+$language['text']['admin']['ip_restrict_enabled_desc']			= 'Einträge können ein- oder ausschalten ohne sie zu löschen.  Dies ermöglicht den Zugriff temporär zu erlauben/verbieten, ohne den Eintrag später neu erstellen zu müssen.';
+$language['text']['admin']['ip_restrict_entries']				= 'Einträge';
+$language['text']['admin']['ip_restrict_entries_deleted']		= 'Der/Die ausgewählte(n) Eintrag/Einträge wurden erfolgreich gelöscht.';
+$language['text']['admin']['ip_restrict_entries_none']			= 'Es muss zumindestens ein Eintrag ausgewählt werden.';
+$language['text']['admin']['ip_restrict_entries_not_deleted']	= 'Die ausgewählten Einträge wurden nicht gelöscht';
+$language['text']['admin']['ip_restrict_entry_added']			= 'Der Eintrag wurde erfolgreich zur Datenbank hinzugefügt.';
+$language['text']['admin']['ip_restrict_entry_updated']			= 'Der Eintrag/die Einträge wurden erfolgreich aktualisiert.';
+$language['text']['admin']['ip_restrict_errors_with_entry']		= 'Es gibt Fehler mit diesem Eintrag';
+$language['text']['admin']['ip_restrict_filter_on']				= 'Filter an';
+$language['text']['admin']['ip_restrict_filter_off']			= 'Filter aus';
+$language['text']['admin']['ip_restrict_includes_client']		= 'Die angegebenen Beschränkungen beinhaltet die aktuelle IP Addresse. Durch diese Einstellung wird der Zugriff auf den Verwaltungsbereich und auf die Downloadseite gesperrt!!! Nicht empfohlen!!!.';
+$language['text']['admin']['ip_restrict_invalid_id']			= 'Die angegebene ID ist ungültig.';
+$language['text']['admin']['ip_restrict_invalid_ip']			= 'Die angegebene IP Addresse ist ungültig.  Bitte überprüfen und erneut versuchen.';
+$language['text']['admin']['ip_restrict_invalid_ip_plural']		= 'Eine oder mehrere der eingegebenen IP Addressen sind ungültig.  Bitte überprüfen und erneut versuchen.';
+$language['text']['admin']['ip_restrict_ip_address']			= 'IP Addresse';
+$language['text']['admin']['ip_restrict_ip_addresses']			= 'IP Addressen';
+$language['text']['admin']['ip_restrict_ip_allowed']			= 'Die angegebene IP Adresse (_IP_ADDRESS_) hat Zugriff auf das Downloadsystem.';
+$language['text']['admin']['ip_restrict_ip_denied']				= 'Die angegebene IP Adresse (_IP_ADDRESS_) hat keinen Zugriff auf das Downloadsystem.';
+$language['text']['admin']['ip_restrict_ip_range']				= 'IP Bereich';
+$language['text']['admin']['ip_restrict_new_entry']				= 'Neuer Eintrag';
+$language['text']['admin']['ip_restrict_network']				= 'Netzwerk';
+$language['text']['admin']['ip_restrict_network_address']		= 'Netzwerkadresse';
+$language['text']['admin']['ip_restrict_network_cidr']			= 'Netzwerk (CIDR Netzmaske)';
+$language['text']['admin']['ip_restrict_network_dotted']		= 'Netzwerk (punktierte Netzmaske)';
+$language['text']['admin']['ip_restrict_related']				= 'Einträge die auf die IP Adresse zutreffen';
+$language['text']['admin']['ip_restrict_request']				= 'Angeforderte Seite';
+$language['text']['admin']['ip_restrict_range_end']				= 'Ende des Bereiches';
+$language['text']['admin']['ip_restrict_range_start']			= 'Anfang des Bereiches';
+$language['text']['admin']['ip_restrict_start_gt_end']			= 'Die erste IP Addresse des Bereiches kommt nach der letzen IP Addresse.  Bitte ändern.';
+$language['text']['admin']['ip_restrict_subnet_mask']			= 'Subnetzmaske';
+$language['text']['admin']['ip_restrict_test_addy']				= 'Testadresse';
+$language['text']['admin']['ip_restrict_test_ip']				= 'Teste eine IP Addresse';
+$language['text']['admin']['ip_restrict_type']					= 'Art';
+$language['text']['admin']['ip_restrict_type_of']				= 'Art der Beschränkungen';
+$language['text']['admin']['keywords']							= 'Schlüsselwörter';
+$language['text']['admin']['leech_settings']					= 'Leech Protection Einstellungen';
+$language['text']['admin']['leech_settings_desc']				= 'Du kannst Domainnamen (Referrers) angeben, denen es erlaubt oder verboten ist, von ausserhalb auf die Datei zu verlinken ohne über die Details-Seite zu gehen.';
+$language['text']['admin']['leech_settings_delete']				= 'Lösche Einträge';
+$language['text']['admin']['leech_settings_domain']				= 'Lösche Domain <strong>_DOMAIN_</strong>';
+$language['text']['admin']['list_expand_collapse']				= 'Du kannst auf die Kontrolllinks klicken um die Kategorien zu erweitern oder verbergen.';
+$language['text']['admin']['logged_in_desc']					= 'Du hast dich erfolgreich angemeldet, <a href="_REDIRECT_">hier klicken</a> um in den Verwaltungsbereich zu gelangen.';
+$language['text']['admin']['move_to_selected_list']				= 'Verschiebe ausgewählte Einträge in eine andere Liste';
+$language['text']['admin']['no']								= 'Nein';
+$language['text']['admin']['no_children']						= 'Keine Unterkategorien';
+$language['text']['admin']['no_entries']						= 'Keine Einträge';
+$language['text']['admin']['no_files']							= 'Keine Dateien';
+$language['text']['admin']['physically_deleted']				= 'Die hochgeladene Datei wurde ebenfalls vom Webserver entfernt.';
+$language['text']['admin']['private_files']						= 'Private Dateien';
+$language['text']['admin']['recommend_friend_confirm']			= 'Erlaube Versandbestätigung';
+$language['text']['admin']['recommend_friend_confirm_desc']		= 'Der Absender erhält eine Email um sicherzustellen, dass die Absenderaddresse gültig ist. Diese Email enthällt einen Link zu der Seite, auf der die Empfehlung endgültig versendet wird.';
+$language['text']['admin']['recommend_friend_enable']			= 'Erlaube das Versenden von Empfehlungen';
+$language['text']['admin']['recommend_friend_options']			= 'Feature Options - Empfehle eine Datei an deine Freunde';
+$language['text']['admin']['save_settings_cookies']				= 'Diese Einstellungen speichern (benötigt eingeschaltete <a href="http://www.cookiecentral.com/faq/#1.1">Cookies</a>)';
+$language['text']['admin']['security']							= 'Sicherheit';
+$language['text']['admin']['separate_comma']					= '(Trenne mit Komma)';
+$language['text']['admin']['show_children']						= 'Zeige Unterkategorien';
+$language['text']['admin']['show_files']						= 'Zeige Dateien';
+$language['text']['admin']['tech_support']						= 'Technischer Support';
+$language['text']['admin']['tech_support_desc']					= 'Obwohl Olate Download 100% kostenlos und Open Source ist, kommt es mit einem vollen technischen Support, falls Sie Fragen oder Probleme haben! Eine Antwort auf Ihre Fragen ist Ihnen sicher, da wir sichergehen wollen, dass Sie das Beste aus unserem Produkt herausholen können. Unser <a href="http://www.olate.co.uk/support/">erweiterter Supportbereich</a> wird Ihnen helfen. 24 Stunden technischer Support wird zudem durch unsere <a href="http://www.olate.co.uk/forums">Customer Foren</a> garantiert.';
+$language['text']['admin']['total_inactive_files']				= 'Summe inaktiver Dateien';
+$language['text']['admin']['updates_available_desc_3']			= ' ist nun verfügbar auf der <a href="http://www.olate.co.uk/products/od3/downloads.php">Olate Webseite</a>.';
+$language['text']['admin']['updates_download']					= 'Updates können von der Olate Webseite unter<a href="http://www.olate.co.uk/products/od3/downloads.php">http://www.olate.co.uk/products/od3/downloads.php</a> heruntergeladen werden.';
+$language['text']['admin']['updates_unavailable']				= 'Die Update Überprüfung konnte keine Verbindung zum Olate Webserver herstellen. Wenn dieses Problem weiterhin auftritt, kontaktiere bitte deinen Webhost.';
+$language['text']['admin']['upload_error_0']					= 'Die Datei wurde erfolgreich hochgeladen. Da manche Dateien freigegeben werden müssen, kann es einige Zeit dauern bis die Datei im Downloadbereich erscheint.';
+$language['text']['admin']['uploads_separate']					= '(Bitte einen Punkt vor jede Dateiendung setzen und Aufzählung mit einem Komma trennen)';
+$language['text']['admin']['user_allow_actual_upload']			= 'Erlaube das Hochladen mit dem Browser';
+$language['text']['admin']['user_mirrors_enabled']				= 'Mirror Server für üffentlichen hinzugefügte Dateien erlauben';
+$language['text']['admin']['user_uploads_enabled']				= 'Benutzeruploads eingeschaltet';
+$language['text']['admin']['users_delete_list_desc']			= 'Lösche Benutzer <strong>_NAME_</strong>';
+$language['text']['admin']['userupload_always_approve']			= 'Dateien die von Endbenutzern hochgeladen wurden immer sofort freigeben';
+$language['text']['admin']['wysiwyg_editor']					= 'WYSIWYG Editor benutzen';
+$language['text']['admin']['wysiwyg_editor_not_exist']			= 'Der WYSIWYG Editor kann nicht benutzt werden, da die dafür benötigten Dateien nicht existieren. Für weitere Informationen bitte in der Dokumentation nachschauen.';
+$language['text']['admin']['yes']								= 'Ja';
+$language['text']['admin']['you_want_to_continue']				= 'Weitermachen?';
+
+
+// 3.4.0
+// Translate by Stefanie Pagel
+$language['text']['admin']['activate']							= 'Aktivieren?';
+$language['text']['admin']['activate_at']						= 'Aktivieren am';
+$language['text']['admin']['activate_marked']					= 'Angekreuzte Dateien aktivieren';
+$language['text']['admin']['active_languages']					= 'Aktivierte Sprachen';
+$language['text']['admin']['allow_user_language']				= 'Benutzer darf Sprache auswählen';
+$language['text']['admin']['categories_must_be_different']		= 'Die Kategorien müssen unterschiedlich sein.';
+$language['text']['admin']['category_dest']						= 'Zielkategorie:';
+$language['text']['admin']['category_source']					= 'Quellkategorie:';
+$language['text']['admin']['change_password']					= 'Passwort ändern?';
+$language['text']['admin']['confirm_password']					= 'Passwort bestätigen';
+$language['text']['admin']['day']								= 'Tag';
+$language['text']['admin']['deactivate']						= 'Deaktivieren?';
+$language['text']['admin']['deactivate_marked']					= 'Angekreuzte Dateien aktivieren';
+$language['text']['admin']['default']							= 'Voreinstellung';
+$language['text']['admin']['delete_files']						= 'Dateien entfernen';
+$language['text']['admin']['environment_survey']				= 'Umfrage';
+$language['text']['admin']['filename']							= 'Dateiname';
+$language['text']['admin']['file_mass_delete']					= 'Massenlöschung';
+$language['text']['admin']['file_mass_delete_desc']				= 'Bitte eine Kategorie auswählen. Die Dateien in dieser Kategorie werden gelöscht.';
+$language['text']['admin']['file_mass_deleted']					= 'Die Dateien wurden gelöscht';
+$language['text']['admin']['file_mass_not_deleted']				= 'Die Dateien wurden nicht gelöscht';
+$language['text']['admin']['file_mass_delete_list']				= 'Dateien aus der Kategorie <strong>_NAME_</strong> löschen';
+$language['text']['admin']['file_mass_move']					= 'Massenverschiebung';
+$language['text']['admin']['file_mass_move_desc']				= 'Bitte die Ziel- und Quellkategorie auswählen zwischen denen die Dateien verschoben werden sollen.';
+$language['text']['admin']['files_deleted']						= 'Die Dateien wurden gelöscht.';
+$language['text']['admin']['files_moved']						= 'Die Dateien wurden verschoben.';
+$language['text']['admin']['hour']								= 'Stunde';
+$language['text']['admin']['inactive_languages']				= 'Inaktive Sprachen';
+$language['text']['admin']['inactive_languages_desc']			= 'Diese Sprachdateien sind mit dieser Version von Olate Download kompatible und können aktiviert werden.';
+$language['text']['admin']['invalid_category']					= 'Ungültige Kategorie';
+$language['text']['admin']['lang_exists']						= 'Diese Sprache ist bereits vorhanden.';
+$language['text']['admin']['language_settings']					= 'Spracheinstellungen';
+$language['text']['admin']['language_settings_desc']			= 'Es können mehrere Sprachen zur Verfügung gestellt werden, welche vom Endbenutzer ausgewählt werden können.';
+$language['text']['admin']['make_default']						= 'Als Voreinstellung auswählen';
+$language['text']['admin']['make_default_done']					= 'Die ausgewählte Sprache wurde als Voreinstellung ausgewählt.';
+$language['text']['admin']['minute']							= 'Minute';
+$language['text']['admin']['move_files']						= 'Dateien verschieben';
+$language['text']['admin']['must_specify_source_dest']			= 'Die Ziel- und Quellkategorie muss bestimmt werden.';
+$language['text']['admin']['month']								= 'Monat';
+$language['text']['admin']['new_password']						= 'Neues Passwort';
+$language['text']['admin']['no_inactive_lang']					= 'Es sind keine inaktiven Sprachdateien vorhanden.';
+$language['text']['admin']['no_old_lang']						= 'Es sind keine veralteten Sprachdateien vorhanden.';
+$language['text']['admin']['od_version']						= 'OD Version';
+$language['text']['admin']['old_languages']						= 'Veraltete Sprachdateien';
+$language['text']['admin']['old_languages_desc']				= 'Diese Sprachdateien gehören zu einer älteren Version von Olate Download und sind nicht mit dieser Version kompatible.';
+$language['text']['admin']['one_active_lang']					= 'Es muss immer eine Sprache aktiv sein.';
+$language['text']['admin']['passwords_not_match']				= 'Die eingegebenen Passwörter stimmen nicht überein';
+$language['text']['admin']['remove_password']					= 'Passwort entfernen';
+$language['text']['admin']['year']								= 'Jahr';
+$language['text']['admin']['language_settings_howto_title']  	= 'Wie können verschiedene Sprachen installiert werden?';
+$language['text']['admin']['language_settings_howto_desc']  	= 'Weitere Sprachen sind auf der <a href="http://www.olate.co.uk/">Olate Internetseite</a> verfügbar.  Um diese SPrachen hier zu installieren muss die entsprechende .zip heruntergeladen und extrahiert werden. Die extrahierte .php Datei muss anschliessen auf dem Server im Ordner languages/ abgelegt werden. Die Datei kann dann hier aktiviert werden.';
+$language['text']['admin']['server_time']      					= 'Datum und Uhrzeit auf dem Server ist zur Zeit _TIME_';
+
+
+/*
+foreach ($language['text']['admin'] as $key => $val)
+{
+	$language['text']['admin'][$key] = '';
+}
+
+foreach ($language['text']['frontend'] as $key => $val)
+{
+	$language['text']['frontend'][$key] = '';
+}
+#*/
+?>

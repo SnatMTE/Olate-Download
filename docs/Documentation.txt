@@ -1,0 +1,13 @@
+**************************************************************************
+			       Olate Download 3
+				www.olate.co.uk
+
+The OD3 documentation is now written in XML so we can use our own tools
+to generate different formats such as PDF, HTML and CHM. The documentation
+source is xml/user-manual.xml which can be used to generate the human readable
+documentation.
+
+We use a tool called Aurigadoc and can be found at http://aurigadoc.sourceforge.net/
+
+You can find the very latest automatically generated documentation at
+http://www.olate.co.uk/support/docs
