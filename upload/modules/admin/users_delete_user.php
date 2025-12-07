@@ -32,6 +32,9 @@ if ($uam->permitted('acp_users_delete_user'))
 			$result = $dbim->query('SELECT id, username, firstname, lastname 
 									FROM '.DB_PREFIX.'users 
 									WHERE id = '.$_REQUEST['id']);
+			$result = $dbim->pquery('SELECT id, username, firstname, lastname 
+									FROM '.DB_PREFIX.'users 
+									WHERE id = '.$_REQUEST['id']);
 			
 			$row = $dbim->fetch_array($result);
 			
@@ -53,6 +56,9 @@ if ($uam->permitted('acp_users_delete_user'))
 		{
 			// Delete user
 			$dbim->query('DELETE FROM '.DB_PREFIX.'users
+							WHERE (id = '.$_REQUEST['id'].')
+							LIMIT 1');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'users
 							WHERE (id = '.$_REQUEST['id'].')
 							LIMIT 1');
 							

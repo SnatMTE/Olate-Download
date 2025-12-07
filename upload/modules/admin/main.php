@@ -22,41 +22,41 @@ if ($uam->permitted('acp_view'))
 	$main = $uim->fetch_template('admin/main');
 	
 	// Count active files
-	$count_result = $dbim->query('SELECT COUNT(*) AS files
-									FROM '.DB_PREFIX.'files
-									WHERE (status = 1)');	
+	$count_result = $dbim->pquery('SELECT COUNT(*) AS files
+						FROM '.DB_PREFIX.'files
+						WHERE (status = 1)');
 	$count = $dbim->fetch_array($count_result);
 	$main->assign_var('total_files', $count['files']);
 	
 	// Count inactive files
-	$count_result = $dbim->query('SELECT COUNT(*) AS files
-									FROM '.DB_PREFIX.'files
-									WHERE (status = 0)');	
+	$count_result = $dbim->pquery('SELECT COUNT(*) AS files
+						FROM '.DB_PREFIX.'files
+						WHERE (status = 0)');
 	$count = $dbim->fetch_array($count_result);
 	$main->assign_var('total_inactive_files', $count['files']);
 	
 	// Count downloads
-	$count_result = $dbim->query('SELECT COUNT(*) AS downloads
-									FROM '.DB_PREFIX.'stats');	
+	$count_result = $dbim->pquery('SELECT COUNT(*) AS downloads
+						FROM '.DB_PREFIX.'stats');
 	$count = $dbim->fetch_array($count_result);
 	$main->assign_var('total_downloads', $count['downloads']);
 	
 	// Count pending comments
-	$count_result = $dbim->query('SELECT COUNT(*) AS comments
-									FROM '.DB_PREFIX.'comments');	
+	$count_result = $dbim->pquery('SELECT COUNT(*) AS comments
+						FROM '.DB_PREFIX.'comments');
 	$count = $dbim->fetch_array($count_result);
 	$main->assign_var('total_comments', $count['comments']);
 	
 	// Count pending comments
-	$count_result = $dbim->query('SELECT COUNT(*) AS comments
-									FROM '.DB_PREFIX.'comments
-									WHERE (status = 0)');	
+	$count_result = $dbim->pquery('SELECT COUNT(*) AS comments
+						FROM '.DB_PREFIX.'comments
+						WHERE (status = 0)');
 	$count = $dbim->fetch_array($count_result);
 	$main->assign_var('pending_comments', $count['comments']);
 	
 	// Count users
-	$count_result = $dbim->query('SELECT COUNT(*) AS users
-									FROM '.DB_PREFIX.'users');	
+	$count_result = $dbim->pquery('SELECT COUNT(*) AS users
+						FROM '.DB_PREFIX.'users');
 	$count = $dbim->fetch_array($count_result);
 	$main->assign_var('total_users', $count['users']);
 	

@@ -82,7 +82,7 @@ if ($uam->permitted('acp_files_manage_comments'))
 		// Add sorting on the end
 		$search_sql .= ' ORDER BY timestamp ASC';
 		
-		$search_result = $dbim->query($search_sql);
+		$search_result = $dbim->pquery($search_sql);
 															
 		if ($dbim->num_rows($search_result) >= 1)
 		{
@@ -138,8 +138,8 @@ if ($uam->permitted('acp_files_manage_comments'))
 			case 1:
 				foreach ($_POST['comment'] as $comment)
 				{
-					$delete = $dbim->query('DELETE FROM '.DB_PREFIX.'comments
-											WHERE (id = '.intval($comment).')');
+					$delete = $dbim->pquery('DELETE FROM '.DB_PREFIX.'comments
+												WHERE (id = '.intval($comment).')');
 				}
 				$template_manage->assign_var('action', 1);
 				$success = true;
@@ -148,7 +148,7 @@ if ($uam->permitted('acp_files_manage_comments'))
 			case 2:
 				foreach ($_POST['comment'] as $comment)
 				{
-					$dbim->query('UPDATE '.DB_PREFIX.'comments
+					$dbim->pquery('UPDATE '.DB_PREFIX.'comments
 											SET status = 0
 											WHERE (id = '.intval($comment).')');
 				}
@@ -159,7 +159,7 @@ if ($uam->permitted('acp_files_manage_comments'))
 			case 3:
 				foreach ($_POST['comment'] as $comment)
 				{
-					$dbim->query('UPDATE '.DB_PREFIX.'comments
+					$dbim->pquery('UPDATE '.DB_PREFIX.'comments
 											SET status = 1
 											WHERE (id = '.intval($comment).')');
 				}
@@ -178,9 +178,9 @@ if ($uam->permitted('acp_files_manage_comments'))
 		$template_search = $uim->fetch_template('admin/files_manage_comments_search');
 		
 		// Show all files
-		$files_result = $dbim->query('SELECT id, name, category_id, description_small, description_big, downloads, size, date 
-										FROM '.DB_PREFIX.'files
-										ORDER BY name DESC');
+		$files_result = $dbim->pquery('SELECT id, name, category_id, description_small, description_big, downloads, size, date 
+						FROM '.DB_PREFIX.'files
+						ORDER BY name DESC');
 		
 		$files = array();
 		

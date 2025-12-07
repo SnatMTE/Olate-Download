@@ -63,7 +63,7 @@ if ($uam->permitted('acp_main_settings'))
 		$_REQUEST['allow_user_lang'] = (!isset($_REQUEST['allow_user_lang'])) ? 0 : 1;
 		
 		// And finally, the SQL
-		$dbim->query('UPDATE '.DB_PREFIX.'config 
+		$dbim->pquery('UPDATE '.DB_PREFIX.'config 
 						SET site_name = "'.htmlspecialchars($_REQUEST['site_name']).'", 
 							url = "'.$_REQUEST['url'].'",
 							flood_interval = "'.$_REQUEST['flood_interval'].'", 
@@ -111,10 +111,10 @@ if ($uam->permitted('acp_main_settings'))
 	elseif (isset($_REQUEST['stats_reset']) && $_REQUEST['stats_reset'] == 1)
 	{
 		// Reset statistics
-		$dbim->query('TRUNCATE TABLE '.DB_PREFIX.'stats');
-		$dbim->query('UPDATE '.DB_PREFIX.'files
-						SET downloads = 0,
-							views = 0');
+		$dbim->pquery('TRUNCATE TABLE '.DB_PREFIX.'stats');
+		$dbim->pquery('UPDATE '.DB_PREFIX.'files
+					SET downloads = 0,
+						views = 0');
 		
 		$success = true; // For redirect EOF
 		$settings->assign_var('reset', true);

@@ -35,9 +35,11 @@ if ($uam->permitted('acp_users_add_user'))
 			$user_add = $uim->fetch_template('admin/users_add_user');
 			
 			// Get all the groups
-			$result = $dbim->query('SELECT id, name 
+			$result = $dbim->pquery('SELECT id, name 
 									FROM '.DB_PREFIX.'usergroups');
 			
+			$result = $dbim->pquery('SELECT id, name 
+								FROM '.DB_PREFIX.'usergroups');
 			while ($group = $dbim->fetch_array($result))
 			{
 				$user_add->assign_var('group', $group);
@@ -61,9 +63,11 @@ if ($uam->permitted('acp_users_add_user'))
 		$user_add = $uim->fetch_template('admin/users_add_user');
 		
 		// Get all the groups
-		$result = $dbim->query('SELECT id, name 
+			$result = $dbim->pquery('SELECT id, name 
 								FROM '.DB_PREFIX.'usergroups');
 		
+			$result = $dbim->pquery('SELECT id, name 
+								FROM '.DB_PREFIX.'usergroups');
 		while ($group = $dbim->fetch_array($result))
 		{
 			$user_add->assign_var('group', $group);

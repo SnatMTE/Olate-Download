@@ -31,8 +31,8 @@ if (!empty($_REQUEST['deactivate_languages']))
 			{
 				$lang_id = intval($lang_id);
 				
-				$dbim->query('DELETE FROM '.DB_PREFIX.'languages
-								WHERE id = '.$lang_id);
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'languages
+						WHERE id = '.$lang_id);
 			}
 		}
 		else 
@@ -55,7 +55,7 @@ elseif (!empty($_REQUEST['activate_languages']))
 			if (file_exists($file_path) && !is_dir($file_path) && strpos($file, '.php') !== false)
 			{
 				// Check file isn't already in DB
-				$search = $dbim->query('SELECT COUNT(id) AS count 
+				$search = $dbim->pquery('SELECT COUNT(id) AS count 
 										FROM '.DB_PREFIX.'languages
 										WHERE filename = "'.$file.'"');
 				
@@ -77,7 +77,7 @@ elseif (!empty($_REQUEST['activate_languages']))
 					unset($language);
 					
 					// Insert into database
-					$dbim->query('INSERT INTO '.DB_PREFIX.'languages
+					$dbim->pquery('INSERT INTO '.DB_PREFIX.'languages
 									SET name = "'.$language_info['name'].'",
 										filename = "'.$language_info['filename'].'",
 										version_major = "'.$language_info['version'][0].'",
@@ -105,20 +105,20 @@ elseif (!empty($_REQUEST['make_default']))
 		$lang_id = intval($lang_id);
 		
 		// Check it actually exists
-		$search = $dbim->query('SELECT COUNT(id) AS count 
-								FROM '.DB_PREFIX.'languages
-								WHERE id = '.$lang_id);
+		$search = $dbim->pquery('SELECT COUNT(id) AS count 
+					FROM '.DB_PREFIX.'languages
+					WHERE id = '.$lang_id);
 		
 		$search_row = $dbim->fetch_array($search);
 		
 		if (intval($search_row['count']) > 0)
 		{
 			// Set no defaults
-			$dbim->query('UPDATE '.DB_PREFIX.'languages
+			$dbim->pquery('UPDATE '.DB_PREFIX.'languages
 							SET site_default = 0');
 			
 			// Set new language as default
-			$dbim->query('UPDATE '.DB_PREFIX.'languages
+			$dbim->pquery('UPDATE '.DB_PREFIX.'languages
 							SET site_default = 1
 							WHERE id = '.$lang_id);
 			

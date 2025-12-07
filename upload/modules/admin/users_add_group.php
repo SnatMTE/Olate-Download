@@ -36,7 +36,7 @@ if ($uam->permitted('acp_users_add_group'))
 		}
 		else
 		{
-			$dbim->query('INSERT INTO '.DB_PREFIX.'usergroups 
+			$dbim->pquery('INSERT INTO '.DB_PREFIX.'usergroups 
 							SET name = "'.$_REQUEST['name'].'"');
 			
 			// Insert permissions
@@ -55,7 +55,7 @@ if ($uam->permitted('acp_users_add_group'))
 					$setting = (isset($user_permissions["$permission"])) ? 1 : 0;
 					
 					// Insert it - This is pretty damn query heavy :(
-					$dbim->query('INSERT INTO '.DB_PREFIX.'userpermissions 
+					$dbim->pquery('INSERT INTO '.DB_PREFIX.'userpermissions 
 									SET permission_id = "'.$permission_id.'", 
 										type = "user_group",
 										type_value = "'.$group_id.'", 
