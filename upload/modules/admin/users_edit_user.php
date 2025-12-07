@@ -24,10 +24,6 @@ if ($uam->permitted('acp_users_edit_user'))
 	// Have they specified a user id?
 	if (!empty($_REQUEST['id']))
 	{	
-		$result = $dbim->query('SELECT u.*, g.id AS group_id, g.name AS group_name 
-								FROM '.DB_PREFIX.'users u, '.DB_PREFIX.'usergroups g 
-								WHERE (u.id = "'.$_REQUEST['id'].'") 
-									AND (u.group_id = g.id)');
 		$result = $dbim->pquery('SELECT u.*, g.id AS group_id, g.name AS group_name 
 								FROM '.DB_PREFIX.'users u, '.DB_PREFIX.'usergroups g 
 								WHERE (u.id = "'.$_REQUEST['id'].'") 
@@ -39,8 +35,6 @@ if ($uam->permitted('acp_users_edit_user'))
 		$user_edit->assign_var('user', $user);
 		
 		// Get all the groups
-		$result = $dbim->query('SELECT id, name 
-								FROM '.DB_PREFIX.'usergroups');
 		$result = $dbim->pquery('SELECT id, name 
 								FROM '.DB_PREFIX.'usergroups');
 			
@@ -60,11 +54,7 @@ if ($uam->permitted('acp_users_edit_user'))
 			$error->assign_var('error_message', $uam->auth_error);
 			$error->show();
 			
-			$result = $dbim->query('SELECT u.*, g.id AS group_id, g.name AS group_name 
-									FROM '.DB_PREFIX.'users u, '.DB_PREFIX.'usergroups g 
-									WHERE (u.id = "'.$_REQUEST['user_id'].'") 
-										AND (u.group_id = g.id)');
-			$result = $dbim->pquery('SELECT u.*, g.id AS group_id, g.name AS group_name 
+				$result = $dbim->pquery('SELECT u.*, g.id AS group_id, g.name AS group_name 
 									FROM '.DB_PREFIX.'users u, '.DB_PREFIX.'usergroups g 
 									WHERE (u.id = "'.$_REQUEST['user_id'].'") 
 										AND (u.group_id = g.id)');
@@ -75,9 +65,7 @@ if ($uam->permitted('acp_users_edit_user'))
 			$user_edit->assign_var('user', $user);
 			
 			// Get all the groups
-			$result = $dbim->query('SELECT id, name 
-									FROM '.DB_PREFIX.'usergroups');
-			$result = $dbim->pquery('SELECT id, name 
+				$result = $dbim->pquery('SELECT id, name 
 									FROM '.DB_PREFIX.'usergroups');
 			
 			while ($group = $dbim->fetch_array($result))
@@ -100,9 +88,6 @@ if ($uam->permitted('acp_users_edit_user'))
 	else
 	{
 		// Display a list of users
-		$result = $dbim->query('SELECT id, username, firstname, lastname 
-								FROM '.DB_PREFIX.'users 
-								ORDER BY username');
 		$result = $dbim->pquery('SELECT id, username, firstname, lastname 
 								FROM '.DB_PREFIX.'users 
 								ORDER BY username');

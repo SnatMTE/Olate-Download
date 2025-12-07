@@ -25,9 +25,9 @@ if ($uam->permitted('acp_files_delete_comment'))
 	
 	if (!empty($_REQUEST['id']))
 	{	
-		$dbim->query('DELETE FROM '.DB_PREFIX.'comments
-						WHERE (id = '.$_REQUEST['id'].')
-						LIMIT 1');
+		$dbim->pquery('DELETE FROM '.DB_PREFIX.'comments
+					WHERE (id = '.$_REQUEST['id'].')
+					LIMIT 1');
 						
 		$success = true; // For redirect EOF
 		$delete->assign_var('success', true);

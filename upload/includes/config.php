@@ -1,4 +1,4 @@
-(<?php
+<?php
 // Basic configuration for development (PDO + SQLite)
 
 // Table prefix used throughout the app

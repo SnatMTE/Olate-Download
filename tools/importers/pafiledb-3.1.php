@@ -3,6 +3,9 @@
 // Initialise
 include './includes/init.php';
 
+// Provide legacy mysql_* compatibility for importer
+require_once __DIR__ . '/../../upload/includes/mysql_compat.php';
+
 // General useful things
 ini_set('implicit_flush', 'on');
 error_reporting(E_ALL);

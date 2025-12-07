@@ -39,7 +39,7 @@ if ($uam->permitted('acp_files_mass_move'))
 		else
 		{
 			// All is good so let's try and move the files
-			$dbim->query('UPDATE '.DB_PREFIX.'files 
+			$dbim->pquery('UPDATE '.DB_PREFIX.'files 
 							SET category_id = '.intval($_REQUEST['dest_id']).'
 							WHERE category_id = '.intval($_REQUEST['source_id']));
 			

@@ -25,10 +25,10 @@ if ($uam->permitted('acp_files_approve_comments'))
 	
 	if (empty($_REQUEST['id']))
 	{	
-		$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
-											FROM '.DB_PREFIX.'comments
-											WHERE (status = 0)
-											ORDER BY timestamp ASC');
+		$comments_result = $dbim->pquery('SELECT id, file_id, timestamp, name, email, comment, status
+						FROM '.DB_PREFIX.'comments
+						WHERE (status = 0)
+						ORDER BY timestamp ASC');
 		
 		// Yoo-hoo, anyone there?
 		if ($dbim->num_rows($comments_result) != 0)
@@ -69,7 +69,7 @@ if ($uam->permitted('acp_files_approve_comments'))
 	else
 	{
 		// Approve it
-		$dbim->query('UPDATE '.DB_PREFIX.'comments
+			$dbim->pquery('UPDATE '.DB_PREFIX.'comments
 						SET status = 1
 						WHERE (id = '.$_REQUEST['id'].')
 						LIMIT 1');

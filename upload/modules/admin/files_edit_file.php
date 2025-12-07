@@ -451,11 +451,11 @@ if ($uam->permitted('acp_files_edit_file'))
 		}
 		
 		// Get comments
-		$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
-											FROM '.DB_PREFIX.'comments
-											WHERE (file_id = '.$_REQUEST['file_id'].')
-												AND (status = 1)
-											ORDER BY timestamp ASC');
+		$comments_result = $dbim->pquery('SELECT id, file_id, timestamp, name, email, comment, status
+							FROM '.DB_PREFIX.'comments
+							WHERE (file_id = '.$_REQUEST['file_id'].')
+								AND (status = 1)
+							ORDER BY timestamp ASC');
 		
 		// Yoo-hoo, anyone there?
 		if ($dbim->num_rows($comments_result) != 0)
@@ -528,7 +528,7 @@ if ($uam->permitted('acp_files_edit_file'))
 		// Template
 		$edit_file = $uim->fetch_template('admin/files_edit_file');
 		
-		$dbim->query('DELETE FROM '.DB_PREFIX.'mirrors
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'mirrors
 						WHERE (id = '.$_REQUEST['mirror_id'].')
 						LIMIT 1');
 		
@@ -541,7 +541,7 @@ if ($uam->permitted('acp_files_edit_file'))
 		// Template
 		$edit_file = $uim->fetch_template('admin/files_edit_file');
 		
-		$dbim->query('UPDATE '.DB_PREFIX.'mirrors
+			$dbim->pquery('UPDATE '.DB_PREFIX.'mirrors
 						SET name = "'.$_REQUEST['name'].'", 
 							location = "'.$_REQUEST['location'].'", 
 							url = "'.$_REQUEST['url'].'"
@@ -563,11 +563,11 @@ if ($uam->permitted('acp_files_edit_file'))
 			
 			if (!empty($_REQUEST['mirror'.$i.'_name']) && !empty($_REQUEST['mirror'.$i.'_location']) && !empty($_REQUEST['mirror'.$i.'_url']))
 			{
-				$dbim->query('INSERT INTO '.DB_PREFIX.'mirrors
-								SET file_id = '.$_REQUEST['file_id'].', 
-									name = "'.$_REQUEST['mirror'.$i.'_name'].'", 
-									location = "'.$_REQUEST['mirror'.$i.'_location'].'", 
-									url = "'.$_REQUEST['mirror'.$i.'_url'].'"');
+						$dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
+							SET file_id = '.$_REQUEST['file_id'].', 
+								name = "'.$_REQUEST['mirror'.$i.'_name'].'", 
+								location = "'.$_REQUEST['mirror'.$i.'_location'].'", 
+								url = "'.$_REQUEST['mirror'.$i.'_url'].'"');
 			}
 		}
 		

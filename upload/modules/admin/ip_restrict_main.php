@@ -335,7 +335,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 									action = '.intval($site_config['ip_restrict_mode']).',
 									active = '.intval($_REQUEST['filter_active']);
 						
-						$result = $dbim->query($sql);
+						$result = $dbim->pquery($sql);
 						
 						$success = true;
 						$redirect_to = 'admin.php?cmd=ip_restrict_main&amp;act=new_network';
@@ -696,7 +696,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 			$sql .= ')';
 			
 			// Run it
-			$dbim->query($sql);
+			$dbim->pquery($sql);
 			
 			// Closing vars
 			$message = $lm->language('admin', 'ip_restrict_entry_updated');

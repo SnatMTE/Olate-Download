@@ -26,9 +26,9 @@ if ($uam->permitted('acp_files_add_agreement'))
 	{
 		validate_types($_REQUEST, array('name' => 'STR', 'contents' => 'STR_HTML'));
 		
-		$dbim->query('INSERT INTO '.DB_PREFIX.'agreements
-						SET name = "'.$_REQUEST['name'].'", 
-							contents = "'.$_REQUEST['contents'].'"');
+		$dbim->pquery('INSERT INTO '.DB_PREFIX.'agreements
+					SET name = "'.$_REQUEST['name'].'", 
+						contents = "'.$_REQUEST['contents'].'"');
 		
 		$success = true; // For redirect EOF
 		$agreement_add->assign_var('success', true);

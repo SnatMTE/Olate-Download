@@ -59,7 +59,8 @@ body { font-family:Tahoma, Sans; font-size:0.9em; }
 	<?php if(extension_loaded('mysql')): ?>
 	<h4>mysql</h4>
 		
-		<?php if (!@mysql_connect($_POST['server'], $_POST['username'], $_POST['password'])): ?>
+		<?php require_once __DIR__ . '/includes/mysql_compat.php';
+		if (!@mysql_connect($_POST['server'], $_POST['username'], $_POST['password'])): ?>
 			<p>Unable to connect using the details provided (<?php echo mysql_error(); ?>). <a href="index.php">Click here to enter them again</a>.</p>
 		<?php endif; ?>
 	

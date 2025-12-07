@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../includes/mysql_compat.php';
 /**********************************
 * Olate Download 3.3.0
 * http://www.olate.co.uk/od3

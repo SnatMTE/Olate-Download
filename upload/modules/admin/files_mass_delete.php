@@ -52,8 +52,8 @@ if ($uam->permitted('acp_files_mass_move'))
 	}
 	elseif (!empty($_REQUEST['confirm_yes']))
 	{
-		// All is good so let's try and move the files
-		$dbim->query('DELETE FROM '.DB_PREFIX.'files 
+			// All is good so let's try and move the files
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'files 
 						WHERE category_id = '.intval($_REQUEST['cat_id']));
 		
 		$success = true;

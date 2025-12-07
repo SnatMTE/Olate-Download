@@ -51,7 +51,7 @@ if ($uam->permitted('acp_leech_settings'))
 					SET domain = "'.$domain.'",
 						action = '.$action;
 			
-			$dbim->query($sql);
+			$dbim->pquery($sql);
 		}
 		else
 		{
@@ -92,7 +92,7 @@ if ($uam->permitted('acp_leech_settings'))
 						WHERE id IN('.$id_list_imploded.')
 						ORDER BY domain ASC';
 				
-				$result = $dbim->query($sql);
+				$result = $dbim->pquery($sql);
 				
 				while ($row = $dbim->fetch_array($result))
 				{
@@ -113,7 +113,7 @@ if ($uam->permitted('acp_leech_settings'))
 				$sql = 'DELETE FROM '.DB_PREFIX.'leech_settings
 						WHERE id IN('.$id_list_imploded.')';
 				
-				$dbim->query($sql);
+				$dbim->pquery($sql);
 			}
 		}
 	}
@@ -144,7 +144,7 @@ if ($uam->permitted('acp_leech_settings'))
 						WHERE id IN('.$id_list_imploded.')
 						ORDER BY domain ASC';
 				
-				$result = $dbim->query($sql);
+				$result = $dbim->pquery($sql);
 				
 				while ($row = $dbim->fetch_array($result))
 				{
@@ -165,7 +165,7 @@ if ($uam->permitted('acp_leech_settings'))
 				$sql = 'DELETE FROM '.DB_PREFIX.'leech_settings
 						WHERE id IN('.$id_list_imploded.')';
 				
-				$dbim->query($sql);
+				$dbim->pquery($sql);
 			}
 		}
 	}
@@ -183,7 +183,7 @@ if ($uam->permitted('acp_leech_settings'))
 					SET action = 1
 					WHERE id IN('.$id_list_imploded.')';
 			
-			$dbim->query($sql);
+			$dbim->pquery($sql);
 		}
 	}
 	// Or vice versa?
@@ -200,7 +200,7 @@ if ($uam->permitted('acp_leech_settings'))
 					SET action = 0
 					WHERE id IN('.$id_list_imploded.')';
 			
-			$dbim->query($sql);
+			$dbim->pquery($sql);
 		}
 	}
 	
@@ -212,7 +212,7 @@ if ($uam->permitted('acp_leech_settings'))
 				FROM '.DB_PREFIX.'leech_settings
 				ORDER BY domain ASC';
 		
-		$result = $dbim->query($sql);
+		$result = $dbim->pquery($sql);
 		
 		$allow_list_count = 0;
 		$deny_list_count = 0;
