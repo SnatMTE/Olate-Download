@@ -1,103 +1,149 @@
 <?php
-/**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
-**********************************
-* Copyright Olate Ltd 2005
-*
-* @author $Author: dsalisbury $ (Olate Ltd)
-* @version $Revision: 197 $
-* @package od
-*
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
-*/
+// Database Interaction Module (PDO + SQLite)
+// Modernized replacement for mysql_* based dbim to use PDO and SQLite for development
 
-// Database Interaction Module
+class DBResult
+{
+	public $rows = array();
+	private $pointer = 0;
+
+	public function __construct($rows = array())
+	{
+		$this->rows = $rows;
+	}
+
+	public function fetch()
+	{
+		if ($this->pointer < count($this->rows))
+		{
+			return $this->rows[$this->pointer++];
+		}
+		return false;
+	}
+
+	public function num_rows()
+	{
+		return count($this->rows);
+	}
+}
+
 class dbim
 {
-	// Declare the variables
-	var $connection, $in_query, $name, $password, $persistant, $query_count, $result, $server, $username;
-	
-	// Connect to database
-	function connect($username, $password, $server, $name, $persistant)
-	{	
-		// Populate class variables
-		$this->username = $username;
-		$this->password = $password;
-		$this->server = $server;
-		$this->name = $name;
-		$this->persistant = $persistant;
-		
-		// Connect
-		$this->connection = ($this->persistant) ? @mysql_pconnect($this->server, $this->username, $this->password, 1) : @mysql_connect($this->server, $this->username, $this->password, 1);
-		
-		// If everything was ok, select database
-		if ($this->connection)
+	public $pdo = null;
+	public $in_query = false;
+	public $query_count = 0;
+	public $lastStatement = null;
+
+	// Connect to database - for development we default to SQLite
+	public function connect($username = null, $password = null, $server = null, $name = null, $persistant = false)
+	{
+		try
 		{
-			if (@mysql_select_db($this->name))
+			// Determine SQLite DB file path inside upload/data/olate.sqlite
+			$dbDir = realpath(__DIR__ . '/../../data');
+			if ($dbDir === false)
 			{
-				return $this->connection;
-			}
-		}
-		
-		// Error handling (If you have EHM debug >= 2 then you get a full var dump including DB access details)
-		trigger_error('[DBIM] Connection Failed: '.mysql_error(), FATAL);
-	}
-	
-	// Execute and return result of SQL query
-	function query($query = false)
-	{	
-		if (isset($query))
-		{
-			// Make sure we're not already running a query 'cause it may break
-			if (!$this->in_query)
-			{
-				$this->in_query = true;
-				$this->result = @mysql_query($query, $this->connection);
-				if (!$this->result)
+				$dbDir = __DIR__ . '/../../data';
+				if (!is_dir($dbDir))
 				{
-					// Error handling
-					trigger_error('[DBIM] Query Failed: '.mysql_error().' Query: '.$query, FATAL);
+					@mkdir($dbDir, 0755, true);
 				}
-				
-				// Increment query counter
-				$this->query_count++;
-				
-				$this->in_query = false;				
-				return $this->result;
 			}
-			else
-			{
-				// Error handling
-				trigger_error('[DBIM] Already in query', FATAL);
-			}
+
+			$dbFile = $dbDir . '/olate.sqlite';
+			$dsn = 'sqlite:' . $dbFile;
+
+			$options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC);
+			$this->pdo = new PDO($dsn, null, null, $options);
+
+			return $this->pdo;
 		}
-		// Error handling
-		trigger_error('[DBIM] No Query Specified', FATAL);
+		catch (Exception $e)
+		{
+			trigger_error('[DBIM] Connection Failed: '. $e->getMessage(), E_USER_ERROR);
+		}
+	}
+
+	// Execute and return result of SQL query
+	public function query($query = false)
+	{
+		if (!isset($query))
+		{
+			trigger_error('[DBIM] No Query Specified', E_USER_ERROR);
+		}
+
+		if ($this->in_query)
+		{
+			trigger_error('[DBIM] Already in query', E_USER_ERROR);
+		}
+
+		$this->in_query = true;
+		try
+		{
+			$stmt = $this->pdo->query($query);
+			$this->lastStatement = $stmt;
+
+			// For SELECT queries, fetch all rows into DBResult for compatibility
+			$rows = array();
+			if ($stmt !== false)
+			{
+				try { $rows = $stmt->fetchAll(PDO::FETCH_ASSOC); } catch (Exception $e) { $rows = array(); }
+			}
+
+			$this->query_count++;
+			$this->in_query = false;
+
+			return new DBResult($rows);
+		}
+		catch (Exception $e)
+		{
+			$this->in_query = false;
+			trigger_error('[DBIM] Query Failed: '. $e->getMessage() .' Query: '. $query, E_USER_ERROR);
+		}
 	}
 
 	// Return result row as an associative array
-	function fetch_array($result)
+	public function fetch_array($result)
 	{
-		return ($result) ? @mysql_fetch_assoc($result) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+		if ($result instanceof DBResult)
+		{
+			return $result->fetch();
+		}
+		trigger_error('[DBIM] Query Failed: invalid result', E_USER_ERROR);
 	}
-	
+
 	// Return number of rows in result
-	function num_rows($result)
-	{	
-		return ($result) ? @mysql_num_rows($result) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+	public function num_rows($result)
+	{
+		if ($result instanceof DBResult)
+		{
+			return $result->num_rows();
+		}
+		trigger_error('[DBIM] Query Failed: invalid result', E_USER_ERROR);
 	}
-	
+
 	// Return number of affected rows in previous operation
-	function affected_rows()
+	public function affected_rows()
 	{
-		return ($this->connection) ? @mysql_affected_rows($this->connection) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+		if ($this->lastStatement instanceof PDOStatement)
+		{
+			return $this->lastStatement->rowCount();
+		}
+		return 0;
 	}
-	
+
 	// Return the ID generated from the previous INSERT operation
-	function insert_id()
+	public function insert_id()
 	{
-		return ($this->connection) ? @mysql_insert_id($this->connection) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+		try
+		{
+			return $this->pdo->lastInsertId();
+		}
+		catch (Exception $e)
+		{
+			trigger_error('[DBIM] insert_id Failed: '. $e->getMessage(), E_USER_ERROR);
+		}
 	}
 }
+
 ?>

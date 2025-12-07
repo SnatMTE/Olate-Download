@@ -58,11 +58,14 @@
 		<h2>What would you like to do?</h2>
 		
 		<div id="options">
-			<h3>New Installation</h3>
+			<h3>New Installation (SQLite - Recommended for development)</h3>
 			
-			<p>If you have never installed Olate Download 3 before or wish to install a clean copy, select this option</p>
+			<p>For development and quick setup we recommend using the new SQLite installer. It creates a local SQLite database at <code>upload/data/olate.sqlite</code> and writes a minimal config file.</p>
 			
-			<div class="begin"><a href="install/index.php">Begin Installation</a></div><br />
+			<div class="begin"><a href="install/install_sqlite.php">Begin SQLite Installation</a></div>
+			<br />
+			<p style="margin-top:12px;"><strong>Legacy installer:</strong> The original MySQL installer remains available but is not recommended for new setups.</p>
+			<div class="begin"><a href="install/index.php">Legacy: Begin MySQL Installation (not recommended)</a></div><br />
 		</div>
 		
 		<div id="options">

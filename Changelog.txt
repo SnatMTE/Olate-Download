@@ -1,9 +1,17 @@
 **************************************************************************
-			Olate Download 3 Changelog
+			Olate Download 4 Changelog
 			     www.olate.co.uk
 
 The following changes have been made in the development between Beta 1
 and stable 3.4.0:
+
+Olate Download - 4.0
+=============================
+- Migration to modern PHP (PDO) with SQLite for development
+- Replaced legacy mysql_* DB layer with PDO-based `dbim` using SQLite by default
+- Updated input sanitization to use `htmlspecialchars` and prepared statements are recommended
+- Backwards-compatible DBResult wrapper added to ease migration for existing code
+- Version bump to 4.0
 
 Olate Download - 3.4.0
 ============================

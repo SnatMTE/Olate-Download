@@ -52,11 +52,11 @@ function validate_types(&$array, $names)
 					break;
 				// string - trim data, strip slashes, banish HTML
 				case 'STR':
-					$array["$name"] = mysql_real_escape_string(htmlspecialchars(strip_tags(trim($array["$name"]))));
+					$array["$name"] = htmlspecialchars(strip_tags(trim($array["$name"])) , ENT_QUOTES, 'UTF-8');
 					break;
-				// string with html
+				// string with html (allow HTML but normalise/trim)
 				case 'STR_HTML':
-					$array["$name"] = mysql_real_escape_string(trim($array["$name"]));
+					$array["$name"] = trim($array["$name"]);
 					break;
 				// Do nothing, i.e. arrays, etc.
 				default:
