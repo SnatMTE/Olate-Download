@@ -172,7 +172,7 @@ class sm
 			$sql .= 'ORDER BY active DESC';
 			
 			// Query
-			$this->_temp_result = $dbim->query($sql);
+			$this->_temp_result = $dbim->pquery($sql);
 		}
 		
 		$row = $dbim->fetch_array($this->_temp_result);
@@ -211,7 +211,7 @@ class sm
 		}
 		
 		// Query
-		$result = $dbim->query($sql);
+		$result = $dbim->pquery($sql);
 		$row = $dbim->fetch_array($result);
 		
 		return $row['count'];
@@ -342,7 +342,7 @@ class sm
 				WHERE ("'.$domain.'" LIKE (REPLACE(domain, "*", "%")))
 						AND (action = '.$action.')';
 		
-		$result = $dbim->query($sql);
+		$result = $dbim->pquery($sql);
 		$row = $dbim->fetch_array($result);
 		
 		// So we have the data, now decide whether to allow or deny

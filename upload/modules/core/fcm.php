@@ -21,20 +21,20 @@ class fcm
 		global $dbim;
 		
 		// Get all root categories (parent_id = the big daddy, otherwise known as the big 0)
-		$cat_result = $dbim->query('SELECT id, name, description, sort 
-									FROM '.DB_PREFIX.'categories 
-									WHERE (parent_id = 0)
-									ORDER BY sort ASC');
+		$cat_result = $dbim->pquery('SELECT id, name, description, sort 
+							FROM '.DB_PREFIX.'categories 
+							WHERE (parent_id = 0)
+							ORDER BY sort ASC');
 		
 		while ($category = $dbim->fetch_array($cat_result))
 		{
 			$categories[$category['name']] = $category;
 			
 			// Now have children						
-			$child_result = $dbim->query('SELECT id, name, description, sort 
-											FROM '.DB_PREFIX.'categories 
-											WHERE (parent_id = '.$category['id'].')
-											ORDER BY sort ASC');
+			$child_result = $dbim->pquery('SELECT id, name, description, sort 
+								FROM '.DB_PREFIX.'categories 
+								WHERE (parent_id = '.$category['id'].')
+								ORDER BY sort ASC');
 			
 			while ($child = $dbim->fetch_array($child_result))
 			{
@@ -51,9 +51,9 @@ class fcm
 		global $dbim;
 		
 		// Get all root categories (parent_id = the big daddy, otherwise known as the big 0)
-		$cat_result = $dbim->query('SELECT id, name, description, sort 
-									FROM '.DB_PREFIX.'categories 
-									ORDER BY sort ASC');
+		$cat_result = $dbim->pquery('SELECT id, name, description, sort 
+							FROM '.DB_PREFIX.'categories 
+							ORDER BY sort ASC');
 		
 		while ($category = $dbim->fetch_array($cat_result))
 		{
@@ -70,9 +70,9 @@ class fcm
 		
 		if ($category_id != 0)
 		{
-			$cat_result = $dbim->query('SELECT id, parent_id, name, description, keywords 
-										FROM '.DB_PREFIX.'categories 
-										WHERE (id = '.$category_id.')');
+			$cat_result = $dbim->pquery('SELECT id, parent_id, name, description, keywords 
+							FROM '.DB_PREFIX.'categories 
+							WHERE (id = '.$category_id.')');
 									
 			$category = $dbim->fetch_array($cat_result);
 		}
@@ -94,10 +94,10 @@ class fcm
 	{
 		global $dbim;
 		
-		$child_result = $dbim->query('SELECT id, name, description 
-										FROM '.DB_PREFIX.'categories 
-										WHERE (parent_id = '.$category_id.')
-										ORDER BY sort ASC');
+		$child_result = $dbim->pquery('SELECT id, name, description 
+						FROM '.DB_PREFIX.'categories 
+						WHERE (parent_id = '.$category_id.')
+						ORDER BY sort ASC');
 		
 		while ($child = $dbim->fetch_array($child_result))
 		{

@@ -70,9 +70,9 @@ class uam
 		global $dbim, $lm;
 		
 		// First, check username, and retrieve salt
-		$result = $dbim->query('SELECT salt 
-								FROM '.DB_PREFIX.'users 
-								WHERE (username = "'.$username.'")');
+		$result = $dbim->pquery('SELECT salt 
+					FROM '.DB_PREFIX.'users 
+					WHERE (username = "'.$username.'")');
 		
 		if (!$user = $dbim->fetch_array($result))
 		{
@@ -84,10 +84,10 @@ class uam
 		// Now, check the password using the salt we just got
 		$password = md5(md5($password).$user['salt']);
 		
-		$result = $dbim->query('SELECT id, group_id, username 
-								FROM '.DB_PREFIX.'users 
-								WHERE (username = "'.$username.'") 
-									AND (password = "'.$password.'")');
+		$result = $dbim->pquery('SELECT id, group_id, username 
+					FROM '.DB_PREFIX.'users 
+					WHERE (username = "'.$username.'") 
+						AND (password = "'.$password.'")');
 		
 		if (!$user = $dbim->fetch_array($result))
 		{
@@ -141,16 +141,16 @@ class uam
 		$salt = $this->generate_salt();
 		$pass = $this->encrypt_password($data_array['password'], $salt);
 		
-		$dbim->query('INSERT INTO '.DB_PREFIX.'users
-						SET group_id = "'.$data_array['group'].'", 
-							username = "'.$data_array['username'].'", 
-							password = "'.$pass.'", 
-							salt = "'.$salt.'", 
-							email = "'.$data_array['email'].'",
-							firstname = "'.$data_array['firstname'].'", 
-							lastname = "'.$data_array['lastname'].'", 
-							location = "'.$data_array['location'].'", 
-							signature = "'.$data_array['signature'].'"');
+		$dbim->pquery('INSERT INTO '.DB_PREFIX.'users
+					SET group_id = "'.$data_array['group'].'", 
+						username = "'.$data_array['username'].'", 
+						password = "'.$pass.'", 
+						salt = "'.$salt.'", 
+						email = "'.$data_array['email'].'",
+						firstname = "'.$data_array['firstname'].'", 
+						lastname = "'.$data_array['lastname'].'", 
+						location = "'.$data_array['location'].'", 
+						signature = "'.$data_array['signature'].'"');
 		
 		return true;
 	}
@@ -216,7 +216,7 @@ class uam
 		
 		$query .= ' WHERE (id = "'.$user_id.'")';
 
-		$dbim->query($query);
+		$dbim->pquery($query);
 		
 		return true;
 	}
@@ -227,9 +227,9 @@ class uam
 		global $dbim;
 		
 		// Validation - Check $field not already in use	
-		$result = $dbim->query('SELECT '.$field.'
-								FROM '.DB_PREFIX.'users
-								WHERE ('.$field.' = "'.$value.'")');
+		$result = $dbim->pquery('SELECT '.$field.'
+					FROM '.DB_PREFIX.'users
+					WHERE ('.$field.' = "'.$value.'")');
 								
 		if ($dbim->num_rows($result) > 0)
 		{
@@ -248,8 +248,8 @@ class uam
 		global $dbim;
 		
 		// Get all the permission names
-		$result = $dbim->query('SELECT permission_id, name, setting 
-								FROM '.DB_PREFIX.'permissions');
+		$result = $dbim->pquery('SELECT permission_id, name, setting 
+					FROM '.DB_PREFIX.'permissions');
 		
 		while ($permission = $dbim->fetch_array($result))
 		{
@@ -270,11 +270,11 @@ class uam
 			$group_id = $_SESSION['group_id'];
 		}
 				
-		$result = $dbim->query('SELECT p.name, up.setting 
-								FROM '.DB_PREFIX.'permissions p, '.DB_PREFIX.'userpermissions up 
-								WHERE (up.type = "user_group")
-									AND (up.type_value = "'.$group_id.'")
-										AND (p.permission_id=up.permission_id)');	
+		$result = $dbim->pquery('SELECT p.name, up.setting 
+					FROM '.DB_PREFIX.'permissions p, '.DB_PREFIX.'userpermissions up 
+					WHERE (up.type = "user_group")
+						AND (up.type_value = "'.$group_id.'")
+							AND (p.permission_id=up.permission_id)');
 			
 		while ($permission = $dbim->fetch_array($result))
 		{
@@ -325,8 +325,8 @@ class uam
 		global $dbim;
 		
 		// Get permission list from database
-		$result = $dbim->query('SELECT permission_id, name 
-								FROM '.DB_PREFIX.'permissions');
+		$result = $dbim->pquery('SELECT permission_id, name 
+					FROM '.DB_PREFIX.'permissions');
 		
 		while ($row = $dbim->fetch_array($result))
 		{

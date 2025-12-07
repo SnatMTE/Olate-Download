@@ -74,35 +74,35 @@ if ($site_config['enable_useruploads'] == 1)
 					$filesize = $_REQUEST['size'];
 				}
 				
-				$dbim->query('INSERT INTO '.DB_PREFIX.'files
-								SET category_id = "'.$_REQUEST['category'].'", 
-									name = "'.$_REQUEST['name'].'", 
-									description_small = "'.$_REQUEST['description_small'].'", 
-									description_big = "'.$_REQUEST['description_big'].'", 
-									downloads = "'.$_REQUEST['downloads'].'", 
-									size = "'.$_REQUEST['size'].'", 
-									date = "'.$time.'",
-									agreement_id = "'.$_REQUEST['agreement'].'",
-									password = "'.$password.'",
-									status = 0,
-									convert_newlines = '.$convert_newlines);
+				$dbim->pquery('INSERT INTO '.DB_PREFIX.'files
+							SET category_id = "'.$_REQUEST['category'].'", 
+								name = "'.$_REQUEST['name'].'", 
+								description_small = "'.$_REQUEST['description_small'].'", 
+								description_big = "'.$_REQUEST['description_big'].'", 
+								downloads = "'.$_REQUEST['downloads'].'", 
+								size = "'.$_REQUEST['size'].'", 
+								date = "'.$time.'",
+								agreement_id = "'.$_REQUEST['agreement'].'",
+								password = "'.$password.'",
+								status = 0,
+								convert_newlines = '.$convert_newlines);
 				
 				$file_id = $dbim->insert_id();
 				
 				// File was uploaded successfully - add as a mirror
-				$dbim->query('INSERT INTO '.DB_PREFIX.'mirrors
-								SET file_id = '.$file_id.', 
-									name = "Mirror 1", 
-									location = "Earth", 
-									url = "'.$site_config['url'].'uploads/upload-'.$time.'-'.basename($_FILES['uploadfile']['name']).'"');			
+				$dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
+							SET file_id = '.$file_id.', 
+								name = "Mirror 1", 
+								location = "Earth", 
+								url = "'.$site_config['url'].'uploads/upload-'.$time.'-'.basename($_FILES['uploadfile']['name']).'"');
 				
 				// Get filesize in bytes
 				$filesize = filesize('./uploads/upload-'.$time.'-'.basename($_FILES['uploadfile']['name']));
 				
 				// Update file size
-				$dbim->query('UPDATE '.DB_PREFIX.'files
-								SET size = '.$filesize.'
-								WHERE id = '.$file_id);
+				$dbim->pquery('UPDATE '.DB_PREFIX.'files
+							SET size = '.$filesize.'
+							WHERE id = '.$file_id);
 				
 				// Template
 				$add_file = $uim->fetch_template('files/userupload_add');
@@ -110,9 +110,9 @@ if ($site_config['enable_useruploads'] == 1)
 				if ($site_config['userupload_always_approve'])
 				{
 					// Set file as active
-					$dbim->query('UPDATE '.DB_PREFIX.'files
-									SET status = 1
-									WHERE id = '.$file_id);
+					$dbim->pquery('UPDATE '.DB_PREFIX.'files
+							SET status = 1
+							WHERE id = '.$file_id);
 					
 					$success = true; // For redirect EOF
 					$add_file->assign_var('id', $file_id);
@@ -135,9 +135,9 @@ if ($site_config['enable_useruploads'] == 1)
 				{
 					$message .= " You can see it at \n\n".$site_config['url']."details.php?file=".$file_id;
 					
-					$dbim->query('UPDATE '.DB_PREFIX.'files
-									SET status = 1
-									WHERE id = '.$file_id);
+					$dbim->pquery('UPDATE '.DB_PREFIX.'files
+							SET status = 1
+							WHERE id = '.$file_id);
 				}
 				
 				// Send

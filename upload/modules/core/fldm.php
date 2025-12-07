@@ -45,7 +45,7 @@ class fldm
 			$files_query .= ' LIMIT '.$limit;
 		}
 
-		$files_result = $dbim->query($files_query);
+		$files_result = $dbim->pquery($files_query);
 		
 		$files = array();
 		
@@ -84,7 +84,7 @@ class fldm
 				WHERE (f.id = '.$file_id.')
 						'.$status_conditional;
 		
-		$details_result = $dbim->query($sql);
+		$details_result = $dbim->pquery($sql);
 		
 		echo ($date_active) ? $sql : '';
 		
@@ -105,7 +105,7 @@ class fldm
 		
 		if ($agreement_id)
 		{
-			$agreement_result = $dbim->query('SELECT contents 
+			$agreement_result = $dbim->pquery('SELECT contents 
 												FROM '.DB_PREFIX.'agreements 
 												WHERE (id = '.$agreement_id.')');
 		}
@@ -185,7 +185,7 @@ class fldm
 			$amount = $site_config['page_amount'];
 			
 			// Get all results for the page box
-			$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
+			$comments_result = $dbim->pquery('SELECT id, file_id, timestamp, name, email, comment, status
 												FROM '.DB_PREFIX.'comments 
 												WHERE (file_id = '.$file_id.') 
 													AND (status = 1)
@@ -202,12 +202,12 @@ class fldm
 			$page = (isset($page)) ? $page : 1;		
 			
 			// Get all results for the page box
-			$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
+			$comments_result = $dbim->pquery('SELECT id, file_id, timestamp, name, email, comment, status
 												FROM '.DB_PREFIX.'comments 
 												WHERE (file_id = '.$file_id.') 
 													AND (status = 1)
 												ORDER BY timestamp ASC
-												LIMIT '.($page - 1) * $amount .','.$amount);					
+												LIMIT '.($page - 1) * $amount .','.$amount);                    
 												
 			$toolbox = $uim->fetch_template('files/toolbox');
 			

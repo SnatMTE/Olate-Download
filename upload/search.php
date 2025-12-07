@@ -31,7 +31,7 @@ if ($site_config['enable_search'])
 	$search_template = $uim->fetch_template('search/search');
 	
 	// Get all results for the page box
-	$search_result = $dbim->query('SELECT id, name, description_small, description_big, date
+	$search_result = $dbim->pquery('SELECT id, name, description_small, description_big, date
 								FROM '.DB_PREFIX.'files 
 								WHERE MATCH (name, description_small, description_big) 
 										AGAINST ("'.$_REQUEST['query'].'" IN BOOLEAN MODE)
@@ -54,7 +54,7 @@ if ($site_config['enable_search'])
 		$page = (isset($_GET['page'])) ? $_GET['page'] : 1;
 		
 		// Get result
-		$search_result = $dbim->query('SELECT id, name, description_small, description_big, date
+		$search_result = $dbim->pquery('SELECT id, name, description_small, description_big, date
 										FROM '.DB_PREFIX.'files 
 										WHERE MATCH (name, description_small, description_big) 
 												AGAINST ("'.$_REQUEST['query'].'" IN BOOLEAN MODE)

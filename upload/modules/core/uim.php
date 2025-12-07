@@ -387,15 +387,15 @@ class uim_template
 		$global_vars['php_self'] = $_SERVER['PHP_SELF'];
 		
 		// Count approved files
-		$count_result = $dbim->query('SELECT COUNT(*) AS files
-        								FROM '.DB_PREFIX.'files
-        								WHERE status = 1');
-		$count = $dbim->fetch_array($count_result);
+        $count_result = $dbim->pquery('SELECT COUNT(*) AS files
+                                				FROM '.DB_PREFIX.'files
+                                				WHERE status = 1');
+        $count = $dbim->fetch_array($count_result);
 		$global_vars['total_files'] = $count['files'];
 		
 		// Count downloads
-		$count_result = $dbim->query('SELECT COUNT(*) AS downloads
-		    							FROM '.DB_PREFIX.'stats');
+		$count_result = $dbim->pquery('SELECT COUNT(*) AS downloads
+					    				FROM '.DB_PREFIX.'stats');
 		$count = $dbim->fetch_array($count_result);
 		$global_vars['total_downloads'] = $count['downloads'];
 		
