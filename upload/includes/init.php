@@ -21,9 +21,30 @@ if (@filesize('./includes/config.php') == 0)
 }
 
 // Be off with you evil fiend
-ini_set('magic_quotes_gpc', '0');
+@ini_set('magic_quotes_gpc', '0');
+
+// Enable full error reporting for testing (show all errors/warnings/notices)
+@ini_set('display_errors', '1');
+@ini_set('display_startup_errors', '1');
+@ini_set('log_errors', '0');
+error_reporting(E_ALL);
 
 $debug = 0;
+
+// Simple exception handler to display uncaught exceptions during testing
+set_exception_handler(function ($e) {
+	echo "<pre>Uncaught Exception: ".get_class($e)." - ".htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8')."\n";
+	echo htmlspecialchars($e->getTraceAsString(), ENT_QUOTES, 'UTF-8');
+	echo "</pre>";
+});
+
+// Show fatal errors on shutdown (useful for development)
+register_shutdown_function(function () {
+	$err = error_get_last();
+	if ($err !== null) {
+		echo "<pre>Fatal error: ".htmlspecialchars($err['message'], ENT_QUOTES, 'UTF-8')." in ".$err['file']." on line ".$err['line']."</pre>";
+	}
+});
 
 if ($debug == 1)
 {
