@@ -39,19 +39,23 @@ class dbim
 	{
 		try
 		{
-			// Determine SQLite DB file path inside upload/data/olate.sqlite
-			$dbDir = realpath(__DIR__ . '/../../data');
-			if ($dbDir === false)
-			{
-				$dbDir = __DIR__ . '/../../data';
-				if (!is_dir($dbDir))
-				{
+			// Allow an explicit sqlite path in config for flexibility
+			global $config;
+			if (!empty($config['database']['sqlite_path'])) {
+				// Use configured absolute path
+				$dbFile = $config['database']['sqlite_path'];
+				$dsn = 'sqlite:' . $dbFile;
+			} else {
+				// Default: place DB outside project root for safety (one level above repo root)
+				$parentOfRepo = dirname(__DIR__, 4); // ../.. from modules/core -> repo root, then parent
+				$dbDir = $parentOfRepo . DIRECTORY_SEPARATOR . 'olate_data';
+				if (!is_dir($dbDir)) {
 					@mkdir($dbDir, 0755, true);
 				}
-			}
 
-			$dbFile = $dbDir . '/olate.sqlite';
-			$dsn = 'sqlite:' . $dbFile;
+				$dbFile = $dbDir . DIRECTORY_SEPARATOR . 'olate.sqlite';
+				$dsn = 'sqlite:' . $dbFile;
+			}
 
 			$options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION, PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC);
 			$this->pdo = new PDO($dsn, null, null, $options);
