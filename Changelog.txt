@@ -1,0 +1,671 @@
+**************************************************************************
+			Olate Download 3 Changelog
+			     www.olate.co.uk
+
+The following changes have been made in the development between Beta 1
+and stable 3.4.0:
+
+Olate Download - 3.4.0
+============================
+
+From old tracker:
+- Issue #000232: Admin CP >> Add new file >> Double check password
+- Issue #000253: Mass purging
+- Issue #000234: Scheduled file activation
+- Issue #000255: Mass move
+- Issue #000278: Category ordering page doesn't do Parent categories
+
+New tracker:
+- Issue #0000174: Add recursive capability to fcm::count_files()
+- Issue #0000191: Multiple language selection
+- Issue #0000235: Category ordering doesn't work
+- Issue #0000240: File size pop-up
+- Issue #0000253: Update documentation
+- Issue #0000254: Update FCKeditor files
+- Issue #0000258: Agreements section heading shows when no permissions for it are set
+- Issue #0000265: Add in survey script
+- Issue #0000266: Wrong return URL after deleting comment in File Edit
+- Issue #0000267: Searching for comments does not work
+- Issue #0000275: Mass add script adds absolute path to mirror url
+- Issue #0000277: view statistics aren't reset when reseting the statistics via the admin interface
+
+No issue IDs (not in tracker):
+- RSS Feed is invalid when name/description contains special characters due 
+	to them not being encoded
+- Mass File adder doesn't show categories that have same name as others
+- File search returns all files not ones that match the search terms
+- OD Update ACP page doesn't work
+- paFileDB 3.1 importer
+- Fix for files showing in categories other than the one they should be showing in
+- Speed boost - no more including the file each time a language setting is needed
+- Made all database queries use dbim::* and not mysql_*
+- Leech settings: domain names with a dash are rejected
+
+Olate Download - 3.4.0 - Template Changes
+============================
+
+New templates:
+----------------------------
+- templates/olate/admin/files_mass_move.tpl.php
+- templates/olate/admin/files_mass_delete.tpl.php
+- templates/olate/admin/languages.tpl.php
+- templates/olate/general/set_language.tpl.php
+- templates/olate/general/set_language_disabled.tpl.php
+
+Changed templates:
+----------------------------
+- templates/olate/admin/files_edit_file.tpl.php
+---> Added new password changing text
+---> Changed the success conditional near top to handle errors better
+---> Added redirect information on comment edit/delete links
+
+- templates/olate/global/categories.tpl.php
+---> Took out code which causes the category to collapse when clicking the title
+---> Changed the way file counts are displayed on sub-categories
+
+- templates/olate/admin/users_add_group.tpl.php
+---> Added new permission checkboxes
+
+- templates/olate/admin/users_edit_group.tpl.php
+---> Added new permission checkboxes
+
+- templates/olate/admin/categories_ordering.tpl.php
+---> Added a order field to the parent categories
+
+- templates/olate/admin/main_settings.tpl.php
+---> Added link to Language settings page
+---> Added checkbox for allowing users to pick their own languages
+
+- templates/olate/admin/start.tpl.php
+---> Added link to Language settings page
+---> Added link to environment survey script
+
+- templates/olate/global/core.tpl.php
+---> Added link for changing language
+
+- templates/olate/admin/files_add_file.tpl.php
+---> Added two spaces (non-breaking) to the filesize unit combo box to pad it a bit
+
+- templates/olate/admin/files_edit_comment.tpl.php
+---> Added redirect info fields
+
+Olate Download - 3.3.1
+============================
+- No case: File passwords don't work
+
+Olate Download - 3.3.0 (including all development releases)
+============================
+* Changed header in all files
+* Moved to SVN source control (11/06/2005)
+
+- Case  26: Showing allowed extensions (userupload.php)
+- Case  29: Manage comments system brokem
+- Case  35: fsock checking
+- Case  30: Description field line breaks
+- Case  36: Submitted new file but not uploaded anything
+- Case  42: File Approve Page
+- Case  45: Hide empty categories
+- Case  53: IP Blacklisting/Whitelisting
+- Case  55: Automatic filesize calculation
+- Case  56: Add charset option into language file
+- Case  63: Totals variables
+- Case  65: Full XHTML 1.0 Strict compliance
+- Case  66: File Edit Listing Improvements
+- Case  95: Change Download link text
+- Case 134: Option to remove the need to approve of files
+- Case 201: Default mirror URL
+
+- Issue #000017: Mass file adder not displaying files
+- Issue #000024: Tell a friend feature
+- Issue #000026: Pagination insertion
+- Issue #000028: Are you sure prompt
+- Issue #000029: META data
+- Issue #000034: Automatic filesize calculation
+- Issue #000037: Rich text editor
+- Issue #000040: Leech whitelist
+- Issue #000041: Low resolution links
+- Issue #000053: Adding mirrors when editing a file it saves name as location too
+- Issue #000079: Admin: On login redirect to the page requested
+- Issue #000084: Insert file if there has been an upload or there are mirrors
+- Issue #000090: Manage comments: Cat name for private files is blank
+- Issue #000092: Sub Category Display Issue - OD 3.3.0 (Alpha)
+- Issue #000097: Todo: Tidy up code in file edit module
+- Issue #000098: _files table not created during installation
+- Issue #000099: Errors not flagged in installer
+- Issue #000102: Replaced hard coded text
+- Issue #000111: Error in sm.php
+- Issue #000168: File count on subcategories always displays 0
+- Issue #000183: Docs: Info on how to install FCKeditor
+- Issue #000184: Update documentation
+- Issue #000195: When you delete a file it says you haven't (but it has deleted)
+- Issue #000196: Filesizes not being updated
+- Issue #000202: Download Size doesnt save when editing
+- Issue #000237: Agreements don't show
+- Issue #000230: Links below a collapsed category doesnt work - MSIE
+
+- No case: Rewritten mirror handling in modules/admin/files_edit_file.php
+- No case: Custom fields don't work in userupload.php
+- No case: Updated {lang:admin:uploads_separate} to mention the need for a dot
+- No case: Added fix for there being .svn entries in the template/language combo boxes in ACP->Main Settings
+- No case: Added capability for enforcing uploaded file extension checking in ACP
+- No case: Changed category list combo box style to use dashes
+- No case: Category add/edit pages use the heirachial style category list combo box
+- No case: Improved OD updates ACP module: added check to make sure version number is x.y.z
+		and added check for HTTP "200 OK" status code, else give error
+- No case: Changed adding of permissions in the group add ACP module to use 
+		uam::list_permissions()
+- No case: Errors aren't being displayed on userupload.php interface
+			
+Olate Download - 3.3.0 - Template Changes
+============================
+* Removed all references to CVS as we've moved to SVN
+* Added FCKeditor files
+
+CSS File (templates/olate/global/core.css):
+-------------------------------------------
+- Added two declarations for styling the category/file listings
+- Added entries for use with the IP Address Restriction ACP module
+- Added stuff for the file box
+- Added styles for .wysiwyg
+
+New templates:
+--------------
+- templates/olate/admin/files_approve_files.tpl.php
+- templates/olate/admin/generic_yes_no.tpl.php
+- templates/olate/admin/leech_settings.tpl.php
+- templates/olate/admin/list_cat_check.tpl.php
+- templates/olate/admin/list_cat_file_div.tpl.php
+- templates/olate/admin/list_cat_file_check.tpl.php
+- templates/olate/admin/ip_restrict_active.tpl.php
+- templates/olate/admin/ip_restrict_delete.tpl.php
+- templates/olate/admin/ip_restrict_edit_cidr.tpl.php
+- templates/olate/admin/ip_restrict_edit_dot_network.tpl.php
+- templates/olate/admin/ip_restrict_edit_ipaddress.tpl.php
+- templates/olate/admin/ip_restrict_edit_iprange.tpl.php
+- templates/olate/admin/ip_restrict_edit_main.tpl.php
+- templates/olate/admin/ip_restrict_entries.tpl.php
+- templates/olate/admin/ip_restrict_main.tpl.php
+- templates/olate/admin/ip_restrict_new_ipaddress.tpl.php
+- templates/olate/admin/ip_restrict_new_iprange.tpl.php
+- templates/olate/admin/ip_restrict_new_network.tpl.php
+- templates/olate/admin/ip_restrict_testip.tpl.php
+- templates/olate/files/recommend_block_form.tpl.php
+- templates/olate/files/recommend_friend.tpl.php
+- templates/olate/files/recommend_friend_disabled.tpl.php
+
+Deleted templates:
+------------------
+- templates/olate/admin/categories_edit_select.tpl.php
+- templates/olate/admin/files_edit_select.tpl.php
+
+Changed templates:
+------------------
+- templates/olate/admin/files_add_file.tpl.php
+---> Fix for 0000275. Replaced hard coded text with {lang:admin:upload_file} on line 77
+---> Added radio buttons for converting new lines to <br /> in output.  Added entries to language file too
+---> Removed {$filesize_format}
+---> Added combo box to allow user to select the unit of the file size
+---> Added keywords field
+---> Added support for FCKeditor
+
+- templates/olate/admin/files_delete_file.tpl.php
+---> Fix for 0000215. Add conditional to notify if file has been deleted physically on lines 22 - 24
+---> Changed {elseif: $success != "nothing"} to use the "not identical" (!==) operator
+
+- templates/olate/admin/main.tpl.php
+---> Fix for 0000275. Replaced hard coded text with lang vars on lines 16 and 18
+---> Added count of inactive files with link to Approve Files page
+---> Made it so the approve files link is only a link if user has permission for that
+
+- templates/olate/files/userupload_add.tpl.php
+---> Fix for 0000210. Removed <option>{lang:admin:no_category}</option> on line 24
+---> Added code for custom fields
+---> Added conditional to check whether uploading through browser is allowed
+---> Added conditional to check whether using mirrors is allowed
+---> Added conditional at end to display different message depending on whether auto-approve is on or not
+---> Added radio buttons for converting newlines to <br />
+---> Removed {$filesize_format}
+---> Added combo box to allow you to choose the unit of file size
+---> Added {elseif} block to check whether $success is identical to false
+
+- templates/olate/global/core.tpl.php
+---> Fix for 56. Set the page's charset as that of the current languge
+---> Added block for meta data
+
+- templates/olate/admin/od_license.tpl.php
+---> Replaced {$license_text} with LGPL 2.1
+---> Added note that FCKeditor is also licensed under LGPL
+
+- templates/olate/admin/files_edit_file.tpl.php
+---> Rewritten mirror handling.  Old methods will still work though
+---> Added error messages at top and bottom when $success === false
+---> Added radio buttons for converting new lines to <br /> in output
+---> Removed {$filesize_format}
+---> Added combo box to allow user to select the unit of the file size
+---> Added keywords field
+---> Added support for FCKeditor
+---> Changed values of the Filesize format combo box to be static and not pulled from language file
+---> Changed code for the comment boxes - put the container div inside the loop and changed
+		from H3 to <div class="filebox_breadcrumb"> and the text being wysiwyg class
+---> Replaced {$filesize_format} with {$filesize_format_lc} in the values for the 
+		filesize format select box
+
+- templates/olate/admin/od_updates.tpl.php
+---> Added $error, and if it is set, then print the error else play nice
+
+- templates/olate/files/file.tpl.php
+---> Added download count to botton of details bit
+---> Changed x Downloads to Click here to download (new entry in language file)
+---> Changed layout of the bottom row
+---> Issue #000041: Low resolution links
+---> Put file description inside <div class="wysiwyg">
+
+- templates/olate/categories/files.tpl.php
+---> Added download count to botton of details bit
+---> Changed x Downloads to Click here to download (new entry in language file)
+---> Issue #000041: Low resolution links
+---> Put file description inside <div class="wysiwyg">
+---> Added {$pagination}
+
+- templates/olate/display/all.tpl.php
+---> Added download count to botton of details bit
+---> Changed x Downloads to Click here to download (new entry in language file)
+---> Issue #000041: Low resolution links
+---> Put file description inside <div class="wysiwyg">
+---> Added {$pagination}
+
+- templates/olate/display/latest.tpl.php
+---> Added download count to botton of details bit
+---> Changed x Downloads to Click here to download (new entry in language file)
+---> Issue #000041: Low resolution links
+---> Put file description inside <div class="wysiwyg">
+
+- templates/olate/display/top.tpl.php
+---> Added download count to botton of details bit
+---> Changed x Downloads to Click here to download (new entry in language file)
+---> Issue #000041: Low resolution links
+---> Put file description inside <div class="wysiwyg">
+
+- templates/olate/global/core.js
+---> Added collapse_custom() function
+---> Added toggle_checks() function
+
+- templates/olate/admin/main_settings.tpl.php
+---> Added checkbox for allowing uploading of files on userupload.php
+---> Added checkbox for allowing use of mirrors on userupload.php
+---> Added checkbox to always approve files added through userupload.php
+---> Added checkbox in menu bar options section to hide empty categories
+---> Added option for auto-selecting the filesize unit
+---> Added link to leech settings page by the leech protection enabled box which is only
+		visible if user is allowed access to the acp_leech_settings permission
+---> Added section for the Recommend to a friend featrure
+---> Added checkbox for enforcing the uploaded file extension checks in ACP
+---> Added setting for FCKeditor - checkbox if FCK is in the folder, otherwise display text
+
+- templates/olate/global/categories.tpl.php
+---> Replaced {if:!empty($category['children'])} with {if: $has_children === true}
+---> Modified style of coding for the (sub-)category menu so collapsing/expanding 
+	works in MSIE
+
+- templates/olate/admin/start.tpl.php
+---> Added Security section and link to IP Address Restriction module
+---> Added Leech Settings link
+---> Modified style of coding for the (sub-)category menu so collapsing/expanding 
+	works in MSIE
+
+- templates/olate/files/userupload_add.tpl.php
+---> Changed {if: isset($id)} to {if: !isset($success)}
+---> Removed &amp;file_id={$id} from form action
+---> Added {block:submitted_data} which contains data submitted previously
+---> Added {elseif} conditional for when $success is identical to true
+---> Added support for FCKeditor
+
+- templates/olate/admin/logged_in.tpl.php
+---> Replaced {lang:admin:logged_in_desc} with {$message}
+
+- templates/olate/admin/login.tpl.php
+---> Made Remember Me text into a label for the checkbox
+
+- templates/olate/search/search.tpl.php
+---> Basic accessibility enhancements
+---> Added {$pagination}
+
+- templates/olate/admin/categories_add.tpl.php
+---> Added keywords field
+
+- templates/olate/admin/categories_edit.tpl.php
+---> Added keywords field
+
+- templates/olate/admin/categories_delete_multiple.tpl.php
+---> Added support for yes/no prompt when choice is no
+
+- templates/olate/admin/customfields_delete.tpl.php
+---> Added support for yes/no prompt when choice is no
+
+- templates/olate/admin/files_delete_agreement.tpl.php
+---> Added support for yes/no prompt when choice is no
+
+- templates/olate/admin/files_delete_file.tpl.php
+---> Added support for yes/no prompt when choice is no
+
+- templates/olate/admin/users_delete_user.tpl.php
+---> Added support for yes/no prompt when choice is no
+
+- templates/olate/admin/users_delete_group.tpl.php
+---> Added support for yes/no prompt when choice is no
+
+- templates/olate/admin/files_add_agreement.tpl.php
+---> Added support for FCKeditor
+
+- templates/olate/admin/files_edit_agreement.tpl.php
+---> Added support for FCKeditor
+
+- templates/olate/files/agreement.tpl.php
+---> Put agreement text inside <div class="wysiwyg">
+
+- templates/olate/files/toolbox.tpl.php
+---> Added {$pagination}
+---> Changed code for the comment boxes - put the container div inside the loop and 
+		changed from H3 to <div class="filebox_breadcrumb">
+
+- templates/olate/admin/files_approve_comments.tpl.php
+---> Changed code for the comment boxes - put the container div inside the loop and 
+		changed from <h[2 or 3]> to <div class="whatever">
+
+- templates/olate/files/userupload_upload.tpl.php
+---> Fix for 26. Added text to show allowed file extensions
+---> Added max filesize that can be uploaded to userupload template
+
+- templates/olate/admin/users_add_group.tpl.php
+---> Added options for new permissions added in 3.3.0
+
+- Fixes for inconsistent use of .form_left class:
+---> templates/olate/admin/categories_add.tpl.php
+---> templates/olate/admin/categories_edit.tpl.php
+---> templates/olate/admin/customfields_add.tpl.php
+---> templates/olate/admin/customfields_edit.tpl.php
+---> templates/olate/admin/files_add_file.tpl.php
+---> templates/olate/admin/files_edit_file.tpl.php
+---> templates/olate/admin/files_manage_comments_search.tpl.php
+---> templates/olate/admin/main_settings.tpl.php
+---> templates/olate/admin/users_add_group.tpl.php
+---> templates/olate/admin/users_add_user.tpl.php
+---> templates/olate/admin/users_edit_group.tpl.php
+---> templates/olate/admin/users_edit_user.tpl.php
+---> templates/olate/files/userupload_add.tpl.php
+
+- Changes for XHTML compliance:
+---> templates/olate/admin/categories_add.tpl.php
+---> templates/olate/admin/categories_delete.tpl.php
+---> templates/olate/admin/categories_edit.tpl.php
+---> templates/olate/admin/categories_edit_select.tpl.php
+---> templates/olate/admin/categories_ordering.tpl.php
+---> templates/olate/admin/customfields_delete.tpl.php
+---> templates/olate/admin/customfields_edit.tpl.php
+---> templates/olate/admin/customfields_edit_select.tpl.php
+---> templates/olate/admin/files_add_file.tpl.php
+---> templates/olate/admin/files_approve_comments.tpl.php
+---> templates/olate/admin/files_delete_agreement.tpl.php
+---> templates/olate/admin/files_delete_file.tpl.php
+---> templates/olate/admin/files_edit_agreement_select.tpl.php
+---> templates/olate/admin/files_edit_comment.tpl.php
+---> templates/olate/admin/files_edit_file.tpl.php
+---> templates/olate/admin/files_edit_file_select.tpl.php
+---> templates/olate/admin/files_manage_comments.tpl.php
+---> templates/olate/admin/files_manage_comments_search.tpl.php
+---> templates/olate/admin/main_settings.tpl.php
+---> templates/olate/admin/od_license.tpl.php
+---> templates/olate/admin/users_add_group.tpl.php
+---> templates/olate/admin/users_add_user.tpl.php
+---> templates/olate/admin/users_delete_group.tpl.php
+---> templates/olate/admin/users_delete_user.tpl.php
+---> templates/olate/admin/users_edit_group.tpl.php
+---> templates/olate/admin/users_edit_group_list.tpl.php
+---> templates/olate/admin/users_edit_user.tpl.php
+---> templates/olate/admin/users_edit_user_list.tpl.php
+---> templates/olate/categories/files.tpl.php
+---> templates/olate/display/all.tpl.php
+---> templates/olate/files/agreement.tpl.php
+---> templates/olate/files/mirrors.tpl.php
+---> templates/olate/files/rate.tpl.php
+---> templates/olate/files/toolbox_end.tpl.php
+---> templates/olate/files/userupload_add.tpl.php
+---> templates/olate/files/userupload_upload.tpl.php
+---> templates/olate/global/core.css
+---> templates/olate/search/search.tpl.php
+---> templates/olate/search/search_end.tpl.php
+
+* 27/02/2005 - Moved to the LGPL
+
+Olate Download - 3.2.1
+============================
+- 0000163: [Admin] Custom Field Value Won't Update (David)
+- 0000164: [Admin] Agreements Parse Error (David) 
+- 0000136: [Core: LM (Languages)] "Accept" button label (David)
+- 0000158: [General] File Count (David)
+- 0000167: [General] Incorrect ID in admin notification email on user file upload (David)
+- 0000169: [General] Ability to display custom fields (David) 
+- 0000184: [Security] Vulnerability with file uploads (David)
+- 0000165: [Templates: olate] Agreement line breaks not being preserved (David)
+- 0000181: [Templates: olate] Page does not render fully in IE (David)
+
+Olate Download - 3.2.1 - Template Changes
+============================
+- templates/olate/admin/file_add_file.tpl.php
+---> Fix for 0000163. Change everything between {block:custom_fields} and {/block:custom_fields} on line 64 to 69
+(See http://www.olate.co.uk/forums/index.php?showtopic=136&view=findpost&p=844)
+
+- templates/olate/admin/file_edit_file.tpl.php
+---> Fix for 0000163. Change everything between {block:custom_fields} and {/block:custom_fields} on line 87 to 92
+(See http://www.olate.co.uk/forums/index.php?showtopic=136&view=findpost&p=844)
+
+Olate Download - 3.2.0
+============================
+- 0000130 : [Admin] Manage Comments listing all comments have same file (David) 
+- 0000000 : [Admin] Fixed a couple of bugs with the settings and editing the enable_count (David)
+- 0000000 : [Core: DBIM (Database Interaction Module)] Added query display to DBIM error handling for debugging (David)
+- 0000121 : [Core: UIM (User Interface)] current language file not properly selected (David)
+- 0000146 : [Core: UIM (User Interface)] Variable inheritance with {insert} (David) 
+- 0000000 : [Core: UIM (User Interface)] Fixed a bug with the search disabled display (David)
+- 0000000 : [Core: UIM (User Interface)] Added option to disable "Top x Files" and "All files" links/features (David)
+- 0000000 : [Core: UIM (User Interface)] Search link will now disappear if search is disabled (David)
+- 0000123 : [General] Ratings could not be disabled (David) 
+- 0000126 : [General] Problem when reporting a problem with a download (David) 
+- 0000139 : [General] Restrict file type (David) 
+- 0000143 : [General] Tracking views (David) 
+- 0000144 : [General] Info block (David)
+- 0000148 : [Setup System] 3.1.0 -> 3.2.0 Updater - Add column to wrong table (David)
+- 0000149 : [General] Problem with advanced leech protection (David)
+- 0000153 : [General] Added custom fields for all files (David) 
+- 0000000 : [General] Added ability to have user uploads (enable/disable via admin panel) (David)
+- 0000000 : [General] Added file statuses to enable or disable files (David)
+- 0000000 : [General] Added more advanced leech protection (David)
+- 0000154 : [Templates: olate] Title bar is {lang:admin:groups_delete (David)
+
+(Changes with an ID of 0000000 were not submitted through the tracker)
+
+Olate Download - 3.2.0 - Template Changes
+============================
+- templates/olate/admin/main_settings.tpl.php
+---> Fix for 0000121. Renamed variable from {$language_name} to {$current_language_name}
+---> Added "Enable 'Top x Files' display" option
+---> Added "Enable 'All Files' display" option
+---> Added "Enable User Uploads" option
+---> Added "Enable Leech Protection" option
+---> Added "Allowed upload file extensions" text box
+
+- templates/olate/admin/files_add_file.tpl.php
+---> Added views option for 0000143 (lines 34-37)
+---> Added custom fields options (lines 60-70)
+
+- templates/olate/admin/customfields_add.tpl.php
+---> Created
+
+- templates/olate/admin/customfields_delete.tpl.php
+---> Created
+
+- templates/olate/admin/customfields_edit.tpl.php
+---> Created
+
+- templates/olate/admin/customfields_edit_select.tpl.php
+---> Created
+
+- templates/olate/admin/files_edit_file.tpl.php
+---> Added status option (lines 74-84)
+---> Added views option for 0000143 (lines 35-38)
+
+- templates/olate/admin/start.tpl.php
+---> Added Custom Fields links (line 88-102)
+
+- templates/olate/admin/users_add_group.tpl.php
+---> Added Manage Comments permission (lines 75-78)
+---> Added Custom Fields permissions (lines 92-106)
+
+- templates/olate/admin/users_edit_group.tpl.php
+---> Added Manage Comments permission (lines 59-64)
+---> Added Custom Fields permissions (lines 92-106)
+
+- templates/olate/global/categories.tpl.php
+---> Altered menu to allow disabling & added link to user uploads (lines 37-49)
+
+- templates/olate/files/file.tpl.php
+---> Fix for 0000123. Added conditionals (Lines 12-14)
+---> Addition for 0000143. Added Views (Line 11)
+---> Added &#8226; between info fields for usability improvements
+---> Added lines 15-17 for custom field display
+
+- templates/olate/files/toolbox_end.tpl.php
+---> Fix for 0000123. Added conditional (Lines 24 and 38)
+
+- templates/olate/files/userupload_add.tpl.php
+---> Added for user file uploading feature.
+
+- templates/olate/files/userupload_upload.tpl.php
+---> Added for user file uploading feature.
+
+- templates/olate/search/search_disabled.tpl.php
+---> Fixed bug with display (entire file).
+
+Olate Download - 3.1.0
+============================
+- 0000117 : [Admin] File Uploads (David) 
+- 0000116 : [Admin] Comments Management (David) 
+- 0000103 : [Admin] (Edit Existing File) Download Locations Value Error (David)
+- 0000099 : [Admin] Editing Categories (Matt)
+- 0000098 : [Admin] Ability to delete/edit approved comments (David)
+- 0000097 : [Admin] Template select text (David)
+- 0000095 : [Admin] Incorrect file link on editing file success (David)
+- 0000112 : [Core: FCM (Categories)] Loss of ability to assign parent category and list category when edited. (Matt) 
+- 0000111 : [Core: FCM (Categories)] Category File Count (David)
+- 0000106 : [Core: FCM (Categories)] Limited levels of categories (Matt)
+- 0000107 : [Core: FLDM (File Listing)] Certain fields are required when add a file URL. (David) 
+- 0000102 : [Core: FLDM (File Listing)] Ability to edit file added date. (Matt)
+- 0000113 : [Core: UIM (User Interface)] Using directories in {insert} (Matt)
+- 0000109 : [Core: UIM (User Interface)] Seperate heading for Agreements (David)
+- 0000108 : [Core: UIM (User Interface)] Where you return to after either ADDing or EDITing a file. (David)
+- 0000114 : [Templates: olate] Typo on button "Logged in" (Matt)
+- 0000110 : [Templates: olate] RSS link appears even if disabled (David) 
+- 0000094 : [Templates: olate] Error 404 to template image reference (David)
+- 0000104 : [General] RSS Feed Statistical Data (David)
+- 0000096 : [General] Filesize is integer, should be float (David)
+- 0000093 : [General] RSS Feed $global_vars Error in core.tpl.php (David) 
+- 0000092 : [General] Parse error in RSS feed (David) 
+
+Olate Download - 3.1.0 - Template Changes
+============================
+- templates/olate/global/core.css
+---> Fix for 0000094. "url(images/top_bg.gif)" removed (line 103)
+
+- templates/olate/admin/categories_delete_multiple.tpl.php
+---> Added language support and added 'None' (value 0) option to move files category drop down menu
+
+- templates/olate/admin/files_add_file.tpl.php
+---> Fix for 0000107. Added red * to denote required fields
+
+- templates/olate/admin/files_edit_file.tpl.php
+---> Fix for 0000095. details.php?file={$id} link was changed (line 115)
+---> Corrected error in language when no comments (line 114)
+
+- templates/olate/admin/login.tpl.php
+---> Added language support
+
+- templates/olate/admin/main.tpl.php
+---> Fixed language variable typo (line 20)
+
+- templates/olate/admin/main_settings.tpl.php
+---> Fix for 0000097. (line 42)
+---> Fix for 0000111. (Lines 118 to 123 added)
+
+- templates/olate/categories/children.tpl.php
+---> Fix for 0000111. (Lines 8 to 10 added)
+
+- templates/olate/global/categories.tpl.php
+---> Fix for 0000111. (Lines 21 to 23 added)
+
+- templates/olate/admin/files_edit_file.tpl.php
+---> Fix for 0000102. (Lines 64 to 68 added)
+
+- templates/olate/admin/files_edit_comment.tpl.php
+---> Fixed CSS bug. (Line 22 added)
+
+Olate Download - 3.0.0
+======================
+- 0000085: [Core: DBIM (Database)] Inconsistent database upgrade (David)
+- 0000079: [Core: UIM (User Interface)] Page does not display correctly when comments are added. (Matt)
+- 0000083: [Core: UIM (User Interface)] Comments must be enabled to see the ratings box (Matt)
+- 0000082: [Documentation] RSS Documentation (David)
+- 0000089: [Templates: olate] search.php text not fully displaying (Matt)
+- 0000080: [Templates: olate] Admin Logon success page typo (David)
+- 0000086: [Templates: olate] HTML Error in page when logging in (Matt)
+- 0000088: [Templates: olate] Add Firefox RSS Live Bookmarks (David)
+
+Olate Download - 3.0.0 (RC 1)
+============================
+- 0000065: [Admin] Pagination repeats downloads (Matt)
+- 0000060: [Admin] Permissions on add user group (Matt)
+- 0000068: [Admin] Fatal error: Call to undefined function: format_size() ... (David)
+- 0000063: [Admin] Entering file sizes (David)
+- 0000061: [Admin] Reset Stats (David)
+- 0000026: [Core: FCM (Categories)] Sub-Child cats not displaying (Matt)
+- 0000008: [Core: FCM (Categories)] Category Multiple Delletion (Matt)
+- 0000069: [Core: UAM (User Authentication)] Admin login bypass with cookie (Matt)
+- 0000073: [Core: UIM (User Interface)] search result of 100+ record (Matt)
+- 0000029: [Core: UIM (User Interface)] Comments (David)
+- 0000066: [General] Latest Files (David)
+- 0000071: [Templates: olate-modern] Admin menu bar (horizontal) (Matt)
+
+
+Olate Download - 3.0.0 (Beta 2)
+============================
+- 0000059: [Admin] Edit category page (David)
+- 0000031: [Admin] New file with no info gets added (David)
+- 0000002: [Admin] Hide non-accessible bits of the nav bar (Matt)
+- 0000017: [Admin] If you have the number of mirrors set to 1, then nothing is added (David)
+- 0000003: [Core: DBIM (Database)] Download error (David)
+- 0000044: [Core: EHM (Error Handling)] Delete Catagory Command (David)
+- 0000048: [Core: FCM (Categories)] Change the order of the categories (David)
+- 0000009: [Core: FCM (Categories)] Category name change (Matt)
+- 0000046: [Core: FLDM (File Listing)] Private files do not list (David)
+- 0000033: [Core: FLDM (File Listing)] Comment sucessfully submitted text (David)
+- 0000056: [Core: FLDM (File Listing)] displayin where the file is shown (David)
+- 0000043: [Core: UAM (User Authentication)] "Remeber Me" Breaks Admin Log On Session (Matt)
+- 0000047: [Core: UAM (User Authentication)] User permissions default/override (David)
+- 0000049: [Core: UIM (User Interface)] plus sign is shown even if category is empty (David)
+- 0000042: [Core: UIM (User Interface)] Filesize is not being correctly converte (David)
+- 0000040: [Core: UIM (User Interface)] Shows Agreement even if it's selected none (David)
+- 0000014: [Core: UIM (User Interface)] Failure to add comments (Matt)
+- 0000057: [Documentation] Credits page typo (David)
+- 0000013: [General] Default Mirror Number (David)
+- 0000010: [General] Agreement doesn't work/doesn't show (David)
+- 0000018: [General] Comments section gives following error (David)
+- 0000015: [General] 'Problems' repport are not being received (David)
+- 0000054: [General] Editing (David)
+- 0000023: [Setup System] A lot of space (David)
+- 0000022: [Setup System] Does not exist (David)
+- 0000005: [Setup System] Instruction to change config.php chmod to 775 did not work (David)
+- 0000037: [Setup System] chmod 777 security risk (David)
+- 0000024: [Setup System] Password field (David)
+- 0000036: [Setup System] Registration Return Status (David)
+- 0000039: [Setup System] Setup can't import some sql, but db created successfully (David)
+- 0000006: [Setup System] Required Database Password Field (David)
+- 0000045: [Templates: olate] Admin Top Menu Options (David)

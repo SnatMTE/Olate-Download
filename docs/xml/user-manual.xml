@@ -1,0 +1,1206 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE merge [ 
+	<!ENTITY fo-related "pdf/postscript/rtf">
+	<!ENTITY fop-related "pdf/postscript"> 
+]>
+<document>
+
+<!-- meta info -->
+<document-meta-info>
+	<title>Olate Download User Manual</title>
+	<attribute name="Revision">$Revision: 193 $ (Valid for OD 3.4.0)</attribute>
+	<attribute name="Last Modified">$Date: 2005-12-17 11:15:42 +0000 (Sat, 17 Dec 2005) $</attribute>
+</document-meta-info>
+
+<!-- formating info -->
+<document-formatting-info>
+	<stylesheet url="style.css" />
+	<stylesheet-fo url="style.css" />
+	<left-margin>40pt</left-margin>
+	<right-margin>40pt</right-margin>
+	<top-margin>20pt</top-margin>
+	<bottom-margin>25pt</bottom-margin>
+	<generate-toc-page>yes</generate-toc-page>
+	<generate-section-numbers>no</generate-section-numbers>
+	<header-height>80pt</header-height>
+	<footer-height>50pt</footer-height>
+</document-formatting-info>
+
+<!-- document header -->
+<document-header>
+    <table width="100%"><tr><td align="left"><img src="images/logo.gif" alt="Olate Download"/></td>
+    <td valign="middle" align="right"><b>Olate Download User Manual</b></td></tr>
+    </table>
+    <hr size="1" color="#6A92C9" noshade="true" />
+</document-header>
+
+<document-body>
+   <!-- toc -->
+   <table-of-content>
+      <link href="#about_od">About Olate Download</link>
+      <link href="#setup">Setup
+         <link href="#setup_license">LGPL License</link>
+         <link href="#setup_requirements">Requirements</link>
+         <link href="#setup_install">Installation</link>
+         <link href="#setup_upgrading">Upgrading</link>
+         <link href="#setup_fckeditor">Installing the WYSIWYG editor</link>
+      </link>
+      <link href="#frontend">Front End
+         <link href="#frontend_general">General</link>
+         <link href="#frontend_rat_comm">Ratings/Comments</link>
+         <link href="#frontend_rss">RSS Feed</link>
+         <link href="#frontend_recommend">Recommend a Friend</link>
+      </link>
+      <link href="#admin">Administration
+         <link href="#admin_settings">General Settings</link>
+         <link href="#security">Security
+			 <link href="#security_uploads">File Uploads</link>
+			 <link href="#security_ip">IP Address restriction</link>
+			 <link href="#security_leech">Leech Protection settings</link>
+		 </link>
+		 <link href="#admin_categories">Categories</link>
+         <link href="#admin_files">Files
+         	<link href="#admin_files_mass_add">File Mass Add</link>
+         </link>
+         <link href="#admin_agreements">Agreements</link>
+         <link href="#admin_comments">Comments</link>
+         <link href="#admin_custom_fields">Custom Fields</link>
+         <link href="#admin_users">Users</link>
+         <link href="#admin_gperms">Groups/Permissions</link>
+      </link>
+      <link href="#custom">Customisation
+         <link href="#custom_templates">Templates</link>
+         <link href="#custom_conditionals">Conditionals</link>
+         <link href="#custom_languages">Languages</link>
+      </link>
+      <link href="#misc">Misc
+         <link href="#misc_support">Support</link>
+         <link href="#misc_bugs">Bug Reports/Feature Requests</link>
+         <link href="#misc_credits">Credits</link>
+      </link>
+   </table-of-content>
+   
+   <!-- sections -->
+   <section name="about_od" label="About Olate Download">
+   <h2>About Olate Download</h2>
+   <p>Olate Download 3 is a complete rewrite of the immensely popular Olate Download 2.2 download management system. Written from scratch using a completely object orientated approach, Olate Download allows you to add a downloads area to your website and control every aspect of it through the administration control panel. Add categories and files, then allow your users to download, comment, and rate them with ease, using the 100% open source Olate Download.</p>
+   
+   <h3>Script Setup</h3>
+
+  <ul>
+
+    <li>Server requirement checker to ensure you have the required features to use Olate Download</li>
+
+    <li>Simple web based, step by step installation/upgrade system</li>
+
+    <li>Upgrade from version 2.2 and version 3.x quickly and easily</li>
+
+  </ul>
+
+  <h3>Features - Security/Performance </h3>
+
+  <ul>
+
+    <li><a href="http://www.securiteam.com/securityreviews/5DP0N1P76E.html">SQL injection vulnerability</a> protection</li>
+
+    <li>Advanced, permissions based admin area authentication system</li>
+
+    <li><a href="http://www.faqs.org/rfcs/rfc1321.html">Strong, one way admin password hashing</a> </li>
+
+	<li>Adjustable leech protection so you can allow some sites to leech while others can't</li>
+	
+	<li>IP Address restriction so you can allow/block access to the script from certain sources</li>
+
+    <li>Extensive, multi platform testing to ensure code works on common systems</li>
+
+    <li>Load testing with hundreds of files, categories and users using unique benchmarking technology</li>
+
+    <li>Complete code rewrite based around <a href="http://www.php.net/manual/en/language.oop.php">object orientated PHP and classes </a></li>
+
+    <li>Advanced error handling system</li>
+
+    <li><a href="http://www.php.net/manual/en/migration5.php">PHP5</a> &amp; <a href="http://www.php.net/manual/en/migration4.php">PHP4</a> Support </li>
+
+    <li>100% open source means bugs/problems can be discovered and fixed/announced by anyone, quickly and effectively</li>
+
+  </ul>
+
+  <h3>Downloads/Categories </h3>
+
+  <ul>
+
+    <li>Add unlimited categories and subcategories</li>
+
+    <li>Add unlimited downloads with date, file size and description options</li>
+
+    <li>Download rating, counting and sorting with full listing pagination support</li>
+
+	<li>Automatic filesize calculation for uploaded files</li>
+
+    <li>Custom fields</li>
+
+    <li>File views count </li>
+
+    <li><a href="http://dev.mysql.com/doc/refman/4.1/en/fulltext-search.html">MySQL FULLTEXT</a> searching</li>
+
+    <li>Comments, mirrors and leech protection systems </li>
+
+    <li>File uploads</li>
+
+    <li>User file uploads with allowed file extensions list</li>
+
+    <li>Optional 'Top x Downloads' and 'All Downloads' links</li>
+
+    <li>Problem reporting system</li>
+	
+	<li>Recommend a file to a friend system with optional email address confirming</li>
+
+    <li>Files can have license agreements</li>
+
+    <li>External data feed allowing data to be placed (included) onto non-script pages (<a href="http://web.resource.org/rss/1.0/">RSS</a>)</li>
+
+  </ul>
+
+  <h3>Layout/Style </h3>
+
+  <ul>
+
+    <li>Full templating engine</li>
+
+    <li>Neutral default layout to enable easy integration into any site</li>
+
+    <li>Full <a href="http://www.w3.org/TR/xhtml1/">XHTML 1.0 Strict </a> and <a href="http://www.w3.org/TR/REC-CSS2/">CSS2</a> compliant design with complete language support</li>
+
+
+
+  </ul>
+
+  <h3>Admin Area </h3>
+
+  <ul>
+
+    <li>General script configuration</li>
+
+    <li>Ability to enable and disable non-core options</li>
+
+    <li>Complete language management system</li>
+
+    <li>Advanced user and permissions system </li>
+
+	<li>Prompt to confirm any "dangerous" actions such as deleting a category or file</li>
+	
+	<li>Mirror editing has been made easier</li>
+
+	
+	<li>Dedicated page for approving files</li>
+	
+	<li>Optional <a href="http://www.fckeditor.net">rich-text editor</a> for file descriptions</li>
+
+    <li>Statistics system</li>
+
+    <li>Update checker to ensure you have the latest version including 'Latest Version: display</li>
+
+  </ul>
+
+  <h3>Support </h3>
+
+  <ul>
+  
+    <li>Extensive <a href="http://www.olate.co.uk/support/docs">documentation available</a> on website to include manual and installation/upgrade guide</li>
+
+    <li>Real time <a href="http://www.olate.co.uk/issues">development/bug tracker</a> to keep users up to date with known bugs and the progress on new features</li>
+
+    <li>Free <a href="http://www.olate.co.uk/forums">forum based support</a> from a growing community of PHP and web developers as well as the script developers themselves</li>
+
+    <li>Use of in code comments to explain all complex code allowing anyone to analyse the code - PHP novice and expert alike </li>
+
+    <li>Stay up to date with a <a href="http://www.olate.co.uk/list">free updates mailing list</a></li>
+    
+  </ul>
+   <page-break />
+</section>
+
+<section name="setup" label="Setup">
+   <h2>Setup</h2>
+   <p>Installing or upgrading Olate Download is easy. Follow the instructions in this section to get started.</p>
+   <page-break />
+</section>
+
+<section name="setup_license" label="LGPL License">
+   <h2>GNU Lesser General Public License</h2>
+   <p>Version 2.1, February 1999</p>
+   <p>Copyright (C) 1991, 1999 Free Software Foundation, Inc. 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA. Everyone is permitted to copy and distribute verbatim copies of this license document, but changing it is not allowed.</p>
+   
+   <h3>Preamble</h3>
+   <p>The licenses for most software are designed to take away your freedom to share and change it. By contrast, the GNU General Public Licenses are intended to guarantee your freedom to share and change free software--to make sure the software is free for all its users.</p>
+   <p>This license, the Lesser General Public License, applies to some specially designated software packages--typically libraries--of the Free Software Foundation and other authors who decide to use it. You can use it too, but we suggest you first think carefully about whether this license or the ordinary General Public License is the better strategy to use in any particular case, based on the explanations below.</p>
+   <p>When we speak of free software, we are referring to freedom of use, not price. Our General Public Licenses are designed to make sure that you have the freedom to distribute copies of free software (and charge for this service if you wish); that you receive source code or can get it if you want it; that you can change the software and use pieces of it in new free programs; and that you are informed that you can do these things.</p>
+   <p>To protect your rights, we need to make restrictions that forbid distributors to deny you these rights or to ask you to surrender these rights. These restrictions translate to certain responsibilities for you if you distribute copies of the library or if you modify it.</p>
+   <p>For example, if you distribute copies of the library, whether gratis or for a fee, you must give the recipients all the rights that we gave you. You must make sure that they, too, receive or can get the source code. If you link other code with the library, you must provide complete object files to the recipients, so that they can relink them with the library after making changes to the library and recompiling it. And you must show them these terms so they know their rights.</p>
+   <p>We protect your rights with a two-step method: (1) we copyright the library, and (2) we offer you this license, which gives you legal permission to copy, distribute and/or modify the library.</p>
+   <p>To protect each distributor, we want to make it very clear that there is no warranty for the free library. Also, if the library is modified by someone else and passed on, the recipients should know that what they have is not the original version, so that the original author's reputation will not be affected by problems that might be introduced by others.</p>
+   <p>Finally, software patents pose a constant threat to the existence of any free program. We wish to make sure that a company cannot effectively restrict the users of a free program by obtaining a restrictive license from a patent holder. Therefore, we insist that any patent license obtained for a version of the library must be consistent with the full freedom of use specified in this license.</p>
+   <p>Most GNU software, including some libraries, is covered by the ordinary GNU General Public License. This license, the GNU Lesser General Public License, applies to certain designated libraries, and is quite different from the ordinary General Public License. We use this license for certain libraries in order to permit linking those libraries into non-free programs.</p>
+   <p>When a program is linked with a library, whether statically or using a shared library, the combination of the two is legally speaking a combined work, a derivative of the original library. The ordinary General Public License therefore permits such linking only if the entire combination fits its criteria of freedom. The Lesser General Public License permits more lax criteria for linking other code with the library.</p>
+   <p>We call this license the "Lesser" General Public License because it does Less to protect the user's freedom than the ordinary General Public License. It also provides other free software developers Less of an advantage over competing non-free programs. These disadvantages are the reason we use the ordinary General Public License for many libraries. However, the Lesser license provides advantages in certain special circumstances.</p>
+   <p>For example, on rare occasions, there may be a special need to encourage the widest possible use of a certain library, so that it becomes a de-facto standard. To achieve this, non-free programs must be allowed to use the library. A more frequent case is that a free library does the same job as widely used non-free libraries. In this case, there is little to gain by limiting the free library to free software only, so we use the Lesser General Public License.</p>
+   <p>In other cases, permission to use a particular library in non-free programs enables a greater number of people to use a large body of free software. For example, permission to use the GNU C Library in non-free programs enables many more people to use the whole GNU operating system, as well as its variant, the GNU/Linux operating system.</p>
+   <p>Although the Lesser General Public License is Less protective of the users' freedom, it does ensure that the user of a program that is linked with the Library has the freedom and the wherewithal to run that program using a modified version of the Library.</p>
+   <p>The precise terms and conditions for copying, distribution and modification follow. Pay close attention to the difference between a "work based on the library" and a "work that uses the library". The former contains code derived from the library, whereas the latter must be combined with the library in order to run.</p> 
+   
+   <h3>TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION</h3>
+   <ol>
+      <li>
+          <p>This License Agreement applies to any software library or other program which contains a notice placed by the copyright holder or other authorized party saying it may be distributed under the terms of this Lesser General Public License (also called "this License"). Each licensee is addressed as "you".</p>
+          <p>A "library" means a collection of software functions and/or data prepared so as to be conveniently linked with application programs (which use some of those functions and data) to form executables.</p>
+          <p>The "Library", below, refers to any such software library or work which has been distributed under these terms. A "work based on the Library" means either the Library or any derivative work under copyright law: that is to say, a work containing the Library or a portion of it, either verbatim or with modifications and/or translated straightforwardly into another language. (Hereinafter, translation is included without limitation in the term "modification".)</p>
+          <p>"Source code" for a work means the preferred form of the work for making modifications to it. For a library, complete source code means all the source code for all modules it contains, plus any associated interface definition files, plus the scripts used to control compilation and installation of the library.</p>
+          <p>Activities other than copying, distribution and modification are not covered by this License; they are outside its scope. The act of running a program using the Library is not restricted, and output from such a program is covered only if its contents constitute a work based on the Library (independent of the use of the Library in a tool for writing it). Whether that is true depends on what the Library does and what the program that uses the Library does</p>
+      </li>
+      <li>
+          <p>You may copy and distribute verbatim copies of the Library's complete source code as you receive it, in any medium, provided that you conspicuously and appropriately publish on each copy an appropriate copyright notice and disclaimer of warranty; keep intact all the notices that refer to this License and to the absence of any warranty; and distribute a copy of this License along with the Library.</p>
+          <p> You may charge a fee for the physical act of transferring a copy, and you may at your option offer warranty protection in exchange for a fee.</p>
+      </li>
+      <li>
+          <p>You may modify your copy or copies of the Library or any portion of it, thus forming a work based on the Library, and copy and distribute such modifications or work under the terms of Section 1 above, provided that you also meet all of these conditions:</p>
+          <ol>
+               <li>The modified work must itself be a software library.</li>
+               <li>You must cause the files modified to carry prominent notices stating that you changed the files and the date of any change.</li>
+               <li>You must cause the whole of the work to be licensed at no charge to all third parties under the terms of this License.</li>
+               <li>
+                   <p>If a facility in the modified Library refers to a function or a table of data to be supplied by an application program that uses the facility, other than as an argument passed when the facility is invoked, then you must make a good faith effort to ensure that, in the event an application does not supply such function or table, the facility still operates, and performs whatever part of its purpose remains meaningful.</p>
+                   <p>(For example, a function in a library to compute square roots has a purpose that is entirely well-defined independent of the application. Therefore, Subsection 2d requires that any application-supplied function or table used by this function must be optional: if the application does not supply it, the square root function must still compute square roots.)</p>
+                   <p>These requirements apply to the modified work as a whole. If identifiable sections of that work are not derived from the Library, and can be reasonably considered independent and separate works in themselves, then this License, and its terms, do not apply to those sections when you distribute them as separate works. But when you distribute the same sections as part of a whole which is a work based on the Library, the distribution of the whole must be on the terms of this License, whose permissions for other licensees extend to the entire whole, and thus to each and every part regardless of who wrote it.</p>
+                   <p>Thus, it is not the intent of this section to claim rights or contest your rights to work written entirely by you; rather, the intent is to exercise the right to control the distribution of derivative or collective works based on the Library.</p>
+                   <p>In addition, mere aggregation of another work not based on the Library with the Library (or with a work based on the Library) on a volume of a storage or distribution medium does not bring the other work under the scope of this License.</p>
+               </li>
+          </ol>
+      </li>
+      <li>
+          <p>You may opt to apply the terms of the ordinary GNU General Public License instead of this License to a given copy of the Library. To do this, you must alter all the notices that refer to this License, so that they refer to the ordinary GNU General Public License, version 2, instead of to this License. (If a newer version than version 2 of the ordinary GNU General Public License has appeared, then you can specify that version instead if you wish.) Do not make any other change in these notices.</p>
+          <p>Once this change is made in a given copy, it is irreversible for that copy, so the ordinary GNU General Public License applies to all subsequent copies and derivative works made from that copy.</p>
+          <p>This option is useful when you wish to copy part of the code of the Library into a program that is not a library.</p>
+      </li>
+      <li>
+          <p>You may copy and distribute the Library (or a portion or derivative of it, under Section 3) in object code or executable form under the terms of Sections 2 and 3 above provided that you accompany it with the complete corresponding machine-readable source code, which must be distributed under the terms of Sections 2 and 3 above on a medium customarily used for software interchange.</p>
+          <p>If distribution of object code is made by offering access to copy from a designated place, then offering equivalent access to copy the source code from the same place satisfies the requirement to distribute the source code, even though third parties are not compelled to copy the source along with the object code</p>
+      </li>
+      <li>
+          <p>A program that contains no derivative of any portion of the Library, but is designed to work with the Library by being compiled or linked with it, is called a "work that uses the Library". Such a work, in isolation, is not a derivative work of the Library, and therefore falls outside the scope of this License.</p>
+          <p>However, linking a "work that uses the Library" with the Library creates an executable that is a derivative of the Library (because it contains portions of the Library), rather than a "work that uses the library". The executable is therefore covered by this License. Section 7 states terms for distribution of such executables.</p>
+          <p>When a "work that uses the Library" uses material from a header file that is part of the Library, the object code for the work may be a derivative work of the Library even though the source code is not. Whether this is true is especially significant if the work can be linked without the Library, or if the work is itself a library. The threshold for this to be true is not precisely defined by law.</p>
+          <p>If such an object file uses only numerical parameters, data structure layouts and accessors, and small macros and small inline functions (ten lines or less in length), then the use of the object file is unrestricted, regardless of whether it is legally a derivative work. (Executables containing this object code plus portions of the Library will still fall under Section 7.)</p>
+          <p>Otherwise, if the work is a derivative of the Library, you may distribute the object code for the work under the terms of Section 7. Any executables containing that work also fall under Section 7, whether or not they are linked directly with the Library itself.</p>
+      </li>
+      <li>
+          <p>As an exception to the Sections above, you may also combine or link a "work that uses the Library" with the Library to produce a work containing portions of the Library, and distribute that work under terms of your choice, provided that the terms permit modification of the work for the customer's own use and reverse engineering for debugging such modifications.</p>
+          <p> You must give prominent notice with each copy of the work that the Library is used in it and that the Library and its use are covered by this License. You must supply a copy of this License. If the work during execution displays copyright notices, you must include the copyright notice for the Library among them, as well as a reference directing the user to the copy of this License. Also, you must do one of these things:</p>
+          <ol>
+              <li>Accompany the work with the complete corresponding machine-readable source code for the Library including whatever changes were used in the work (which must be distributed under Sections 2 and 3 above); and, if the work is an executable linked with the Library, with the complete machine-readable "work that uses the Library", as object code and/or source code, so that the user can modify the Library and then relink to produce a modified executable containing the modified Library. (It is understood that the user who changes the contents of definitions files in the Library will not necessarily be able to recompile the application to use the modified definitions.)</li>
+              <li>Use a suitable shared library mechanism for linking with the Library. A suitable mechanism is one that (1) uses at run time a copy of the library already present on the user's computer system, rather than copying library functions into the executable, and (2) will operate properly with a modified version of the library, if the user installs one, as long as the modified version is interface-compatible with the version that the work was made with.</li>
+              <li>Accompany the work with a written offer, valid for at least three years, to give the same user the materials specified in Subsection 6a, above, for a charge no more than the cost of performing this distribution.</li>
+              <li>If distribution of the work is made by offering access to copy from a designated place, offer equivalent access to copy the above specified materials from the same place.</li>
+              <li>Verify that the user has already received a copy of these materials or that you have already sent this user a copy.</li>
+          </ol>
+          <p> For an executable, the required form of the "work that uses the Library" must include any data and utility programs needed for reproducing the executable from it. However, as a special exception, the materials to be distributed need not include anything that is normally distributed (in either source or binary form) with the major components (compiler, kernel, and so on) of the operating system on which the executable runs, unless that component itself accompanies the executable.</p>
+          <p> It may happen that this requirement contradicts the license restrictions of other proprietary libraries that do not normally accompany the operating system. Such a contradiction means you cannot use both them and the Library together in an executable that you distribute.</p>
+      </li>
+      <li>
+          <p>You may place library facilities that are a work based on the Library side-by-side in a single library together with other library facilities not covered by this License, and distribute such a combined library, provided that the separate distribution of the work based on the Library and of the other library facilities is otherwise permitted, and provided that you do these two things:</p>
+          <ol>
+              <li>Accompany the combined library with a copy of the same work based on the Library, uncombined with any other library facilities. This must be distributed under the terms of the Sections above.</li>
+              <li>Give prominent notice with the combined library of the fact that part of it is a work based on the Library, and explaining where to find the accompanying uncombined form of the same work.</li>
+          </ol>
+      </li>
+      <li>You may not copy, modify, sublicense, link with, or distribute the Library except as expressly provided under this License. Any attempt otherwise to copy, modify, sublicense, link with, or distribute the Library is void, and will automatically terminate your rights under this License. However, parties who have received copies, or rights, from you under this License will not have their licenses terminated so long as such parties remain in full compliance.</li>
+      <li>You are not required to accept this License, since you have not signed it. However, nothing else grants you permission to modify or distribute the Library or its derivative works. These actions are prohibited by law if you do not accept this License. Therefore, by modifying or distributing the Library (or any work based on the Library), you indicate your acceptance of this License to do so, and all its terms and conditions for copying, distributing or modifying the Library or works based on it.</li>
+      <li>Each time you redistribute the Library (or any work based on the Library), the recipient automatically receives a license from the original licensor to copy, distribute, link with or modify the Library subject to these terms and conditions. You may not impose any further restrictions on the recipients' exercise of the rights granted herein. You are not responsible for enforcing compliance by third parties with this License.</li>
+      <li>
+          <p>If, as a consequence of a court judgment or allegation of patent infringement or for any other reason (not limited to patent issues), conditions are imposed on you (whether by court order, agreement or otherwise) that contradict the conditions of this License, they do not excuse you from the conditions of this License. If you cannot distribute so as to satisfy simultaneously your obligations under this License and any other pertinent obligations, then as a consequence you may not distribute the Library at all. For example, if a patent license would not permit royalty-free redistribution of the Library by all those who receive copies directly or indirectly through you, then the only way you could satisfy both it and this License would be to refrain entirely from distribution of the Library.</p>
+          <p>If any portion of this section is held invalid or unenforceable under any particular circumstance, the balance of the section is intended to apply, and the section as a whole is intended to apply in other circumstances.</p>
+          <p>It is not the purpose of this section to induce you to infringe any patents or other property right claims or to contest validity of any such claims; this section has the sole purpose of protecting the integrity of the free software distribution system which is implemented by public license practices. Many people have made generous contributions to the wide range of software distributed through that system in reliance on consistent application of that system; it is up to the author/donor to decide if he or she is willing to distribute software through any other system and a licensee cannot impose that choice.</p>
+          <p>This section is intended to make thoroughly clear what is believed to be a consequence of the rest of this License.</p>
+      </li>
+      <li>If the distribution and/or use of the Library is restricted in certain countries either by patents or by copyrighted interfaces, the original copyright holder who places the Library under this License may add an explicit geographical distribution limitation excluding those countries, so that distribution is permitted only in or among countries not thus excluded. In such case, this License incorporates the limitation as if written in the body of this License.</li>
+      <li>
+          <p>The Free Software Foundation may publish revised and/or new versions of the Lesser General Public License from time to time. Such new versions will be similar in spirit to the present version, but may differ in detail to address new problems or concerns.</p>
+          <p>Each version is given a distinguishing version number. If the Library specifies a version number of this License which applies to it and "any later version", you have the option of following the terms and conditions either of that version or of any later version published by the Free Software Foundation. If the Library does not specify a license version number, you may choose any version ever published by the Free Software Foundation.</p>
+      </li>
+      <li>If you wish to incorporate parts of the Library into other free programs whose distribution conditions are incompatible with these, write to the author to ask for permission. For software which is copyrighted by the Free Software Foundation, write to the Free Software Foundation; we sometimes make exceptions for this. Our decision will be guided by the two goals of preserving the free status of all derivatives of our free software and of promoting the sharing and reuse of software generally.</li>
+      <li>BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW. EXCEPT WHEN OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES PROVIDE THE LIBRARY "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE. THE ENTIRE RISK AS TO THE QUALITY AND PERFORMANCE OF THE LIBRARY IS WITH YOU. SHOULD THE LIBRARY PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR OR CORRECTION.</li>
+      <li>IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR REDISTRIBUTE THE LIBRARY AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES, INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING OUT OF THE USE OR INABILITY TO USE THE LIBRARY (INCLUDING BUT NOT LIMITED TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR THIRD PARTIES OR A FAILURE OF THE LIBRARY TO OPERATE WITH ANY OTHER SOFTWARE), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</li>
+   </ol>
+   <page-break />
+</section>
+
+<section name="setup_requirements" label="Requirements">
+   <h2>Requirements</h2>
+   <p>Olate Download has been tested on multiple platforms and operating systems, however, there are few requirements:</p>
+   
+   <h3>Minimum Requirements </h3>
+   <ul>
+       <li>PHP 4.3.x and above</li>
+       <li>MySQL 3.23.x and above</li>
+   </ul>
+   
+   <h3>Recommended System</h3>
+   <ul>
+       <li>PHP 5.0.x and above (for increased speed and performance afforded by ehancements in PHP5)</li>
+       <li>MySQL 4.1.0 and above</li>
+   </ul>
+   
+   <div class="note">
+       <p>In order to use the search functionality, MySQL 4.0.2 is the minimum requirement. The MySQL version will be detected during installation and the search feature enabled if 4.0.2+ is found.</p>
+   </div>
+   <page-break />
+</section>
+
+<section name="setup_install" label="Installation">
+   <h2>Installation</h2>
+   <p>If your server satisfies the minimum requirements, you can proceed with the installation of Olate Download 3. The setup system has been designed to aid you through every step of the install process and will make sure everything is done correctly. </p>
+   
+   <ol>
+       <li>
+           <h3>Downloading the latest release</h3>
+           <p>The latest release can always be found on the Olate website at <a href="http://www.olate.co.uk/od3/download.php" target="_blank">http://www.olate.co.uk/od3/download.php</a>.</p>
+       </li>
+       <li>
+           <h3>Uploading/Extracting</h3>
+           <p>Once you have downloaded the package, extract it using your preferred tool (e.g. <a href="http://www.winzip.com" target="_blank">WinZip</a>). You will see three directories:</p>
+           <ul>
+               <li><span class="code">/docs</span></li>
+               <li><span class="code">/upload</span></li>
+               <li><span class="code">/tools</span></li>
+           </ul>
+           <p>You should upload the <span class="code">/upload</span> directory (including all sub directories and files) to your web hosting account maintaining the original directory structure. You may rename <span class="code">/upload</span> to whatever you like.</p>
+       </li>
+       <li>
+           <h3>Action Selection</h3>
+           <p>Using your browser, load the page where you uploaded the <span class="code">/upload</span> directory. For example, if you uploaded to <span class="code">/home/example/public_html/upload</span> and your domain name is <span class="code">example.com</span>, then you should browse to <span class="code">http://www.example.com/upload</span>. You will automatically be directed to the setup system. You should then select <em>New Installation</em>.</p>
+       </li>
+       <li>
+           <h3>Server Requirements</h3>
+           <p>You will next be told whether your server can support Olate Download 3. Any errors will be displayed and you will told what the problem is. If everything is ok, click <em>Continue</em>.</p>
+           
+           <div class="note">
+               <p>In order to use the search functionality, MySQL 4.0.2 is the minimum requirement. The MySQL version will be detected during installation and the search feature enabled if 4.0.2+ is found. Even if MySQL is detected at this stage, you must double check with your host that you are using MySQL 4.0.2+ as the version will not be detected until later. You can use the script <span class="code">tools/fulltext.php</span> located in the <span class="code">/tools</span> directory of the download package to enable the search functionality at a later date.</p>
+           </div>
+       </li>
+       <li>
+           <h3>Database Settings</h3>
+           <p>Before continuing past this page, you must create a database and user to install the database tables into. This will not be done for you. If you are unsure, you should contact your web host. Once you have the information, enter it into the boxes. The table prefix will be added to the front of each table name. The default should be fine for most users. Clicking <em>Continue</em> will take you to the next page.</p>
+       </li>
+       <li>
+           <h3>General Settings</h3>
+           <p>If there were any problems with the database setup, you will be notified. Otherwise, you can proceed to enter in the default General Settings you require.</p>
+           <ul>
+               <li><strong>Site Name</strong> The text entered in the site name box is used as the title for most pages. It does not appear on the actual site but is shown in the browser title bar, at the very top of the window.</li>
+               <li><strong>Base URL</strong> The base url is the location where a browser would access to view the Olate Download site. Although the copy of Olate Download may be installed in the <span class="code">/home/olate/public_html/upload</span> directory of the server and your domain name is <span class="code">example.com</span> it would be accessible to the internet through the domain <span class="code">http://www.example.com/upload</span> - this is the base URL. If the Base URL is not set correctly internal links within the site will not work; as they will be pointing to the wrong location. Normally, it will be autodetected during this step and <strong>must</strong> have a trailing slash.</li>
+               <li><strong>Admin E-Mail</strong> The administrative e-mail receives all mail generated by the report problem section. When a user finds a problem with a file they have the option to click on the report problem. They can then fill in the details of the problem, which is mailed to this admin address.</li>
+               <li><strong>Admin Username/Password</strong> This is the default username and password you will use to login to the admin control panel.</li>
+           </ul>
+       </li>
+       <li>
+           <h3>Remove Installer Files</h3>
+           <p>In order to make your installation secure, you must delete the <span class="code">setup/</span> directory and <span class="code">chmod</span> <span class="code">includes/config.php</span> to <span class="code">755</span>. This will prevent your site being overwritten by a new installation.</p>
+           <div class="note">
+               <p><span class="code">chmod</span> is a Linux/Unix command. For Windows users, you should remove write access to the file.</p>
+           </div>
+           <p>If you are not using MySQL 4.0.2+, you will be notified at this point that the search functionality has been disabled.</p>
+           <p>You can now continue to login to your fresh installation of Olate Download 3!</p>
+       </li>
+   </ol>
+   <page-break />
+</section>
+
+<section name="setup_upgrading" label="Upgrading">
+   <h2>Upgrading</h2>
+   <p>If your server satisfies the minimum requirements, you can proceed with upgrading to the latest version. The setup system has been designed to aid you through every step of the upgrade process and will make sure everything is done correctly. This process is very similar to the installation procedure.</p>
+   <div class="note">
+       <p>Before continuing with the upgrade process, you should make sure that you have a backup of your database in case anything goes wrong.</p>
+   </div>
+   <ol>
+       <li>
+           <h3>Downloading the latest release</h3>
+           <p>The latest release can always be found on the Olate website at <a href="http://www.olate.co.uk/od3/download.php" target="_blank">http://www.olate.co.uk/od3/download.php</a>.</p>
+       </li>
+       <li>
+           <h3>Uploading/Extracting</h3>
+           <p>Once you have downloaded the package, extract it using your preferred tool (e.g. <a href="http://www.winzip.com" target="_blank">WinZip</a>). You will see three directories:</p>
+           <ul>
+               <li><span class="code">/docs</span></li>
+               <li><span class="code">/upload</span></li>
+               <li><span class="code">/tools</span></li>
+           </ul>
+           <div class="note">
+               <p>If you are upgrading from a previous v3.x version then you must keep your current <span class="code">upload/includes/config.php</span> file when uploading the new files. Do not overwrite this file. You should also ensure that any files that have been uploaded by your users in the <span class="code">uploads/</span> directory are backed up.</p>
+           </div>
+           <p>You should upload the <span class="code">/upload</span> directory (including all sub directories and files) to your web hosting account maintaining the original directory structure and overwriting all current files except for <span class="code">upload/includes/config.php</span>. You may rename <span class="code">/upload</span> to whatever you like.</p>
+       </li>
+       <li>
+           <h3>Action Selection</h3>
+           <p>Using your browser, load the page where you uploaded the <span class="code">/upload</span> directory. For example, if you uploaded to <span class="code">/home/example/public_html/upload</span> and your domain name is <span class="code">example.com</span>, then you should browse to <span class="code">http://www.example.com/upload</span>. You will automatically be directed to the setup system.</p>
+           <p>If you wish to upgrade from version Olate Download 2.2, click <em>Begin Upgrade</em> in the <em>Upgrade from version 2.2</em> section.</p>
+           <p>If you are upgrading from an existing Olate Download 3 installation, click the <em>Begin Upgrade</em> button under the <em>Upgrade from version 3.x</em> section that describes which version you are upgrading from. After clicking, the upgrade will be performed immediately. Once completed, skip to the last step.</p>
+       </li>
+       <li>
+           <h3>Server Requirements</h3>
+           <strong><em>Only proceed from here if you are upgrading from v2.2. For v3.x upgrades, skip to the last step.</em></strong>
+           <p>You will next be told whether your server can support Olate Download 3. Any errors will be displayed and you will told what the problem is. If everything is ok, click <em>Continue</em>.</p>
+           
+           <div class="note">
+               <p>In order to use the search functionality, MySQL 4.0.2 is the minimum requirement. The MySQL version will be detected during installation and the search feature enabled if 4.0.2+ is found. Even if MySQL is detected at this stage, you must double check with your host that you are using MySQL 4.0.2+ as the version will not be detected until later. You can use the script <span class="code">tools/fulltext.php</span> located in the <span class="code">/tools</span> directory of the download package to enable the search functionality at a later date.</p>
+           </div>
+       </li>
+       <li>
+           <h3>Database Settings</h3>
+           <p>Before continuing past this page, you must create a database and user to install the database tables into. This will not be done for you. If you are unsure, you should contact your web host. Once you have the information, enter it into the boxes. The table prefix will be added to the front of each table name. The default should be fine for most users. Clicking Continue will take you to the next page.</p>
+       </li>
+       <li>
+           <h3>General Settings</h3>
+           <p>If there were any problems with the database setup, you will be notified. Otherwise, you can proceed to enter in the default General Settings you require.</p>
+           <ul>
+               <li><strong>Site Name</strong> The text entered in the site name box is used as the title for most pages. It does not appear on the actual site but is shown in the browser title bar, at the very top of the window.</li>
+               <li><strong>Base URL</strong> The base url is the location where a browser would access to view the Olate Download site. Although the copy of Olate Download may be installed in the <span class="code">/home/olate/public_html/upload</span> directory of the server and your domain name is <span class="code">example.com</span> it would be accessible to the internet through the domain <span class="code">http://www.example.com/upload</span> - this is the base URL. If the Base URL is not set correctly internal links within the site will not work; as they will be pointing to the wrong location. Normally, it will be autodetected during this step and <strong>must</strong> have a trailing slash.</li>
+               <li><strong>Admin E-Mail</strong> The administrative e-mail receives all mail generated by the report problem section. When a user finds a problem with a file they have the option to click on the report problem. They can then fill in the details of the problem, which is mailed to this admin address.</li>
+               <li><strong>Admin Username/Password</strong> This is the default username and password you will use to login to the admin control panel.</li>
+           </ul>
+       </li>
+       <li>
+           <h3>Remove Installer Files</h3>
+           <p>In order to make your installation secure, you must delete the <span class="code">setup/</span> directory and <span class="code">chmod</span> <span class="code">includes/config.php</span> to <span class="code">755</span>. This will prevent your site being overwritten by a new installation.</p>
+           <div class="note">
+               <p><span class="code">chmod</span> is a Linux/Unix command. For Windows users, you should remove write access to the file.</p>
+           </div>
+           <p>If you are not using MySQL 4.0.2+, you will be notified at this point that the search functionality has been disabled.</p>
+           <p>You can now continue to login to your fresh installation of Olate Download 3!</p>
+       </li>
+   </ol>
+   <page-break />
+</section>
+
+<section name="setup_fckeditor" label="Installing the WYSIWYG editor">
+   <h2>Installing the WYSIWYG editor</h2>
+   <p>Olate Download is released two distributions - one containing <a href="http://www.fckeditor.net">FCKeditor</a> set up and ready to use with Olate Download, and the other without FCKeditor, for people who aren't wanting to use it.</p>
+   <p>If you downloaded the distribution that didn't conntain FCKeditor, but now want to use it there are two ways you can install it:</p>
+   <ul>
+       <li>
+           <p>You can download the distribution of Olate Download which contains FCKeditor.  This is the easier way of installing FCKeditor.</p>
+           <ol>
+               <li>Download the appropriate distribution from the Olate Download <a href="http://www.olate.co.uk/products/od3/downloads.php">downloads page</a>.</li>
+               <li>Extract the files to a folder on your hard drive, but don't overwrite your existing Olate Download files.</li>
+               <li>Using your favourite FTP client, upload the folder <em>FCKeditor</em> (in the <em>upload/</em> directory) to your webspace, into the directory that the rest of the Olate Download files reside.  Pleas check that the <em>FCKeditor</em> folder is indeed called <em>FCKeditor</em> as on linux-based hosting folder names are case sensitive, meaning that a folder called <em>fckeditor</em> doesn't contain the same files as a folder called <em>FCKeditor</em>.</li>
+               <li>Once this has completed, load the Admin Control Panel and go to the General Settings page.  Check the box labelled <em>Use WYSIWYG Editor</em> and click the button labelled <em>Update</em>.</li>
+           </ol>
+           <div class="note">
+               <p>If you see this message, you haven't followed the instructions properly:<br />
+                   "You cannot use the WYSIWYG editor as the files do for it not exist. Please consult the documentation for more information."
+               </p>
+           </div>
+       </li>
+       <li>
+           <p>If you don't want to use the bundled version of FCKeditor, choosing instead to install it youself, please follow the guidelines above for naming folders.  Instructions for manual installation are beyond the scope of this document.</p>
+       </li>
+   </ul>
+<page-break />
+</section>
+
+<section name="frontend" label="Front End">
+   <h2>Front End</h2>
+   <p>The front end of your Olate Download installation is where all your files are listed, where comments can be added, where files can be searched and where visitors will download your files.</p>
+   <page-break />
+</section>
+
+<section name="frontend_general" label="General">
+   <h2>General</h2>
+   <p>The front end is the part of the application that your visitors will view when browsing the site. As with the Administration panel, the interface is completely customisable. </p>
+   
+   <h3>General Interface</h3>
+   <p>The default interface shows the categories and one level of child categories on the left with the file listing in the middle. A menu is present along the top blue bar.</p>
+   
+   <h4>Category Menu</h4>
+   <p>The category menu displays the parent categories and the first level of their children. If children are present, the parent category becomes collapsable. The ordering of the categories is controlled from within the admin control panel. The total number of files within a child category is shown next to the category name if the <em>Enable Count</em> setting (General Settings via admin panel) is set to yes.</p>
+   
+   <h4>File Listing</h4>
+   <p>The file listing shows each of the downloads displayed according to specific criteria (see below). Each download is contained within its own box. The information displayed includes the category, file name, short description, date added, file size and the total number of downloads.</p>
+   <p>Clicking the category name will take you to the listing of files within that category. Clicking on the name of the file or the <em>View Full Info</em> link will display further information about the file including comments and ratings. You can click on the <em>x Downloads</em> link and proceed to download that file immediately.</p>
+   
+   <h4>Search</h4>
+   <p>Your visitors can search your file database for specific files using the MySQL <span class="code">FULLTEXT</span> searching functionality (MySQL 4.0.2+ only). The visitor enters their search term and the engine will search the filename, short and large descriptions.</p>
+   
+   <h4>Sorting</h4>
+   <p>When viewing files within their parent category or when using the filter options, various sort options are displayed. These allow visitors to filter the ordering of the file listings. The sorting is allowed either by name, date, downloads or filesize.</p>
+   
+   <h4>File Details</h4>
+   <p>When viewing further details about a file, similar in formation as in the main file listing is displayed. In addition to this, rating information and a listing of comments are available. There is also a link for users to report problems with files to the administrator. The user can rate and add comments to a file.</p>
+   <page-break />
+</section>
+
+<section name="frontend_rat_comm" label="Ratings/Comments">
+   <h2>Ratings/Comments</h2>
+   <p>Olate Download 3 allows your visitors not only to rate your file listings but also to add their own comments.</p>
+   
+   <h3>Rating</h3>
+   <p>Users can select a rating for a file on a scale of <em>Lowest</em> to <em>Highest</em> using radio buttons to make the selection. Once voted, the new file rating is calculated and displayed, and a cookie is set to prevent the user voting again. </p>
+   
+   <h3>Comments</h3>
+   <p>Comments can be added by users to specific files. If comments are set to require approval (a setting in the admin panel), they will not appear on the site immediately, but will be entered into the moderation queue. Otherwise, they will appear immediately after submission. The e-mail address is only viewable by the administrator.</p>
+   <p>Various formatting tags can be used to add formatting to the comment as HTML is not allowed. Linebreaks are preserved along with the following code to format the comment:</p>
+   
+   <h4>Formatting Codes</h4>
+   <ul>
+       <li><span class="code">[b]text[/b]</span> = <strong>text</strong></li>
+       <li><span class="code">[i]text[/i]</span> = <em>text</em></li>
+       <li><span class="code">[u]text[/u]</span> = <ins>text</ins></li>
+       <li><span class="code">[url]http://www.example.com[/url]</span> = <a href="http://www.example.com">http://www.example.com</a></li>
+   </ul>
+   
+   <page-break />
+</section>
+
+<section name="frontend_rss" label="RSS Feed">
+   <h2>RSS Feed</h2>
+   <p>RSS (<a href="http://web.resource.org/rss/1.0/" target="_blank">RDF Site Summary</a>) allows you to remotely access the listings of files within your Olate Download installation. Olate Download 3 includes an RSS tool which allows you to display statistics and download listings on other pages of your site or on other websites.</p>   
+   
+   <h3>rss.php</h3>
+   <p>Once enabled via General Settings, if you load <span class="code">rss.php</span> into your browser, you will see the RSS output. The default action is to show the number of latest files you specify in <em>General Settings</em>.</p>
+   <p>Each download is contained within its own <span class="code">&lt;item&gt;</span> tag. For example:</p>
+   <p>
+       <span class="code">&lt;item&gt;<br />
+       &lt;title&gt;Test&lt;/title&gt;<br />
+       &lt;description&gt;Test&lt;/description&gt;<br />
+       &lt;link&gt;http://www.example.com/upload/details.php?file=6&lt;/link&gt;<br />
+       &lt;downloads&gt;0&lt;/downloads&gt;<br />
+       &lt;/item&gt;</span>
+   </p>
+   
+   <h3>Modes</h3>
+   <p>Various options can be specified to display certain data:</p>
+   
+   <h4>Categories</h4>   
+   <p>By adding <span class="code">?cat=x</span> where <span class="code">x</span> is the category number to the end of the url, you can list downloads within a specific category. For example, if you wanted to list all downloads in category 2, you would specify: <span class="code">http://www.example.com/upload/rss.php?cat=2</span>.</p>
+   
+   <h4>Files</h4>
+   <p>You can view data for a specific file by adding <span class="code">mode=2&amp;file=x</span> where <span class="code">x</span> is the file ID number to the end of the URL. Information about the specified file ID will then be displayed. For example, if you wanted to view details about file 2, you would specify: <span class="code">http://www.example.com/upload/rss.php?mode=2&amp;file=2</span>.</p>
+   
+   <h4>Statistics</h4>
+   <p>By appending <span class="code">mode=3</span> to the end of the URL, you can obtain the total downloads and total files counts. For example <span class="code">http://www.example.com/upload/rss.php?mode=3</span></p>   
+   
+   <h3>Using the RSS Feed</h3>
+   <p>You can syndicate the RSS feed on your installation and access the data from tools such as <a href="http://www.mozilla.org/thunderbird" target="_blank">Mozilla Thunderbird</a> and <a href="http://www.trillian.cc/" target="_blank">Trillian</a>. However, the most useful method is to place it on your own website. A very useful tool to allow you to do this within PHP is called <a href="http://magpierss.sourceforge.net/" target="_blank">MagpieRSS</a>. This provides an easy to use RSS parser to allow you to display RSS feeds on your website how you wish.</p>
+   <p>Magpie is extremely easy to use - this is one of the major advantages it has. You simply include the <span class="code">rss_fetch.inc</span> file then call the function. The feed you specify is then parsed and the data is placed into an array which you can then manipulate using normal PHP.</p>
+   <p>For example, using the MagpieRSS download package, you can fetch the feed into an array using just a couple of lines:</p>
+   <p>
+       <span class="code">&lt;?php <br />
+       include('rss_fetch.inc');<br />
+       $rss = fetch_rss('http://www.example.com/upload/rss.php');<br />
+       ?&gt;</span>
+   </p>
+   <p>The results of the fetch are stored in the <span class="code">$rss</span> array. Magpie takes an absolutely non-validating approach to parsing the RSS feed, as long as it is well formed, Magpie will cheerfully parse new, and never before seen tags. For each element in your feed, Magpie will reference it by name in the array with each new item referenced by ID. It is easier to show you this than to explain it so create a PHP file with the following code in:</p>
+   <p>
+       <span class="code">&lt;?php<br />
+       include('rss_fetch.inc');<br />
+       $rss = fetch_rss('http://www.olate.co.uk/od3/demo/rss.php');<br />
+       echo '&lt;pre&gt;';<br />
+       print_r($rss);<br />
+       echo '&lt;/pre&gt;';<br />
+       ?&gt;</span>
+   </p>
+   <p>Load the PHP file with the above code and you'll see how the array is organised, with each item in a new sub-array.</p>
+   <p>Continuing along this line, if you want to get the title of the very first file, you would have to reference the <span class="code">items</span> object within the <span class="code">$rss</span> array, specify the key <span class="code">0</span>, then the name title. This is easy to do:</p>
+   <p>
+       <span class="code">&lt;?php<br />
+       echo $rss-&gt;items[0]['title'];<br />
+       ?&gt;</span>
+   </p>
+   <p>You can find out the names you need to reference by using the example above where it echoes the entire array or by viewing the <span class="code">rss.php</span> file.</p>
+   <p>An in depth tutorial explaining how to parse RSS is available at <a href="http://www.olate.com/articles/214" target="_blank">http://www.olate.com/articles/214</a>.</p>
+   <page-break />
+</section>
+
+<section name="frontend_recommend" label="Recommand a Friend">
+	<h2>Recommand a Friend</h2>
+	<p>This feature allows your visitors to send an e-mail to their friends to inform them about a certain file - to recommend it. When enabled in the General Settings section a link will appear in the frontend "Recommend this file to a friend". Clicking this reveals the options to enter in your own details and the details of the recipient. The recipient will then be e-mailed with the file details.</p>
+	<p>Every e-mail sent out is logged and a link is added to the e-mail to allow the recipient to block his e-mail address from receiving any further notices.</p>
+	<p>If you enable the "Require sender confirmirmation" option in General Settings, the sender will be emailed to check that the from email address is not fake, and will be required to click a link to a page which will then send the recommendation.</p>
+</section>
+
+<section name="admin" label="Administration">
+   <h2>Administration</h2>
+   <p>The administration section of your Olate Download system can be accessed by going to <span class="code">admin.php</span>. So for example, if your system is installed at <span class="code">http://www.example.com/upload</span> then you would go to <span class="code">http://www.example.com/upload/admin.php</span> to access to rhe admin control panel.</p>
+   <page-break />
+</section>
+
+<section name="admin_settings" label="General Settings">
+   <h2>General Settings</h2>
+   <p>The admin control panel of your site is available by browsing to the directory where you installed OD and going to the <span class="code">admin.php</span> file. You then need to log in with the username and password you entered on installing Olate Download.</p>
+   <p>The <em>General Settings</em> tab is in the main section of the admin control panel. It contains options that affect the entire site. This help page will go through the individual options contained in the <em>General Settings</em> tab and explain their use and effect on the site.</p>
+   
+   <h3>General Options</h3>
+   <h4>Site Name</h4>
+   <p>The text entered in the site name box is used as the title for most pages. It does not appear on the actual site but is shown in the browser title bar, at the very top of the window.</p>
+   
+   <h4>Base URL</h4>
+   <p>The base url is the location where a browser would access to view the Olate Download site. Although the copy of Olate Download may be installed in the <span class="code">/home/example/public_html/upload</span> directory of the server and your domain name is <span class="code">example.com</span> it would be accessible to the internet through the domain <span class="code">http://www.example.com/upload</span> - this is the base URL. If the Base URL is not set correctly internal links within the site will not work as they will be pointing to the wrong location. Normally, it will be autodetected during this step and <strong>must</strong> have a trailing slash.</p>
+   
+   <h4>Admin E-Mail</h4>
+   <p>The administrative e-mail receives all mail generated by the report problem dialog on the site. When a user finds a problem with a file they have the option to click on the report problem. They then can then fill in the details of the problem, which are mailed to this admin address.</p>
+   
+   <h4>Flood Interval</h4>
+   <p>The flood interval is the amount of time after submitting a problem the user must wait before another problem can be submitted. This prevents large amounts of spam being sent to the admin e-mail address using the report problem dialog.</p>
+   
+   <h4>Language</h4>
+   <p>This setting changes the language of the menus throughout the site.</p>
+   
+   <h4>Date Format</h4>
+   <p>The date format is the way in which dates are displayed on the Olate Download site. For example the setting <span class="code">d/m/Y</span> would display the 31st of August 2004 as <span class="code">31/08/04</span>. Whereas <span class="code">m/d/Y</span> would display it as <span class="code">08/31/04</span>.</p>
+   <p>The complete list of available characters for use is available <a href="http://www.php.net/date" target="_blank">here</a> (Table 1).</p>
+   
+   <h4>Filesize Format</h4>
+   <p>The file size format changes the unit the Olate Download site displays file sizes in. This value will be used throughout the site.  Using the <em>Automatically Select</em> setting will cause Olate Download to choose the most suitable format to display the file size in.</p>
+   
+   <h4>Number of Mirrors</h4>
+   <p>The number of mirrors option changes the amount of separate download locations you are allowed to add for a file upon creation/editing.</p>
+   
+   <h3>Feature Options - General</h3>
+   <h4>Number of Files per Page</h4>
+   <p>This option changes the amount of separate files for download that will be displayed on a single website page. This means that if the value is set at 10 and there are 12 files to display the first 10 will be displayed on the first page and the last 2 on a separate page. The links to the separate pages are generated and displayed automatically. This value also sets the number of search results and comments displayed per page.</p>
+   
+   <h4>Comments Enabled</h4>
+   <p>This option, if checked, allows users to post comments and feelings on a particular file. These comments are displayed on that file's web page, which other users can then read.</p>
+   
+   <h4>Comments Require Approval</h4>
+   <p>This option, when checked, requires all comments to be approved by an admin before they are displayed on the site. This allows admins to stop any comments that they feel should not be shown on their site. Admins can view and edit comments waiting for approval, by going to the admin panel and clicking on <em>Approve Comments</em> in the files section.</p>
+   
+   <h4>Ratings Enabled</h4>
+   <p>This option, if checked, allows users to rate each file. Olate Download then automatically calculates the files average rating and this is displayed for other users to view. A user is only allowed to vote once per file.</p>
+   
+   <h4>Statistics Enabled</h4>
+   <p>This option, when checked, allows Olate Download to gather and store data about a file's downloads. Timestamp, IP, referrer and user agent are stored for each individual download in the database.</p>
+   
+   <h4>RSS Enabled</h4>
+   <p>This option, when ticked, allows RDF Site Summary. RSS streams can be used to display information about downloads on other websites. More information about RSS is <a href="http://www.olate.com/articles/view/214" target="_blank">available here</a>.</p>
+   
+   <h4>User Uploads Enabled</h4>
+   <p>Disabled by default, enabling this option will allow visitors to add/upload their own files to your website. Once ticked, an option will appear on the menu which links to <span class="code">userupload.php</span>.</p>
+   
+   <h4>Allow uploading through browser</h4>
+   <p>This setting allows you to choose whether users can physically upload files through the <span class="code">userupload.php</span> interface.  If it is unchecked, the option to do so will not be shown.</p>
+   
+   <h4>Allow mirrors in public add file</h4>
+   <p>Similarly to the previous setting, it is possible to remove the ability to add files with mirrors through <span class="code">userupload.php</span>.</p>
+   
+   <h4>Always approve publicly added files</h4>
+   <p>By enabling this setting, all files added through <span class="code">userupload.php</span> will be marked as approved automatically, removing the need for you to manually approve them.  <strong>Please note that if you check this box, you open your installation of Olate Download to potential abuse from people adding files you don't want.  While we recommend you keep this disabled, it makes your life easier if you are using Olate Download in an internal environment where all the users of it are trusted to use it properly.</strong></p>
+   
+   <h4>Allowed upload extensions</h4>
+   <p>The allowed upload extensions allows you to define what file types may be uploaded through the User Upload feature. This helps to keep your site secure by only allowing certain filetypes. You specify each filetype in the field (e.g .exe or .zip) and separate each one with a comma and no space. For example:</p> 
+   <p><span class="code">.exe,.zip,.avi,.gif</span></p>
+   
+   <h4>Check extensions in Admin CP</h4>
+   <p>If you enable this setting, file uploads done through the Admin Control Panel will have their extensions checked against the list you have specified in the <em>Allowed upload extensions</em> setting.</p>
+   
+   <h4>Use WYSIWYG Editor</h4>
+   <p>This setting controls whether the WYSIWYG editor (FCKeditor) is used on the File and Agreement Add/Edit pages.</p>
+   
+   <h3>Feature Options - Menu Bar</h3>
+   <h4>No. of Latest Files Displayed</h4>
+   <p>Olate Download stores the date new files are added and displays the newest files on a <em>Latest Files</em> page. This option changes the amount of files that are shown on this page. If the option is set to 2, the newest 2 files will be shown; if set to 5, the newest 5 files will be shown.</p>
+   
+   <h4>No. Top Files Displayed</h4>
+   <p>Olate Download stores the amount of downloads each file receives. The files with the highest amount of downloads, are shown together on the <em>Top Downloads</em> page. This option sets the amount of files that will be included and shown on that page.</p>
+   
+   <h4>Enable Top x Files display</h4>
+   <p>This will enable or disable the <em>Top x FIles</em> display option which appears in the top menu and is controlled by the option shown below.</p>
+   
+   <h4>Enable All Files display</h4>
+   <p>Enable or disable the <em>All Files</em> link and display mode.</p>
+   
+   <h4>Search Enabled</h4>
+   <p>This option, when ticked, allows users to run searches for files containing the key words that they have entered in the search field.</p>
+   
+   <h4>Category Count Enabled</h4>
+   <p>Enabled by default, the count will show how many files are within a child category next to the category name in the user front end.</p>
+   
+   <h4>Only show categories that have files</h4>
+   <p>This option activates a filter on the category menu which only displays categories that have files in them (or in any sub-categories).</p>
+   
+   <h3>Feature Options - Recommend a file to a friend</h3>
+   
+   <h4>Allow recommendations to be sent</h4>
+   <p>This setting enables or disables the Recommend to a friend module.  If enabled, a link to this module is displayed in the File Details page.</p>
+   
+   <h4>Require sender confirmation</h4>
+   <p>Enabling this setting provides some degree of spam-proofing, however it isn't possible to fully achieve this.  Normally when someone submits a recommendation, it is sent to the recipient straight away, but by enabling this setting you add a layer of protection to the module by requiring the sender to confirm their address by clicking a link in the email sent to them.</p>
+   
+   <h3>Update Setings</h3>
+   <p>The <em>Update Settings</em> button allows you to save and make effective the settings you have entered on the <em>General Settings</em> page. If you leave the page without updating the settings any modifications you have made will be lost.</p>
+   <page-break />
+</section>
+
+<section name="admin_categories" label="Categories">
+   <h2>Categories</h2>
+   <p>Categories organise your files into handy groups and allow the users of your site to browse your file with ease and speed. All files available for public download must be put into a category.</p>
+   <p>Olate Download provides a range of simple tools to help you create, modify and delete categories. These tools are available through your admin control panel.</p>
+   
+   <h3>Adding a Category</h3>
+   <p>In order to create a new category you need to log into your admin control panel with the information you entered on set up. From there you need to click on the <em>Add a New Catagory</em> link in the catagories tab.</p>
+   
+   <h4>Name</h4>
+   <p>The text you enter in the name field will be used to identify the category when you later go to add files to it or edit or delete it. It is also displayed by that name on the main site</p>
+   
+   <h4>Description</h4>
+   <p>The text you enter in the description field will be shown on the main site when the user hovers over the category name to advise users about what sort of files are in the category.</p>
+   
+   <h4>Parent Category</h4>
+   <p>The parent category combo box selects if the category will be made a stand-alone category or a sub category of a larger category. Sub categories are only displayed when the user clicks on the parent category.</p>
+   <p>To make the new category a stand-alone category, select none from the combo box. To make the new category a sub category of another parent category select the parent category from the combo box.</p>
+   
+   <h4>Keywords</h4>
+   <p>The contents of this field will be placed into a &lt;meta type="keywords"&gt; tag in the header of the page.</p>
+   
+   <h4>Order</h4>
+   <p>You can choose in which order the categories are displayed on the page by altering this value. They will be displayed in ascending order so setting a value of 1 will make that category appear before a category with the order value of 2.</p>
+   
+   <h4>Saving the category</h4>
+   <p>To save the catagory simply click the <em>Add</em> button at the bottom of the page. This will add the new category to the main site with the details you have filled in. If you leave the page without clicking <em>Add</em>, the category will not be added and the data you have entered will be lost.</p>
+   
+   <h3>Editing Existing Categories</h3>
+   <p>Editing a category is done in much the same way as adding one. To begin you need to click the <em>Edit An Existing Category</em> link in the categories tab. You then need to select the category you want to edit from the combo box and click <em>Edit</em>.</p>
+   <p>At the next page you will be shown the details of the category. Simply click in the appropriate field you wish to change and make the modification. Clicking <em>Edit</em> saves these changes. If you leave the page without clicking <em>Edit</em>, the category will not be added and the data you have entered will be lost.</p>
+   
+   <h3>Deleting a Catagory</h3>
+   <p>To delete a category simply click the <em>Delete an Existing Category</em> link in the category tab. Simply select the category you wish to delete and press the <em>Delete</em> button. Be warned, once a category is deleted, it cannot be recovered. The delete category command will not work unless the category is empty. However, if the category still contains files and you try to delete it, you will be given the option to move those files to a different category.</p>
+   
+   <h3>Category Ordering</h3>
+   <p>If you wish to alter the ordering of all the categories in one go, you can use the <em>Alter Category Ordering</em> option. This lists all the categories and one level of children for you to alter the ordering of. If the child categories have children themselves, you can click on their name to view those sub children.</p>
+   <page-break />
+</section>
+
+<section name="admin_files" label="Files">
+   <h2>Files</h2>
+   <p>Every download you make available can be managed through the admin tools available to you under the <em>Files</em> heading in the admin control panel.</p>
+   
+   <h3>Adding a new file</h3>
+   <p>To add a new file, you can click the <em>Add A New File</em> link from the left admin menu or use the quick <em>Add File</em> link from the top blue menu bar.</p>
+   
+   <h4>File Name</h4>
+   <p>This is the name that will appear on the main index. It is user searchable.</p>
+   
+   <h4>Short Description</h4>
+   <p>This description appears on the index and when browsing the categories. It should be a short, concise description of the file. This field will accept HTML, will convert line breaks and is also user searchable.</p>
+   
+   <h4>Large Description</h4>
+   <p>This description appears when the user clicks to view more details about a specific file. This field will accept HTML, will convert line breaks and is also user searchable.</p>
+   
+   <h4>Category</h4>
+   <p>You can select for the file to be a member of one category or child category. This is selectable from the drop down menu. You can also choose for this file not to belong to a category - the file will be private and will not be listed on the index, nor will it be searchable. The only way to view this file is via the direct link to the <span class="code">details.php</span> page.</p>
+   
+   <h4>Initial Download Count</h4>
+   <p>If you would like to start the download count at something other than 0, you can change the value in this field.</p>
+   
+   <h4>File Size</h4>
+   <p>If you wish to specify a file size, enter into this field in the format you selected from the <em>General Settings</em> screen.</p>
+
+   <h4>Agreement</h4>
+   <p>If you would like the user to accept a license agreement before being able to download the file, you can specify one you have already created using the drop down menu. The user will be shown this agreement when they try to download the file, which they must agree to prior to being provided with the file.</p>
+
+   <h4>Password</h4>
+   <p>To password protect viewing and downloading of the file, enter a password into this box. You users must then enter this password before being able to view or download the file. Leaving the field blank will disable the password protection or leave the password how it is set (if you are editing a file).</p>
+	
+   <h4>Activate at</h4>
+   <p>If you want files only to be available after a specific date then select the appropriate values for each of the dropdown boxes and then it won't appear on the site until that time has been reached.</p>
+   
+   <h4>File Upload</h4>
+   <p>Instead of the using the file mirrors, you can upload the file from your PC. When adding a file, tick the box marked <em>Upload file?</em> and when you are finished with the file details, click <em>Add</em> You will then be taken to a separate page to allow you to upload the file.</p>
+   <div class="note">
+       <p>When adding a file, you cannot use both mirrors and file upload, however, if you wish to add a mirror as well as uploading the file, once the new file has been added, you can add additional mirrors through the <em>Edit Existing File</em> page (see below).</p>
+   </div>
+   
+   <h4>Custom fields</h4>
+   <p>Any custom fields you have added will appear to allow you to specify a value. If you chose a default value, that is shown. If you do not wish to use the custom field for this file, leave the field blank (or make it blank if you have a default value).</p>
+   
+   <h4>Download Locations (Mirrors)</h4>
+   <p>Olate Download 3 supports unlimited download mirrors. The default number shown on the File Addition/Editing pages is set to 5, however this can be changed through the <em>General Settings</em> page. Enter a name for the mirror, the physical location (e.g. London, England) and the download URL. If you enter only 1 mirror, the user will be directed to it immediately, otherwise the list of mirrors will be presented for the user to choose.</p>
+
+   <h3>Edit Existing File</h3>
+   <p>Any file can be edited by selecting the <em>Edit An Existing File</em> option from the left admin menu. You will be shown a list of all the downloads. Clicking the name of the file will take you to the edit page.</p>
+   <p>All the fields are the same as when you added the file (above) except for several additional fields explained below.</p>
+   
+   <h4>Date</h4>
+   <p>When adding a file, the date is automatically generated. However, you can edit this date by editing the box when editing a file. You must make sure you use the format <span class="code">dd/mm/yyyy</span>. For example, <span class="code">24/09/2004</span></p>
+   
+   <h4>Status</h4>
+   <p>You can choose to set a file to disabled. Once this is set, it will not appear on the main site and cannot be accessed at all. This is the default setting for all files added by visitors before you manually enable them.</p>
+   
+   <h4>Download Locations</h4>
+   <p>The download mirrors are listed here. To edit the mirrors, alter the relevant fields then click the <em>Edit</em> button at the bottom of the page. Checking the <em>Delete?</em> box will cause that mirror to be removed when you click the <em>Edit</em> button.</p>
+   
+   <h4>Comments</h4>
+   <p>The comments posted for this file are listed below the <em>Download Locations</em> and can be edited or deleted using the link on the bottom information bar for each one.</p>
+   
+   <h3>Delete Existing File</h3>
+   <p>To delete a file, simply select the <em>Delete An Existing File</em> from the left menu. You will be shown a list of all the downloads including some additional information. Clicking the name of the file will delete that file including all comments associated with it.</p>
+   <page-break />
+</section>
+
+<section name="admin_files_mass_add" labels="File Mass Add">
+	<h2>File Mass Add</h2>
+	<p>You can add multiple files at once by using the mass_add.php file. This lists all the files in a specified directory and then allows you to edit the details for each one before adding them all to the site. In addition,  you can select to extract ID3 (www.id3.org) data from any media files you have uploaded.</p>
+	<p>Copy the mass_add.php file and the getid3/ directory (if you wish to use the ID3 features) into your OD3 directory (e.g. upload/) and then upload to your website. Using your web browser, browse to the location of the page and follow the on screen instructions.</p>
+	<p>e.g. if you uploaded the upload/ directory to /downloads, you would browse to http://www.example.com/downloads/mass_add.php</p>
+	<p>Once you have finished, delete the file from your site.</p>
+	<p>You can find out more about the ID3 class used in the getid3/ directory by viewing the .txt files.</p>
+</section>
+
+<section name="admin_agreements" label="Agreements">
+   <h2>Agreements</h2>
+   <p>When a user goes to download a file he/she may have to accept a set of terms and conditions to download the file. The user is shown the agreement and has to click <em>Accept</em> to continue on to download the file.</p>
+   <p>The agreements are set by the admin from the user control panel and are applied to files when creating them for display on the main site.</p>
+   
+   <h3>Creating a New Agreement</h3>
+   <p>To create a new user agreement you need to log into the admin control panel with an administrative account. From there find and click the <em>Add A New Agreement</em> link in the <em>Files</em> section.</p>
+   
+   <h4>Name</h4>
+   <p>The text you enter in the name field will be used to identify the agreement you are about to create. You will use this name to select the agreement for files later.</p>
+   
+   <h4>Contents</h4>
+   <p>The contents field will contain the text that is displayed to the user as the agreement. This box should contain the body of your terms and conditions for the download.</p>
+   
+   <h4>Add</h4>
+   <p>Once you have finished entering the data click the <em>Add</em> button to save the agreement to the database. If you leave the page without clicking the <em>Add</em> button the information you have entered will be lost.</p>
+   
+   <h3>Edit An Existing Agreement</h3>
+   <p>Editing a user agreement couldn't be simpler. You simply click the <em>Edit An Existing Agreement</em> link in the files tab and select the name of the agreement you wish to modify.</p>
+   <p>Once you have clicked the <em>Edit</em> button you will be shown the current information for that agreement. Simply make the changes you want and click the <em>Edit</em> button to save them. If you leave the page without clicking <em>Edit</em> your changes will be lost.</p>
+   
+   <h3>Delete An Existing Agreement</h3>
+   <p>To delete a user agreement click the <em>Delete An Existing Agreement</em> link in the files tab and select the agreement you wish to delete from the combo box. Once you click <em>Delete</em> the agreement selected will be deleted. Be warned, the agreements are not recoverable after deletion.</p>
+   <p>If some files are still using the agreement it will not be deleted. You will need to unassign the agreement from the files before it can be deleted..</p>
+   <page-break />
+</section>
+
+<section name="admin_comments" label="Comments">
+   <h2>Comments</h2>
+   <p>Visitors can add comments about the files available on your website.</p>
+   <h3>Approving Comments </h3>		
+   <p>If you have the <em>Comments Require Approval</em> option enabled in the <em>General Settings</em>, any comments submitted by visitors will not display on the file details page until they have been approved.</p>
+   <p>On the Admin Index page, you can see at a glance how many comments are currently pending approval. Clicking the counter will take you to the queue management page to allow you to view the list of comments currently pending review.</p>
+   <h4>Approve</h4>
+   <p>Clicking on the <em>Approve</em> link will immediately mark the comment viewable. It will then appear on the file details page for visitors to see.</p>
+
+   <h4>Edit</h4>
+   <p>Clicking <em>Edit</em> will allow you to alter the contents of the comment.</p>
+   
+   <h4>Delete</h4>
+   <p>Deleting a comment will remove it from the database totally.</p>
+   
+   <h3>Manage Comments</h3>
+   <p>You can manage all the comments in the database from the <em>Manage Comments</em> page. This can also be reached by clicking on the <em>Total Comments</em> link on the admin index page.</p>
+   <p>From this page, you must define the terms for your search - comment ID, file, date (in the format <span class="code">dd/mm/yyyy</span>), poster name, poster e-mail address and the status of the comment. Once you are happy with your terms, click on <em>Search</em>.</p>
+   <p>The results of your search are shown in a table. You can select as many comments as you wish by ticking the box on the left. You then choose what you wish to do with them from the action drop down menu. You can either Delete, Unapprove or Approve the comments. Editing can only be done individually by clicking on the <em>Edit</em> link on the right. </p>
+   
+   <h3>Edit File</h3>
+   <p>When editing a file, you can see a list of approved comments for that file when viewing the <em>Edit File</em> page. The same options as above are available on this page, however, unapproved comments are not displayed.</p>
+   <page-break />
+</section>
+
+<section name="admin_custom_fields" label="Custom Fields">
+   <h2>Custom Fields</h2>
+   <p>Added in version 3.2.0, custom fields allow you to include additional information for a file. You can specify a default value and then edit the value for different files. You get the option to edit the custom field when you add or edit a file.</p>
+   
+   <h3>Add Custom Fields </h3>
+   <p>When you add a custom field, you will be asked for a label and for an optional default value. The label is what will appear on when the file is viewed along with the value specified when you add or edit the field. The default value will appear by default when editing or adding a file but you can edit it if you wish.</p>
+   
+   <h3>Edit Custom Fields </h3>
+   <p>Clicking on <em>Edit Custom Fields</em> will display a list of all the custom fields you currently have. Click the name to edit that field.</p>
+   
+   <h3>Delete Custom Fields </h3>
+   <p>Clicking on <em>Delete Custom Fields</em> will display a list of all the custom fields you currently have. Click the name to delete that field.</p>
+
+   <page-break />
+</section>
+
+<section name="admin_users" label="Users">
+   <h2>Users</h2>
+   <p>Olate Download 3 includes a basic user management tool which enables you to add new administrative users. Each user belongs to a user group which has specific permissions to allow access (or disallow access) to specific sections of the admin control panel.</p>
+   
+   <h3>Add A New User </h3>		
+   <p>Select the <em>Add A New User</em> from the left menu to create a new user account.</p>
+   
+   <h4>Required Information</h4>
+   <p>Specify a username and password for the user. Also enter an e-mail address and then select the user group you wish the user to belong to. The user group determines the user permissions.</p>
+   
+   <h4>Optional Information</h4>
+   <p>Any optional information you wish to provide can also be entered. At present, this information is not used with the default template, however, it can easily be added to your template for display and may be used in future versions.</p>
+   
+   <h3>Edit An Existing User</h3>
+   <p>Clicking on <em>Edit An Existing User</em> will display a list of users currently in the system. Clicking on the username will display the edit user page which shows the same information as the <em>Add User</em> page.</p>
+   
+   <h3>Delete An Existing User </h3>
+   <p>As with <em>Edit An Existing User</em>, when clicking the <em>Delete User</em> link, a list of users will be displayed. Clicking the username will remove that user from the system. </p>
+
+   <page-break />
+</section>
+
+<section name="admin_gperms" label="Groups/Permissions">
+   <h2>Groups/Permissions</h2>
+   <p>User groups allow you to assign certain permissions to a group of users. These permissions control access to certain sections of the control panel.</p>
+   
+   <h3>Add New User Group</h3>		
+   <p>Adding a new group requires just the name. You can either edit the group's permissions on this page, or once the group is created. Ticking the box next to the permission name will grant access to that specific page of the admin control panel.</p>
+
+   <h3>Edit An Existing Group</h3>
+   <p>On the <em>Edit Group</em> page, you can either edit the name, or update any permissions that were set while creating the group.</p>
+
+   <h3>Delete An Existing Group </h3>
+   <p>When you click <em>Delete Existing Group</em>, a list of groups in the system will be displayed. Clicking the name will delete that group.</p>
+
+   <page-break />
+</section>
+
+<section name="security" label="Security">
+	<h2>Security</h2>
+	<p>Olate Download has been written with security in mind and is continually updated to ensure that security risks are kept to a minimum. Aside from the code itself, Olate Download includes several security tools which allow you to keep your files and website safe.</p>
+	<ul>
+		<li><strong>File Uploads</strong> - These are inherently risky because you are allowing your users to upload files to your web server. To ensure this is kept secure, OD3 implements a whitelist for file extensions and requires by default that file uploads be approvaled before being visible on your site.</li>
+		<li><strong>IP Address Restriction</strong> - You may have problems with certain users accessing your website when you do not want them to. As such, OD3 includes a feature to block IP addresses.</li>
+		<li><strong>Leech Protection</strong> - This allows you to stop visitors from going directly to your files. There are also options to specifically allow or block certain referring websites.</li>
+	</ul>
+</section>
+
+<section name="security_uploads" label="File Uploads">
+	<h2>File Uploads</h2>
+	<p>File uploads are inherently risky because you are allowing your users to upload files to your web server. To ensure this is kept secure, OD3 implements a whitelist for file extensions where you must specify which file extensions you wish your users to be able to upload. Only those in the list can actually be uploaded. You specify each filetype in the field (e.g .exe or .zip) and separate each one with a comma and no space. For example:</p> 
+    <p><span class="code">.exe,.zip,.avi,.gif</span></p>
+	<p>In addition, any files that are uploaded are renamed with a random filename prepended to the original filename. This means that a user cannot upload a file, then guess the location and access the file.</p>
+	<p>Finally, all files that are uploaded must be approved by the administrator before they appear on the main website. Pending files are listed in the "Approve Files" section.</p>
+</section>
+
+<section name="security_ip" label="IP Address restriction">
+	<h2>IP Address restriction</h2>
+	<p>This allows you allow/deny access to the list of addresses you specify. As well as just handling single IP addresses, you can specify an range of IP addresses or even a whole network (there are two ways: 192.168.0.0/255.255.255.0 and 192.168.0.0/24). This allows you to lock down your download system to prevent unauthorised access. You can also enter an IP address and the system will tell you whether it is allowed or denied access, and the entries in the database that cause this.</p>
+	<p>Restrictions are listed at the bottom of the IP Address Restriction page and there is the "Test an IP address" box mentioned above. You can enable/disable/edit/delete multiple entries at once.</p>
+</section>
+
+<section name="security_leech" label="Leech Protection settings">
+	<h2>Leech Protection settings</h2>
+	<p>Leech protection is difficult to handle 100% when the files are stored on a publicaly accessible server. However, Olate Download has built in some extra protection and also provides a sample leech protection tool if you are running the Apache web server.</p>
+	
+	<h3>System Leech Protection</h3>
+	<p>With Leech Protection enabled from the General Settings page, every visitor must view the Details page for each file before they can download it. If they go directly to the file download page they are redirected to the details page first.</p>
+	<p>You can however specify certain referring URLs which will be allowed to bypass this protection, for example if a partner site is linking directly to your files. Equally, you can specifically block referring websites to prvent them from leeching your files.</p>
+	<p>To add a certain domain, you enter that domain into the relevant box under Always Allow or Always Deny and click Add. You can delete or swap an existing entry to the other box by selecting it and clicking the relevant arrows or delete icon.</p>
+	<div class="note">
+		<p>Note that when adding domain names to the leech protection lists, they can only consist of letters (a-z), numbers (0-9), a minus sign (-) and an asterisk chatacter (*) which is a wildcard</p>
+	</div>
+	
+	<h3>Apache Leech Protection</h3>
+	<p>You can enhance the above protection by using the sample .htaccess file provided. This is for use with the Apache webserver only and will help to prevent leeching of your files.</p>
+	<p>You will need to edit the file, located in the download package under the <span class="code">tools/leech_protection</span> directory, to include your domain name and the file extensions you wish to protect.</p>
+	<p>Copy the file into your OD3 directory (e.g. upload/) and then upload to your website. You do not need to do anything else - leech protection is automatically enabled.</p>
+	<p>If you wish to create the .htaccess file yourself, the code is:</p>
+	<p><span class="code">## Leech Protection ##<br /><br />
+	# Replace the domain on both lines with your domain<br />
+	RewriteEngine On<br />
+	RewriteCond %{HTTP_REFERER} !^http://yoursite.com/ [NC]<br />
+	RewriteCond %{HTTP_REFERER} !^http://www.yoursite.com/ [NC]<br />
+	RewriteRule [^/]+.(gif|jpg|exe|zip|rar|tar|gz)$ - [F]<br />
+	# Add your own file extensions above</span></p>
+</section>
+
+<section name="custom" label="Customisation">
+   <h2>Customisation</h2>
+   <p>Unlike previous versions of Olate Download v2.x, version 3.x comes fully equiped with a template system which allows you to customise your site exactly how you want it. The template files are plain HTML, and therefore an understanding of HTML is needed. There are also other special tags which are parsed by the template engine to insert the data.</p>
+   <page-break />
+</section>
+
+<section name="custom_templates" label="Templates">
+   <h2>Templates</h2>
+   
+   <h3>Creating a template</h3>
+   <p>To make a new theme, follow the steps below. Alternatively, download templates created by other users in the <a href="http://www.olate.co.uk/forums/index.php?showforum=13" target="_blank">Olate forums</a>.</p>
+   <ol>
+       <li>From the <em>templates</em> folder in your installation, copy the <span class="code">olate</span> folder and rename it to the name of your template.</li>
+       <li>Edit or recreate each template file with the HTML for your design. It is best to start with <span class="code">global/core.tpl.php</span>, as this acts as a 'wrapper' and appears on all pages.</li>
+       <li>Once all the files have been modified to suit your design, select your theme from the corresponding box in the <em>General Settings</em> section of the admin control panel. You can also do this while editing the files, as it is easier to see the changes you have made.</li>
+   </ol>
+   
+   <h3>Modifying the default theme</h3>
+   <p>If you like the default Olate theme, but would like to change the colours and logo to suit your design, you can edit the CSS file which is located at <span class="code">global/core.css</span>. To change the logo, simply replace the following file with your own logo: <span class="code">images/logo.gif</span></p>
+   
+   <h3>Important templates</h3>
+   <ul>
+       <li><span class="code">global/core.tpl.php</span> - The wrapper which is shown on all pages, the actual content replaces the <span class="code">$page_content</span> variable in this template.</li>
+       <li><span class="code">global/core.css</span> - The CSS file for the default template. This can change depending on the theme in use.</li>
+       <li><span class="code">global/categories.tpl.php</span> - This is the first template which is shown in the content area - it shows a list of all the categories.</li>
+       <li><span class="code">admin/start.tpl.php</span> - The equivalent of <span class="code">categories.tpl.php</span> for the Admin CP. This is the first template to be shown, and shows the Admin CP menu.</li>
+   </ul>
+   
+   <h3>Variables</h3>
+   <p>Variables are used to insert dynamic data from Olate Download - the name of a file, for example. They have a very simple syntax:</p>
+   <p><span class="code">{$variable_name}</span></p>
+   
+   <h3>Global Variables</h3>
+   <p>There are a number of variables that are available in any template, these are:</p>
+   <ul>
+       <li><span class="code">{$global_vars[exec_time]}</span> - The total execution time of the page you are viewing.</li>
+       <li><span class="code">{$global_vars[queries]}</span> - The number of MySQL queries needed to generate the page.</li>
+       <li><span class="code">{$global_vars[version]}</span> - The version of Olate Download you are running.</li>
+       <li><span class="code">{$global_vars[request_uri]}</span> - The URL that was requested to generate the page.</li>
+       <li><span class="code">{$global_vars[php_self]}</span> - The filename of the PHP script handling the request.</li>
+       <li><span class="code">{$post_vars[x]}</span> - Any variables passed in from a POST request (Replace x with the name).</li>
+       <li><span class="code">{$get_vars[x]}</span> -  Same as above, but with variables passed in through the URL.</li>
+       <li><span class="code">{$user_permissions[x]}</span> -  An array containing the currently logged in user's permissions (Replace x with the permission name, value will be either 1 or 0).</li>
+   </ul>
+   
+   <h3>Language Variables</h3>
+   <p>Language variables can change depending on the language file that is currently being used. The syntax is:</p>
+   <p><span class="code">{lang:section_name:variable_name}</span></p>
+   <p>For instance, if <span class="code">{lang:general:title}</span> was put in a template, it would use the following variable in the language file:</p>
+   <p><span class="code">$language['text']['general']['title']</span></p>
+   
+   <h3>Pagination</h3>
+   <p>You can place {$pagination} on the page in certain files to display the pagination there. This allows you to move it about to auit your own design. This variable is available in the following fields:</p>
+   <ul>
+   		<li>categories/files.tpl.php</li>
+		<li>search/search.tpl.php</li>
+		<li>files/toolbox.tpl.php</li>
+		<li>display/all.tpl.php</li>
+   </ul>
+   
+   <h3>Blocks</h3>
+   <p>Blocks can be used to create repeating sections of a template easily and quickly. The syntax is:</p>
+   <p><span class="code">{block:block_name}<br />
+       Hello {$name}!&lt;br /&gt;<br />
+       {/block:block_name}
+       </span>
+   </p>
+   <p>So to parse the block, you could use something similar to this:</p>
+   <p><span class="code">&lt;?php<br />
+       $names = array('Matt', 'David');<br /><br />
+       foreach (s $names as $name)<br/>
+       {<br />
+       $template->assign_var('name', $name);<br />	
+       $template->use_block('block_name');<br />
+       }<br />
+       ?&gt;</span></p>
+   <p>Which would show the following:</p>
+   <p><span class="code">Matt</span></p>
+   <p><span class="code">David</span></p>
+   <page-break />
+</section>
+
+<section name="custom_conditionals" label="Conditionals">
+   <h2>Conditionals</h2>
+   <p>Conditionals are a very useful part of the template engine, and enable you to show a different page depending on the value of a certain condition. If you are familiar with programming languages, then you will know what conditionals are, and the OD3 template engine supports the following features:</p>
+   <ul>
+       <li><span class="code">if()</span></li>
+       <li><span class="code">elseif()</span></li>
+       <li><span class="code">else</span></li>
+       <li><span class="code">endif</span></li>
+   </ul>
+   <p>Conditional statements can use any variables that are available to the template, and certain functions (<span class="code">isset()</span>, <span class="code">empty()</span>) in the condition. Here are some examples:</p>
+   <p><span class="code">{if:$global_vars[version]=='3.0.0 Beta 1'}<br />
+      You are using an old version!<br />
+      {elseif:empty($name)}<br />
+      Who are you?<br />
+      {else}<br />
+      What do we do now?<br />
+      {endif}</span>
+   </p>
+   <page-break />
+</section>
+
+<section name="custom_languages" label="Languages">
+   <h2>Languages</h2>
+   <p>Olate Download 3 includes a full language system which allows you to create your own language files. The default language is English (British). </p>
+   <p>Many users have already contributed and provided their translated language files. These can be found at <a href="http://www.olate.co.uk/od3/download.php" target="_blank">http://www.olate.co.uk/od3/download.php</a>.</p>
+   <p>The language file is located in <span class="code">upload/languages/english.php</span>. Within this file, you will find all of the text used within Olate Download 3. You should rename this file to the name of your new translation. </p>
+   <p>Lines 16 to 30 are basic configuration options to allow you to change the name of the language and add your name, e-mail address and web address. You should also define which Olate Downlad version the language file is for as well as the date you finished the translation.</p>
+   
+   <p>The actual translation is simply a matter of replacing the english text on the right side with the translated version.</p>
+   <p>Once you are done, you can select the new language from the <em>Language settings</em> section of the Admin Control Panel.</p>
+   <p>Please consider releasing the file to other users to download and use - <a href="http://www.olate.co.uk/contact" target="_blank">e-mail it to us</a> and we will announce it and offer it for download and can mention your website in a credit line! </p>
+   <page-break />
+</section>
+
+<section name="misc" label="Misc">
+   <page-break />
+</section>
+
+<section name="misc_support" label="Support">
+   <h2>Support</h2>
+   <p>Although Olate Download 3 is 100% free and open source, it comes with fully featured technical support should you have any questions or problems! A response to your question is guaranteed to make sure that you get the most out of using the product. 24 hour technical support is provided through the <a href="http://www.olate.co.uk/forums" target="_blank">customer forums</a> in addition to an extensive <a href="http://www.olate.co.uk/support" target="_blank">knowledge base</a> of common questions.</p>
+   <page-break />
+</section>
+
+<section name="misc_bugs" label="Bug Reports/Feature Requests">
+   <h2>Bug Reports/Feature Requests</h2>
+   <p>Olate Download is built on community and user feedback. We want to know if you find any bugs and if you have any ideas for future releases. Olate Download is actively developed and you can <a href="http://www.olate.co.uk/issues" target="_blank">add your suggestion or report a bug through our web based tracker</a>.</p>
+   <page-break />
+</section>
+
+<section name="misc_credits" label="Credits">
+   <h2>Credits</h2>
+   <p>In addition to the core developer, many other people have assisted in the development of Olate Download 3. Olate would like to take the opportunity to mention and thank each one for their contribution to the project!</p>
+   
+   <h3>Active Developers</h3>
+   <ul>
+       <li>David Salisbury - Lead Developer</li>
+   </ul>
+   
+   <h3>Original Developers</h3>
+   <ul>
+       <li>David Mytton</li>
+       <li>Matt Eunson</li>
+   </ul>
+   
+   <h3>Documentation</h3>
+   <ul>
+       <li>David Mytton</li>
+       <li>Matt Eunson</li>
+       <li>David Salisbury</li>
+       <li>Richard Gagen</li>
+   </ul>
+   
+   <h3>Translators</h3>
+   <ul>
+       <li>Anatolevich (Russian)</li>
+	   <li>CapriSkye (Tranditional Chinese)</li>
+	   <li>CapriSkye (Tranditional Chinese - UTF-8)</li>
+       <li>Gabriel Mongeon (French)</li>
+       <li>Marco (Italian)</li>
+       <li>Marti Kaljuve (Estonian)</li>
+       <li>Martin Faust (German - Formal)</li>
+       <li>Mitsuhiro Yoshida (Japanese)</li>
+       <li>Simon Wallmann (German - Informal)</li>
+       <li>Superspeed (Spanish)</li>
+       <li>SkiZy, Fragman and Revenant (Icelandic)</li>
+   </ul>
+   
+   <h3>Financial/Resource Support and Backing</h3>
+   <ul>
+       <li><a href="http://www.olate.co.uk" target="_blank">Olate Ltd</a></li>
+	   <li><a href="http://en.wikipedia.org/wiki/Pineapple" target="_blank">The Great Pineapple</a></li>
+   </ul>
+   
+   <p>And everyone else not specifically mentioned...</p>
+   <page-break />
+</section>
+
+</document-body>
+
+<!-- document footer -->
+<document-footer>
+	<hr size="1" noshade="true" color="#6A92C9" />
+	<table width="100%">
+		<tr>
+			<td align="left"><page-number /></td>
+			<td align="right">Copyright <a href="http://www.olate.co.uk">Olate</a> 2005 | Generated using <a href="http://aurigadoc.sourceforge.net/">AurigaDoc</a></td>
+		</tr>
+    </table>
+</document-footer>
+
+</document> 
+

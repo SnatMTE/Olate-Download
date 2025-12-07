@@ -1,0 +1,8 @@
+## Leech Protection ##
+
+# Replace the domain on both lines with your domain
+RewriteEngine On
+RewriteCond %{HTTP_REFERER} !^http://yoursite.com/ [NC]
+RewriteCond %{HTTP_REFERER} !^http://www.yoursite.com/ [NC]
+RewriteRule [^/]+.(gif|jpg|exe|zip|rar|tar|gz)$ - [F]
+# Add your own file extensions above
