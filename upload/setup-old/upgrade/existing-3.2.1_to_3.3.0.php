@@ -9,7 +9,9 @@
 * @version $Revision: 125 $
 * @package od
 *
-* Updated: $Date: 2005-10-15 22:16:22 +0100 (Sat, 15 Oct 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Initialisation
@@ -156,7 +158,7 @@ $dbim->query("ALTER TABLE `".DB_PREFIX."categories` ADD `keywords` TEXT NOT NULL
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Olate Download 3 - Upgrade</title>
+<title>Olate Download 3.5.0 - Upgrade</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 <link href="../setup.css" rel="stylesheet" type="text/css" />
 </head>

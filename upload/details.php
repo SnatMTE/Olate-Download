@@ -1,16 +1,17 @@
 <?php
 
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
-* @author $Author: dsalisbury $ (Olate Ltd)
-* @version $Revision: 197 $
+* Original Author: Olate Download
+* Updated by: Snat
+* @version $Revision: 1 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Last-Edited: 2025-12-16
 */
 
 

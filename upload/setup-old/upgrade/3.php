@@ -9,7 +9,9 @@
 * @version $Revision: 125 $
 * @package od
 *
-* Updated: $Date: 2005-10-15 22:16:22 +0100 (Sat, 15 Oct 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Install

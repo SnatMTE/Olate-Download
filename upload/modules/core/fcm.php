@@ -1,6 +1,6 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
+* Olate Download 3.5.0
 * https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
@@ -9,7 +9,9 @@
 * @version $Revision: 200 $
 * @package od
 *
-* Updated: $Date: 2005-12-18 09:11:17 +0000 (Sun, 18 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // File Category Module

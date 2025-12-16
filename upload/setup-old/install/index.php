@@ -9,13 +9,15 @@
 * @version $Revision: 125 $
 * @package od
 *
-* Updated: $Date: 2005-10-15 22:16:22 +0100 (Sat, 15 Oct 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Olate Download 3 - Installation</title>
+<title>Olate Download 3.5.0 - Installation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 <link href="../setup.css" rel="stylesheet" type="text/css" />
 </head>
@@ -57,7 +59,7 @@
 				
 		<div id="options">
 			<h3>Server Requirements</h3>			
-			<p>The following are required before you can install Olate Download 3:</p>
+			<p>The following are required before you can install Olate Download 3.5.0:</p>
 			<?php
 			// PHP Version Checking
 			if (phpversion() >= '4.3.0')

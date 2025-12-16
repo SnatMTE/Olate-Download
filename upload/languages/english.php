@@ -1,21 +1,22 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
-* @author $Author: dsalisbury $ (Olate Ltd)
-* @version $Revision: 204 $
+* Original Author: Olate Download
+* Updated by: Snat
+* @version $Revision: 1 $
 * @package od
 *
-* Updated: $Date: 2005-12-18 16:43:21 +0000 (Sun, 18 Dec 2005) $
+* Last-Edited: 2025-12-16
 */
 
 // Language details
 $language['config']['full_name']	= 'English (British)'; 		// Full Language Name
 $language['config']['short_name']	= 'english';				// Short name (lowercase, no spaces or symbols)
-$language['config']['version']		= '3.4.0'; 					// Designed for Olate Download version
+$language['config']['version']		= '3.5.0'; 					// Designed for Olate Download version
 $language['config']['released']		= '18/12/05'; 				// Release date
 
 // Author/Translator Details
@@ -169,7 +170,7 @@ $language['text']['frontend']['your_email']						= 'Your email address';
 $language['text']['frontend']['your_message']					= 'Your message';
 $language['text']['frontend']['your_name']						= 'Your name';
 
-// 3.4.0
+// 3.5.0
 $language['text']['frontend']['change_language']				= 'Change language';
 $language['text']['frontend']['change_language_desc']			= 'You can choose your own language to view this site in by choosing a new language from the box below.';
 $language['text']['frontend']['choose_language']				= 'Please choose a language:';
@@ -608,7 +609,7 @@ $language['text']['admin']['wysiwyg_editor_not_exist']			= 'You cannot use the W
 $language['text']['admin']['yes']								= 'Yes';
 $language['text']['admin']['you_want_to_continue']				= 'Do you want to continue?';
 
-// 3.4.0
+// 3.5.0
 $language['text']['admin']['activate']							= 'Activate?';
 $language['text']['admin']['activate_at']						= 'Activate at';
 $language['text']['admin']['activate_marked']					= 'Activate marked';

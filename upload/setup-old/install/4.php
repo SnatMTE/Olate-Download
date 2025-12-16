@@ -9,7 +9,9 @@
 * @version $Revision: 192 $
 * @package od
 *
-* Updated: $Date: 2005-12-15 17:20:25 +0000 (Thu, 15 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Install
@@ -63,7 +65,7 @@ else
 				
 				// Populate config table
 				$config_sql = 'INSERT INTO '.DB_PREFIX.'config 
-								SET version = "3.4.0", 
+								SET version = "3.5.0", 
 									site_name = "'.htmlentities($_POST['site_name']).'", 
 									url = "'.$_POST['url'].'", 
 									flood_interval = 60,
