@@ -64,7 +64,7 @@ if (isset($_REQUEST['file']))
 			$details_files = $uim->fetch_template('files/file');
 					
 			// Add comment
-			if ($_REQUEST['cmd'] == 'addcomment')
+			if (isset($_REQUEST['cmd']) && $_REQUEST['cmd'] == 'addcomment')
 			{
 				// Check all fields are filled out
 				if (!empty($_REQUEST['name']) && !empty($_REQUEST['comment']))
@@ -103,7 +103,7 @@ if (isset($_REQUEST['file']))
 			}
 			
 			// Rate file
-			if ($_REQUEST['cmd'] == 'rate')
+			if (isset($_REQUEST['cmd']) && $_REQUEST['cmd'] == 'rate')
 			{
 				if (!empty($_REQUEST['rating']) && !isset($_SESSION['file_rating_'.$_REQUEST['file']]))
 				{						
@@ -171,15 +171,15 @@ if (isset($_REQUEST['file']))
 			$custom_query = $dbim->query('SELECT cf.label AS label, cfd.value AS value
 											FROM '.DB_PREFIX.'customfields_data AS cfd,
 												'.DB_PREFIX.'customfields AS cf
-								WHERE (cfd.file_id = '.intval($_REQUEST['file']).') 
+							WHERE (cfd.file_id = '.intval($_REQUEST['file']).')
+								AND (cfd.field_id = cf.id)');
+			
+			$i = 0;
+			$custom_fields = array();
 			while ($custom_fields_data = $dbim->fetch_array($custom_query))
 			{
-				$custom_fields[$i.'_label'] = $custom_fields_data['label'];
-				$custom_fields[$i.'_value'] = $custom_fields_data['value'];
-				$i++;
-				
-				// Assigning template variables
-				$details_files->assign_var('custom_field_label', $custom_fields_data['label']);
+				$custom_fields[$i . '_label'] = $custom_fields_data['label'];
+				$custom_fields[$i . '_value'] = $custom_fields_data['value'];
 				$details_files->assign_var('custom_field_value', $custom_fields_data['value']);
 				$details_files->use_block('custom_fields');
 			}

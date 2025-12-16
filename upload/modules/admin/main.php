@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -67,8 +67,8 @@ if ($uam->permitted('acp_view'))
 	// Construct fields
 	$http->add_field('product', 1);
 	
-	// Make request
-	$http->post_page('http://www.olate.co.uk/accounts/remote/updates.php');
+	// Make request (points to project releases)
+	$http->post_page('https://github.com/SnatMTE/Olate-Download/releases');
 	$latest_version = $http->get_content();
 	
 	if ($latest_version == $site_config['version'] || empty($latest_version))

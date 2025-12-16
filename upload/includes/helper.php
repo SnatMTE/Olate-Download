@@ -363,7 +363,7 @@ if (!defined('OD_PDO_MYSQL_HELPER'))
         }
     }
 
-    // Informational functions used by environment.php
+    // Informational functions used by the environment survey page
     if (!function_exists('mysql_get_client_info'))
     {
         function mysql_get_client_info()

@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -141,10 +141,10 @@ $dbim->query('UPDATE '.DB_PREFIX.'config
           <p>&#8226; Please ensure /setup and all sub directories are removed</p>
           <h3>What's New?</h3>
           <p>In this version, the following changes have been made:</p>
-          <p> - <a href="http://www.olate.co.uk/tracker/view.php?id=130">0000130 </a>: <strong>[Admin] </strong> Manage Comments listing all comments have same file (David) <br />
+          <p> - <a href="https://github.com/SnatMTE/Olate-Download/issues">0000130 </a>: <strong>[Admin] </strong> Manage Comments listing all comments have same file (David) <br />
             - 0000000 : <strong>[Admin]</strong> Fixed a couple of bugs with the settings and editing the enable_count             (David)<br />
             - 0000000 : <strong></strong><strong>[Core: DBIM (Database Interaction Module)]</strong> Added query display to DBIM error handling for debugging             (David)<br />
-            - <a href="http://www.olate.co.uk/tracker/view.php?id=121">0000121 </a>: <strong>[Core: UIM (User Interface)] </strong> current language file not properly selected (David)<br />
+            - <a href="https://github.com/SnatMTE/Olate-Download/issues">0000121 </a>: <strong>[Core: UIM (User Interface)] </strong> current language file not properly selected (David)<br />
             - <a href="http://www.olate.co.uk/tracker/view.php?id=146">0000146 </a>: <strong>[Core: UIM (User Interface)] </strong> Variable inheritance with {insert} (David)            <br />
             - 0000000 : <strong></strong><strong>[Core: UIM (User Interface)]</strong> Fixed a bug with the search disabled display             (David)<br />
             - 0000000 : <strong></strong><strong>[Core: UIM (User Interface)]</strong> Added option to disable &quot;Top x Files&quot; and &quot;All files&quot; links/features (David)<br />
@@ -162,7 +162,7 @@ $dbim->query('UPDATE '.DB_PREFIX.'config
 - 0000000 : <strong></strong><strong>[General]</strong> Added file statuses to enable or disable files (David)<br />
 - 0000000 : <strong></strong><strong>[General]</strong> Added more advanced leech protection (David)<br />
 - <a href="http://www.olate.co.uk/tracker/view.php?id=154">0000154 </a>: <strong>[Templates: olate] </strong> Title bar is {lang:admin:groups_delete (David)          </p>
-          <p>A full changelog can be viewed in the Changelog.txt file within the original download package and also in the <a href="http://www.olate.co.uk/tracker/changelog_page.php">live changelog</a>. </p>
+          <p>A full changelog can be viewed in the Changelog.txt file within the original download package and also in the <a href="https://github.com/SnatMTE/Olate-Download/">live changelog</a>. </p>
         </div>
 	</td>
 </tr>

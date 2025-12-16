@@ -23,7 +23,7 @@ if ($uam->permitted('acp_files_delete_file'))
 	// Show all files
 	$delete_file = $uim->fetch_template('admin/files_delete_file');
 	
-	if ($_REQUEST['action'] == 'delete' && !empty($_REQUEST['file']))
+	if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'delete' && !empty($_REQUEST['file']))
 	{	
 		if (empty($_REQUEST['confirm_yes']) && empty($_REQUEST['confirm_no']))
 		{
@@ -87,8 +87,8 @@ if ($uam->permitted('acp_files_delete_file'))
 		require_once('modules/core/listings.php');
 		$listing = new listing();
 		
-		// Categories to expand?
-		if (!empty($_REQUEST['files_for']) || $_REQUEST['files_for'] == '0')
+		// Categories to expand? (allow explicit '0')
+		if (isset($_REQUEST['files_for']) && $_REQUEST['files_for'] !== '')
 		{
 			$files_for = $_REQUEST['files_for'];
 			// Tidy it up
@@ -109,7 +109,7 @@ if ($uam->permitted('acp_files_delete_file'))
 			);
 		
 		// Query string
-		$self_query = 'cmd='.$_REQUEST['cmd'];
+		$self_query = 'cmd=' . (isset($_REQUEST['cmd']) ? $_REQUEST['cmd'] : '');
 		
 		// Filter category list leaving only categories that have files
 		$category_list = $listing->filter_cats();

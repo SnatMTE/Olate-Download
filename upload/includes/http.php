@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -14,13 +14,14 @@
 
 class http 
 {		
-	var $referer;
-	var $post_str;
+	// Initialize properties to safe defaults to avoid deprecated/null warnings
+	var $referer = '';
+	var $post_str = '';
 		
-	var $ret_str;
-	var $the_data;
+	var $ret_str = '';
+	var $the_data = '';
 
-	var $the_cookies;
+	var $the_cookies = '';
 
 	function set_referer($referer)
 	{
@@ -73,9 +74,15 @@ class http
 
 	function get_cookies($name)
 	{
-		list($foo, $value)  = explode($name, $this->the_cookies);
-		list($value, $foo)  = explode(";", $value);
-		return substr($value, 1);
+		// Safely extract cookie value to avoid undefined index warnings
+		if (empty($this->the_cookies)) {
+			return '';
+		}
+		$pattern = '/(?:^|;)\s*'.preg_quote($name, '/').'=([^;]+)/';
+		if (preg_match($pattern, $this->the_cookies, $m)) {
+			return urldecode($m[1]);
+		}
+		return '';
 	}
 			
 	function clear_cookies()
@@ -85,23 +92,34 @@ class http
 
 	function get_content()
 	{
-		list($header, $foo)  = explode("\r\n\r\n", $this->the_data);
-		list($foo, $content) = explode($header, $this->the_data);
-		return substr($content, 4);
+		// Avoid warnings when $this->the_data doesn't contain header/body separator
+		if (empty($this->the_data) || strpos($this->the_data, "\r\n\r\n") === false) {
+			return '';
+		}
+		list($header, $rest) = explode("\r\n\r\n", $this->the_data, 2);
+		// Trim any leading CR/LF from the content
+		return ltrim($rest, "\r\n");
 	}
 
 	function get_headers()
 	{
-		list($header, $foo)  = explode("\r\n\r\n", $this->the_data);
-		list($foo, $content) = explode($header, $this->the_data);
+		if (empty($this->the_data) || strpos($this->the_data, "\r\n\r\n") === false) {
+			return '';
+		}
+		list($header, $rest) = explode("\r\n\r\n", $this->the_data, 2);
 		return $header;
 	}
 
 	function get_header($name)
 	{
-		list($foo, $part1) = explode($name . ":", $this->the_data);
-		list($val, $foo)  = explode("\r\n", $part1);
-		return trim($val);
+		$headers = $this->get_headers();
+		if (empty($headers)) {
+			return '';
+		}
+		if (preg_match('/^' . preg_quote($name, '/') . '\s*:\s*(.*)$/im', $headers, $m)) {
+			return trim($m[1]);
+		}
+		return '';
 	}
 	
 	function post_page($url)
@@ -154,21 +172,21 @@ class http
 		
 	function parse_request($url)
 	{
-		list($protocol, $url) = explode("://", $url);
-		list($host, $foo) = explode("/", $url);
-		list($foo, $request) = explode($host, $url); 
-		@list($host, $port) = explode(":", $host);
-				
-		if (strlen($request) == 0) 
-		{
-			$request = "/";
+		// Use parse_url to robustly parse input and avoid undefined index warnings
+		$parts = @parse_url($url);
+		$protocol = isset($parts['scheme']) ? $parts['scheme'] : 'http';
+		$host = isset($parts['host']) ? $parts['host'] : '';
+		$port = isset($parts['port']) ? $parts['port'] : 80;
+		$request = isset($parts['path']) ? $parts['path'] : '/';
+		if (isset($parts['query']) && $parts['query'] !== '') {
+			$request .= '?'.$parts['query'];
 		}
 		
-		if (strlen($port) == 0)    
-		{
-			$port = '80';
+		// Ensure request is never empty (defensive)
+		if ($request === '') {
+			$request = '/';
 		}
-			
+		
 		$info = array();
 		$info['host']     = $host;
 		$info['port']     = $port;
@@ -186,16 +204,26 @@ class http
 
 	function download_data($host, $port, $http_header)
 	{
-		$fp = fsockopen($host, $port);
+		// Use a short timeout to avoid long blocking calls
+		$errno = 0;
+		$errstr = '';
+		$timeout_seconds = 2;
+		$fp = @fsockopen($host, $port, $errno, $errstr, $timeout_seconds);
 		$ret_str = '';
 		if ($fp) 
 		{
+			stream_set_timeout($fp, $timeout_seconds);
 			fwrite($fp, $http_header);
 			while(!feof($fp)) 
 			{
 				$ret_str .= fread($fp, 1024);
 			}
 			fclose($fp);
+		}
+		else
+		{
+			// Connection failed or timed out; return empty string so callers can handle lack of data
+			return '';
 		}
 		return $ret_str;
 	}

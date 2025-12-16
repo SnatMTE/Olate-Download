@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -194,7 +194,7 @@ else
 				<h3>Environment Survey</h3>
 		          <p>To help us determine what environment our products are running in, we have created a simple script which will gather some information about the server it is run on and then anonymously submit that data to us.</p>
 		          <p>If you are interested in helping us by running this script, it would be much appreciated and will allow us to decide exactly what kind of platforms we need to continue to support, and what features of new software versions (e.g. PHP/MySQL) we can safely take advantage of.</p>
-		          <p>You can take part in this survey <a href="../../environment.php">by clicking here</a> and following the instructions.</p>
+			  <p>You can take part in this survey by following the instructions.</p>
 				<div class="begin"><a href="../../admin.php">Login</a></div><br />
 			</div>
 			<?php

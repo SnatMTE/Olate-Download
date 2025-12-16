@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -23,15 +23,44 @@ if (@filesize('./includes/config.php') == 0)
 // Be off with you evil fiend
 ini_set('magic_quotes_gpc', '0');
 
-$debug = 0;
+$debug = 1; // Enable debug to show runtime errors while investigating admin white screen
 
 if ($debug == 1)
 {
+	// Show all errors during debugging
+	@ini_set('display_errors', '1');
+	error_reporting(E_ALL);
+
+	// Ask UIM to dump compiled templates for debugging
+	$GLOBALS['OD_DEBUG_COMPILE'] = true;
+
 	// Start execution time counter (continued in uim_template->assign_globals())
 	$time = microtime(); 
 	$time = explode(' ',$time); // Kabooooom
 	$time = $time[1] + $time[0]; 
 	$start_time = $time;
+
+	// Add a shutdown handler to capture fatal errors to a log for offline inspection
+	register_shutdown_function(function() {
+		$err = error_get_last();
+		if ($err && in_array($err['type'], [E_ERROR, E_PARSE, E_CORE_ERROR, E_COMPILE_ERROR, E_USER_ERROR])) {
+			$log = "[".date('c')."] FATAL: {$err['message']} in {$err['file']} on line {$err['line']}\n";
+			@file_put_contents(__DIR__ . '/../od_debug.log', $log, FILE_APPEND);
+		}
+	});
+
+	// Also set error and exception handlers to log other issues
+	set_error_handler(function($errno, $errstr, $errfile, $errline) {
+		$log = "[".date('c')."] ERROR ({$errno}): {$errstr} in {$errfile} on line {$errline}\n";
+		@file_put_contents(__DIR__ . '/../od_debug.log', $log, FILE_APPEND);
+		// Let default handler run as well
+		return false;
+	});
+
+	set_exception_handler(function($ex) {
+		$log = "[".date('c')."] EXCEPTION: {$ex->getMessage()} in {$ex->getFile()} on line {$ex->getLine()}\n";
+		@file_put_contents(__DIR__ . '/../od_debug.log', $log, FILE_APPEND);
+	});
 }
 
 // Include required files

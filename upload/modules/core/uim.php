@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -285,10 +285,24 @@ class uim_template
 			
 			// Make the php
 			$template = str_replace('{if:'.$condition.'}',
-							'<?php if ('.$cond_safe.') { ?>', $template); 			
-			// Make the php
+							'<?php if ('.$cond_safe.') { ?>', $template);
+			// Safely replace any elseif that matches the same condition
 			$template = str_replace('{elseif:'.$condition.'}',
-									'<?php } elseif ('.$condition.') { ?>', $template);
+							'<?php } elseif ('.$cond_safe.') { ?>', $template);
+		}
+		
+		// Additionally, handle any remaining {elseif:...} occurrences that didn't match an {if:...} string
+		preg_match_all('/\{elseif:(.+)\}/', $template, $conditionals_elseif);
+		foreach ($conditionals_elseif['1'] as $condition_elseif)
+		{
+			// Quote unquoted array indices in elseif conditions
+			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[([a-zA-Z0-9_]+)\]/', function($m){ return '$'.$m[1]."['".$m[2]."']"; }, $condition_elseif);
+			// Replace array variable accesses in conditions with safe isset() accessors
+			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[\'([a-zA-Z0-9_]+)\'\]/', function($m){
+				return '(isset($this->vars[\''.$m[1].'\'][\''.$m[2].'\']) ? $this->vars[\''.$m[1].'\'][\''.$m[2].'\'] : false)';
+			}, $cond_safe_elseif);
+			// Replace the elseif
+			$template = str_replace('{elseif:'.$condition_elseif.'}', '<?php } elseif ('.$cond_safe_elseif.') { ?>', $template);
 		}
 		
 		// And finally you're waiter today will be else & endif

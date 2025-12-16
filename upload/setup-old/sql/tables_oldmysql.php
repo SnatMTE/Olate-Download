@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *

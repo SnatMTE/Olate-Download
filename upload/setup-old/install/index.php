@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -145,7 +145,7 @@
 			else
 			{
 			?>
-				<p>You need to fix the above problem(s) before you can continue with the installation. If you need assistance, please <a href="http://www.olate.co.uk/support" target="_blank">get help</a>.</p>
+					<p>You need to fix the above problem(s) before you can continue with the installation. If you need assistance, please <a href="https://github.com/SnatMTE/Olate-Download/issues" target="_blank">get help</a>.</p>
 			<?php
 			}
 			?>				

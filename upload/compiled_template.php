@@ -24,19 +24,19 @@
 	<?php echo $this->vars['page_content']; ?>
 	
 	<div id="footer">
-		Powered by <a style="color:#FFFFFF" href="http://www.olate.co.uk">Olate Download</a> <?php echo $this->vars['global_vars']['version']; ?> 
+		Powered by <a style="color:#FFFFFF" href="https://github.com/SnatMTE/Olate-Download/">Olate Download</a> <?php echo (isset($this->vars['global_vars']['version']) ? $this->vars['global_vars']['version'] : ""); ?> 
 		<p>
-<?php if ( $site_config['allow_user_lang']) { ?>
+<?php if ( (isset($this->vars['site_config']['allow_user_lang']) ? $this->vars['site_config']['allow_user_lang'] : false)) { ?>
 		<a style="color:#FFFFFF" href="language.php"><?php echo $lm->language('frontend', 'change_language'); ?></a>
 <?php } ?>
-<?php if ($global_vars['enable_rss'] == 1) { ?>
-<?php if ( $site_config['allow_user_lang']) { ?>
+<?php if ((isset($this->vars['global_vars']['enable_rss']) ? $this->vars['global_vars']['enable_rss'] : false) == 1) { ?>
+<?php if ( (isset($this->vars['site_config']['allow_user_lang']) ? $this->vars['site_config']['allow_user_lang'] : false)) { ?>
 			|
 <?php } ?>
-			<a style="color:#FFFFFF" href="<?php echo $this->vars['global_vars']['url']; ?>rss.php">RSS</a>
+			<a style="color:#FFFFFF" href="<?php echo (isset($this->vars['global_vars']['url']) ? $this->vars['global_vars']['url'] : ""); ?>rss.php">RSS</a>
 <?php } ?> 
-<?php if ($global_vars['debug'] == 1) { ?>
-			| Execution Time: <?php echo $this->vars['global_vars']['exec_time']; ?> | Query Count: <?php echo $this->vars['global_vars']['queries']; ?>
+<?php if ((isset($this->vars['global_vars']['debug']) ? $this->vars['global_vars']['debug'] : false) == 1) { ?>
+			| Execution Time: <?php echo (isset($this->vars['global_vars']['exec_time']) ? $this->vars['global_vars']['exec_time'] : ""); ?> | Query Count: <?php echo (isset($this->vars['global_vars']['queries']) ? $this->vars['global_vars']['queries'] : ""); ?>
 <?php } ?>
 		</p>
 	</div>
