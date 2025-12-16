@@ -8,6 +8,10 @@ and stable 3.4.0:
 Olate Download - 3.4.0
 ============================
 
+- Added PDO compatibility wrapper for older mysql_* calls (with optional SQLite support via `server='sqlite'` or `server='sqlite:/path/to/db'`).
+  Note: The installer and SQL files are written for MySQL and may not be directly compatible with SQLite; expect to adapt SQL schema and data scripts when using SQLite.
+
+
 From old tracker:
 - Issue #000232: Admin CP >> Add new file >> Double check password
 - Issue #000253: Mass purging

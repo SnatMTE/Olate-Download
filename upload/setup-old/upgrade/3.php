@@ -13,6 +13,7 @@
 */
 
 // Install
+require_once('../../includes/helper.php');
 // Check all fields filled in
 if (empty($_POST['server']) || empty($_POST['name']) || empty($_POST['username']) ||  empty($_POST['prefix']))
 {
@@ -23,54 +24,129 @@ else
 	// No errors? Good. Proceed with caution Mr Spock
 	if (!isset($error))
 	{
-		// Oh great, now I have chocolate all over me. Damn its low melting point. Bah.
-		// Connect to the MySQL server
-		@ $connect = mysql_connect($_POST['server'], $_POST['username'], $_POST['password']);
-		
+			// Host detection for remote vs local
+			function _od_get_hostname($host) {
+				$h = trim((string)$host);
+				if ($h === '') return $h;
+				if (stripos($h, 'sqlite:') === 0) return $h;
+				if (preg_match('/^\[(.+)\](?::\d+)?$/', $h, $m)) return $m[1];
+				if (substr_count($h, ':') > 1) return $h; // IPv6
+				if (strpos($h, ':') !== false) {
+					$parts = explode(':', $h);
+					return $parts[0];
+				}
+				return $h;
+			}
+			$server_host = _od_get_hostname($_POST['server']);
+			$is_remote_host = true;
+			$local_candidates = array('localhost', '127.0.0.1', '::1');
+			foreach ($local_candidates as $lc) {
+				if (stripos($server_host, $lc) === 0) { $is_remote_host = false; break; }
+			}
+			if ($is_remote_host) {
+				$remote_message = 'Remote database host detected ('.htmlspecialchars($_POST['server']).'). The installer will attempt to connect; ensure your DB server accepts remote connections and user has remote access privileges.';
+			}
+
 		// Select database
 		@ $select = mysql_select_db($_POST['name']);
 		
 		// Connect to the MySQL server: Error handling
 		if ($connect || $select)
-		{
-			// Everything seems ok (except the melted chocolate on my trousers)			
+		{	
 			// Detect MySQL version - greater than 4.0.2?
 			$version = mysql_query('SELECT VERSION() AS version');
 			$version = mysql_fetch_array($version);
 			
-			$explode = explode('.', $version['version']);
-			$version['major'] = $explode[0];
-			$version['minor'] = $explode[1];
-			$version['patch'] = $explode[2];
+			// Files
+			$files_result = mysql_query('SELECT id, name, count, votes, rating, location, size, category, description_brief, description_full
+											FROM '.$_POST['od2_prefix'].'files');
+												
+			$rows = @mysql_num_rows($files_result);
 			
-			$explode = explode('-', $version['patch']);
-			$version['patch'] = $explode[0];
-			
-			if(($version['major'] >= 4 && $version['minor'] >= 0 && $version['patch'] >= 2) || $version['major'] > 4)
+			if ($rows == 0)
 			{
-				// Yes
-				$search = 1;
-				require('../sql/tables.php');
+				$error = 'Database Error: OD2.2 Prefix Incorrect - No OD2.2 tables found';
 			}
 			else
-			{
-				// No
-				$search = 0;
-				require('../sql/tables_oldmysql.php');
-			}
-			
-			foreach ($tables_sql as $sql)
-			{
-				$sql = str_replace('downloads_', $_POST['prefix'], $sql); // Inserts pefix	
+			{	
+				$explode = explode('.', $version['version']);
+				$version['major'] = $explode[0];
+				$version['minor'] = $explode[1];
+				$version['patch'] = $explode[2];
 				
-				$result = mysql_query($sql);
-				if (!$result)
+				$explode = explode('-', $version['patch']);
+				$version['patch'] = $explode[0];
+				
+				if(($version['major'] >= 4 && $version['minor'] >= 0 && $version['patch'] >= 2) || $version['major'] > 4)
 				{
-					$error = '<br>Database Error: '.mysql_error();
-					break;
+					// Yes
+					$search = 1;
+					require('../sql/tables.php');
 				}
 				else
 				{
+					// No
+					$search = 0;
+					require('../sql/tables_oldmysql.php');
+				}
+				
+				foreach ($tables_sql as $sql)
+				{
+					$sql = str_replace('downloads_', $_POST['prefix'], $sql); // Inserts pefix	
+					
+					$result = mysql_query($sql);
+					if (!$result)
+					{
+						$error = 'Database Error: '.mysql_error();
+						break;
+					}
+				}
+				
+				if (!isset($error))
+				{
+					// Import data from OD2.2 tables		
+					for ($i = 0; $i < mysql_num_rows($files_result); $i++)
+					{
+						$file = mysql_fetch_array($files_result);
+						
+						$filesize = $file['size'] * pow(1024, 2);
+						
+						// prefix.files
+						mysql_query('INSERT INTO '.$_POST['prefix'].'files
+										SET id = "'.$file['id'].'",
+											category_id = "'.$file['category'].'",
+											name = "'.$file['name'].'",
+											description_small = "'.$file['description_brief'].'",
+											description_big = "'.$file['description_full'].'",
+											downloads = "'.$file['count'].'",
+											views = 0,
+											size = "'.$filesize.'",
+											date = "'.time().'",
+											rating_votes = "'.$file['votes'].'",
+											rating_value = "'.$file['rating'].'"');
+													
+						// prefix.mirrors
+						mysql_query('INSERT INTO '.$_POST['prefix'].'mirrors
+										SET file_id = "'.$file['id'].'",
+											name = "Mirror",
+											location = "Earth",
+											url = "'.$file['location'].'"');
+					}
+							
+					// Categories
+					$categories_result = mysql_query('SELECT id, name
+														FROM '.$_POST['od2_prefix'].'categories');
+							
+					for ($i = 0; $i < mysql_num_rows($categories_result); $i++)
+					{
+						$category = mysql_fetch_array($categories_result);
+								
+						mysql_query('INSERT INTO '.$_POST['prefix'].'categories
+										SET id = "'.$category['id'].'",
+											name = "'.$category['name'].'",
+											description = "'.$category['name'].'"');
+					}
+							
 					// Create the config.php file now we've got the database tables in
 					@ $file = fopen('../../includes/config.php', 'w+');
 					if (!$file)
@@ -89,7 +165,7 @@ else
 						$data.= '$config[\'database\'][\'persistant\'] 	= 0;'."\r\n";
 						$data.= 'define (\'DB_PREFIX\', \''.$_POST['prefix'].'\');'."\r\n";
 						$data.= '?>';
-						
+								
 						@ $write = fwrite($file, $data);
 						if (!$write)
 						{
@@ -98,8 +174,7 @@ else
 						else
 						{
 							fclose($file);
-							
-							// Hurray, chocolate washes out!!
+									
 							$success = true;
 						}
 					}
@@ -157,11 +232,10 @@ else
 		{
 			// Success - tables created
 			$path = 'http://'.$_SERVER['HTTP_HOST'].dirname($_SERVER['PHP_SELF']);
-			$url = substr($path, 0, strrpos($path, '/setup'));
-			$url = str_replace('/setup', '', $url); // Just in case
 		?>
 			<h1>General Settings</h1>
-			<p id="intro">Your database tables have been sucessfully created.</p>
+			<p id="intro">Your database tables have been sucessfully created and existing data converted to the latest version. </p>
+			<?php if (!empty($remote_message)) { echo '<p style="color:#a00"><strong>Note:</strong> '.htmlspecialchars($remote_message).'</p>'; } ?>
 			<br />
 					
 			<div id="options">
@@ -175,8 +249,8 @@ else
                    		</tr>
                     	<tr>
                     		<td>Base URL:</td>
-                    		<td><input name="url" type="text" id="url" size="35" value="<?php echo $url; ?>/"/> 
-                    		(include trailing slash/) </td>
+                    		<td><input name="url" type="text" id="url" size="35" value="<?php echo substr($path, 0, strrpos($path, '/setup')); ?>/"/>
+                   			(include trailing slash/) </td>
                    		</tr>
                     	<tr>
                     		<td width="16%">Admin E-Mail:</td>
@@ -205,6 +279,7 @@ else
 			<h1>Failure</h1>
 			<p id="intro">
 				You must correct the error below before installation can continue:<br /><br /><span style="color:#000000"><?php echo $error; ?></span><br /><br />
+				<?php if (!empty($remote_message)) { echo '<p style="color:#a00"><strong>Note:</strong> '.htmlspecialchars($remote_message).'</p>'; } ?>
 				Before you try again you will need to delete the tables created by the installer, which have the prefix "<?php echo $_POST['prefix']; ?>".<br /><br />
 				<a href="javascript: history.go(-1)">Click here to go back</a>.
 			</p>

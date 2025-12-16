@@ -38,6 +38,7 @@ if ($debug == 1)
 // General
 require('./includes/config.php');
 require('./includes/global.php');
+require('./includes/helper.php');
 
 // Core modules
 require('./modules/core/dbim.php');
@@ -64,7 +65,11 @@ $ehm = new ehm(1); // Debug level 1 recommended for live environments
 
 if (file_exists('./setup'))
 {
-	trigger_error('[INIT] You must delete the /setup directory.', FATAL);
+	// Abort startup to avoid running the application while /setup exists.
+	// trigger_error with E_USER_ERROR is deprecated in PHP 8.4+; exit with a clear message instead.
+	header('HTTP/1.1 500 Internal Server Error', true, 500);
+	echo '[INIT] You must delete the /setup directory.';
+	exit;
 }
 
 // DBIM

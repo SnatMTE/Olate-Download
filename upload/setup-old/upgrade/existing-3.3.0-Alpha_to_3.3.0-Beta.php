@@ -50,16 +50,13 @@ $dbim->query('UPDATE '.DB_PREFIX.'config
 
 // Add new permissions
 $dbim->query('INSERT INTO '.DB_PREFIX.'permissions
-				(name, setting)
-				VALUES ("acp_files_approve_files", 0);');
+					(name, setting)
+				VALUES
+					("acp_ip_restrict_main", 0),
+					("acp_leech_settings", 0);');
 
 // Add new fields in downloads_config
 $dbim->query('ALTER TABLE '.DB_PREFIX.'config 
-				ADD enable_actual_upload INT(1) DEFAULT \'0\' NOT NULL,
-				ADD enable_mirrors INT(1) DEFAULT \'0\' NOT NULL,
-				ADD userupload_always_approve INT(1) DEFAULT \'0\' NOT NULL,
-				ADD filter_cats INT(1) DEFAULT \'0\' NOT NULL,
-				ADD ip_restrict_mode TINYINT(1) DEFAULT \'0\' NOT NULL,
 				ADD enable_recommend_friend TINYINT(1) DEFAULT \'1\' NOT NULL,
 				ADD enable_recommend_confirm tinyint(1) DEFAULT \'0\' NOT NULL,
 				ADD acp_check_extensions TINYINT( 1 ) DEFAULT \'0\' NOT NULL,
@@ -101,33 +98,12 @@ $dbim->query('ALTER TABLE `'.DB_PREFIX.'files`
 				CHANGE `size` `size` BIGINT( 20 ) UNSIGNED NOT NULL DEFAULT \'0\',
 				ADD `keywords` TEXT NOT NULL ;');
 
-// Create some tables
-$dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict` (
-  `id` int(11) NOT NULL auto_increment,
-  `type` tinyint(1) NOT NULL default '0',
-  `start` varchar(15) NOT NULL default '',
-  `end` varchar(15) NOT NULL default '',
-  `mask` varchar(15) NOT NULL default '',
-  `action` tinyint(1) NOT NULL default '0',
-  `active` tinyint(1) NOT NULL default '0',
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;");
-
-$dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict_log` (
-  `id` int(11) NOT NULL auto_increment,
-  `timestamp` int(20) default '0',
-  `ip_address` varchar(15) NOT NULL default '',
-  `request_uri` text NOT NULL,
-  `referer` text NOT NULL,
-  PRIMARY KEY  (`id`)
-) TYPE=MyISAM;");
-
 $dbim->query("CREATE TABLE `".DB_PREFIX."leech_settings` (
 `id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
 `domain` TEXT NOT NULL ,
 `action` TINYINT( 1 ) NOT NULL ,
 PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;");
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_log` (
 	`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
@@ -142,13 +118,13 @@ $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_log` (
 	`confirm_hash` VARCHAR( 32 ) NOT NULL ,
 	`confirmed` TINYINT( 1 ) DEFAULT '0' NOT NULL ,
 	PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;");
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_blocklist` (
   `id` int(11) NOT NULL auto_increment,
   `address` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`,`address`)
-) TYPE=MyISAM ;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("ALTER TABLE `".DB_PREFIX."categories` ADD `keywords` TEXT NOT NULL ;");
 
@@ -180,7 +156,7 @@ $dbim->query("ALTER TABLE `".DB_PREFIX."categories` ADD `keywords` TEXT NOT NULL
 	</td>
 	<td id="content">
 		<h1>Upgrade Complete</h1>
-		<p id="intro">The upgrade from 3.2.1 to 3.3.0-Beta has been completed<a href="index.php"></a> successfully. However, before you can login again, you must take the following actions: </p>
+		<p id="intro">The upgrade from 3.3.0-Alpha to 3.3.0-Beta has been completed<a href="index.php"></a> successfully. However, before you can login again, you must take the following actions: </p>
 		<br />
         <div id="options">
           <h3>Actions</h3>

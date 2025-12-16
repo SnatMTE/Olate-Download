@@ -43,7 +43,7 @@ else
 	$split = explode("\r\n\r\n", $response);
 	$latest_version = trim($split[1]);
 	
-	if (!ereg('^[0-9]+\.[0-9]+\.[0-9]+$', $latest_version))
+	if (!preg_match('/^[0-9]+\.[0-9]+\.[0-9]+$/', $latest_version))
 	{
 		$updates_template->assign_var('error', $lm->language('admin', 'updates_unavailable'));
 	}

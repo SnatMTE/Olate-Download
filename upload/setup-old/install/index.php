@@ -74,18 +74,35 @@
 			<?php
 			}
 			
-			// MySQL Version Checking
-			if (extension_loaded('mysql'))
-			{
-			?>
-				<p>&#8226; MySQL <span style="color:#009900">Test Passed - MySQL is available. (Version 4.0.2+ is required for search functionality and will be auto detected).</span></p>
-			<?php
-			}
-			else
-			{
-				$requirements = false;
-			?>
-				<p>&#8226; MySQL <span style="color:#CC0000">Test Failed - MySQL is not available.</span></p>
+// Database support checking (accept ext/mysql OR PDO with mysql/sqlite drivers)
+		$has_mysql_ext = extension_loaded('mysql');
+		$has_pdo = extension_loaded('pdo');
+		$pdo_drivers = array();
+		$has_pdo_mysql = false;
+		$has_pdo_sqlite = false;
+		if ($has_pdo && class_exists('PDO')) {
+			$pdo_drivers = PDO::getAvailableDrivers();
+			$has_pdo_mysql = in_array('mysql', $pdo_drivers);
+			$has_pdo_sqlite = in_array('sqlite', $pdo_drivers);
+		}
+		if ($has_mysql_ext)
+		{
+		?>
+			<p>&#8226; MySQL <span style="color:#009900">Test Passed - MySQL extension is available.</span></p>
+		<?php
+		}
+		elseif ($has_pdo && ($has_pdo_mysql || $has_pdo_sqlite))
+		{
+			$drivers_list = htmlspecialchars(implode(', ', $pdo_drivers));
+		?>
+			<p>&#8226; PDO <span style="color:#009900">Test Passed - PDO available (drivers: <?php echo $drivers_list; ?>). Remote DB servers are allowed.</span></p>
+		<?php
+		}
+		else
+		{
+			$requirements = false;
+		?>
+			<p>&#8226; Database support <span style="color:#CC0000">Test Failed - MySQL or PDO (with pdo_mysql/pdo_sqlite) not available.</span></p>
 			<?php
 			}
 			
@@ -117,7 +134,7 @@
 			?>
 				<p>&#8226; uploads/ server writable <span style="color:#CC0000">Test Failed - You need to chmod this directory to 777 and/or change file permissions to allow server writing for file uploads.</span></p>
 			<?php
-			}
+			} 
 			
 			if (!isset($requirements))
 			{

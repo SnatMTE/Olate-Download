@@ -258,7 +258,7 @@ class getid3_aac
 
 
 	function getAACADTSheaderFilepointer(&$fd, &$ThisFileInfo, $MaxFramesToScan=1000000, $ReturnExtendedInfo=false) {
-		// based loosely on code from AACfile by Jurgen Faul  <jfaulØgmx.de>
+		// based loosely on code from AACfile by Jurgen Faul  <jfaulï¿½gmx.de>
 		// http://jfaul.de/atl  or  http://j-faul.virtualave.net/atl/atl.html
 
 
@@ -321,7 +321,7 @@ class getid3_aac
 
 			// Loop thru substring chars
 			for ($i = 0; $i < 10; $i++) {
-				$AACheaderBitstream .= $decbin[$substring{$i}];
+				$AACheaderBitstream .= $decbin[$substring[$i]];
 			}
 
 			$bitoffset = 0;

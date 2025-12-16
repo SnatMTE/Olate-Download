@@ -13,6 +13,7 @@
 */
 
 // Install
+require_once('../../includes/helper.php');
 // Check all fields filled in
 if (empty($_POST['site_name']) || empty($_POST['url']) || empty($_POST['admin_email']) || empty($_POST['username']) || empty($_POST['password']))
 {
@@ -34,7 +35,7 @@ else
 		if ($connect || $select)
 		{
 			// Everything seems ok
-			require('../sql/data_upgrade.php');
+			require('../sql/data.php');
 			
 			foreach ($data_sql as $sql)
 			{
@@ -189,6 +190,7 @@ else
 				<p>&#8226; Please ensure  /setup and all sub directories are removed<br />
 					&#8226; chmod 755 includes/config.php or remove world writeable permissions (for security) <br />
 				</p>
+				
 				<h3>Environment Survey</h3>
 		          <p>To help us determine what environment our products are running in, we have created a simple script which will gather some information about the server it is run on and then anonymously submit that data to us.</p>
 		          <p>If you are interested in helping us by running this script, it would be much appreciated and will allow us to decide exactly what kind of platforms we need to continue to support, and what features of new software versions (e.g. PHP/MySQL) we can safely take advantage of.</p>
@@ -210,7 +212,10 @@ else
 			// Failure
 		?>
 			<h1>Failure</h1>
-			<p id="intro">You must correct the error below before installation can continue:<br /><br /><span style="color:#000000"><?php echo $error; ?></span><br /><br /><a href="javascript: history.go(-1)">Click here to go back</a>.</p>
+			<p id="intro">
+				You must correct the error below before installation can continue:<br /><br />
+				<span style="color:#000000"><?php echo $error; ?></span><br /><br />
+				<a href="javascript: history.go(-1)">Click here to go back</a>.</p>
 		<?php
 		}
 		?>

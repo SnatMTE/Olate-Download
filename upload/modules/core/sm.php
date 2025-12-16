@@ -110,7 +110,7 @@ class sm
 		{
 			return false;
 		}
-		elseif (ereg('[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}', $ip_address))
+		elseif (preg_match('/^[0-9]{1,3}(?:\.[0-9]{1,3}){3}$/', $ip_address))
 		{
 			// Split at the dots
 			$parts = explode('.', $ip_address);

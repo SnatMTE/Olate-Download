@@ -367,7 +367,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}
@@ -546,7 +546,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}
@@ -641,7 +641,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}
@@ -680,7 +680,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}

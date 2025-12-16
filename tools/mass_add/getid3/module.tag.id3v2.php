@@ -52,8 +52,8 @@ class getid3_id3v2
 		$header = fread($fd, 10);
 		if (substr($header, 0, 3) == 'ID3') {
 
-			$thisfile_id3v2['majorversion'] = ord($header{3});
-			$thisfile_id3v2['minorversion'] = ord($header{4});
+			$thisfile_id3v2['majorversion'] = ord($header[3]);
+			$thisfile_id3v2['minorversion'] = ord($header[4]);
 
 			// shortcut
 			$id3v2_majorversion = &$thisfile_id3v2['majorversion'];
@@ -72,7 +72,7 @@ class getid3_id3v2
 
 		}
 
-		$id3_flags = ord($header{5});
+		$id3_flags = ord($header[5]);
 		switch ($id3v2_majorversion) {
 			case 2:
 				// %ab000000 in v2.2
@@ -353,11 +353,11 @@ class getid3_id3v2
 			$footer = fread ($fd, 10);
 			if (substr($footer, 0, 3) == '3DI') {
 				$thisfile_id3v2['footer'] = true;
-				$thisfile_id3v2['majorversion_footer'] = ord($footer{3});
-				$thisfile_id3v2['minorversion_footer'] = ord($footer{4});
+				$thisfile_id3v2['majorversion_footer'] = ord($footer[3]);
+				$thisfile_id3v2['minorversion_footer'] = ord($footer[4]);
 			}
 			if ($thisfile_id3v2['majorversion_footer'] <= 4) {
-				$id3_flags = ord(substr($footer{5}));
+				$id3_flags = ord($footer[5]);
 				$thisfile_id3v2_flags['unsynch_footer']  = (bool) ($id3_flags & 0x80);
 				$thisfile_id3v2_flags['extfoot_footer']  = (bool) ($id3_flags & 0x40);
 				$thisfile_id3v2_flags['experim_footer']  = (bool) ($id3_flags & 0x20);
@@ -1154,7 +1154,7 @@ class getid3_id3v2
 				$frame_imagetype = substr($parsedFrame['data'], $frame_offset, 3);
 				if (strtolower($frame_imagetype) == 'ima') {
 					// complete hack for mp3Rage (www.chaoticsoftware.com) that puts ID3v2.3-formatted
-					// MIME type instead of 3-char ID3v2.2-format image type  (thanks xbhoffØpacbell*net)
+					// MIME type instead of 3-char ID3v2.2-format image type  (thanks xbhoffï¿½pacbell*net)
 					$frame_terminatorpos = strpos($parsedFrame['data'], "\x00", $frame_offset);
 					$frame_mimetype = substr($parsedFrame['data'], $frame_offset, $frame_terminatorpos - $frame_offset);
 					if (ord($frame_mimetype) === 0) {
@@ -2068,7 +2068,7 @@ class getid3_id3v2
 			SOS	Somalia
 			SPL	Seborga
 			SRG	Suriname
-			STD	São Tome and Principe
+			STD	Sï¿½o Tome and Principe
 			SVC	El Salvador
 			SYP	Syria
 			SZL	Swaziland
@@ -2092,13 +2092,13 @@ class getid3_id3v2
 			VND	Viet Nam
 			VUV	Vanuatu
 			WST	Samoa
-			XAF	Communauté Financière Africaine
+			XAF	Communautï¿½ Financiï¿½re Africaine
 			XAG	Silver
 			XAU	Gold
 			XCD	East Caribbean
 			XDR	International Monetary Fund
 			XPD	Palladium
-			XPF	Comptoirs Français du Pacifique
+			XPF	Comptoirs Franï¿½ais du Pacifique
 			XPT	Platinum
 			YER	Yemen
 			YUM	Yugoslavia
@@ -2542,7 +2542,7 @@ class getid3_id3v2
 			vai	Vai
 			ven	Venda
 			vie	Vietnamese
-			vol	Volapük
+			vol	Volapï¿½k
 			vot	Votic
 			wak	Wakashan Languages
 			wal	Walamo
@@ -2977,12 +2977,12 @@ class getid3_id3v2
 	function IsValidID3v2FrameName($framename, $id3v2majorversion) {
 		switch ($id3v2majorversion) {
 			case 2:
-				return ereg('[A-Z][A-Z0-9]{2}', $framename);
+				return preg_match('/^[A-Z][A-Z0-9]{2}$/', $framename);
 				break;
 
 			case 3:
 			case 4:
-				return ereg('[A-Z][A-Z0-9]{3}', $framename);
+				return preg_match('/^[A-Z][A-Z0-9]{3}$/', $framename);
 				break;
 		}
 		return false;
@@ -2990,10 +2990,10 @@ class getid3_id3v2
 
 	function IsANumber($numberstring, $allowdecimal=false, $allownegative=false) {
 		for ($i = 0; $i < strlen($numberstring); $i++) {
-			if ((chr($numberstring{$i}) < chr('0')) || (chr($numberstring{$i}) > chr('9'))) {
-				if (($numberstring{$i} == '.') && $allowdecimal) {
+			if ((chr($numberstring[$i]) < chr('0')) || (chr($numberstring[$i]) > chr('9'))) {
+				if (($numberstring[$i] == '.') && $allowdecimal) {
 					// allowed
-				} elseif (($numberstring{$i} == '-') && $allownegative && ($i == 0)) {
+				} elseif (($numberstring[$i] == '-') && $allownegative && ($i == 0)) {
 					// allowed
 				} else {
 					return false;

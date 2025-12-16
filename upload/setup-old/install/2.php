@@ -62,7 +62,10 @@
 						<table width="100%"  border="0" cellspacing="1" cellpadding="4">
 							<tr>
 								<td>Database Server:</td>
-								<td><input name="server" type="text" id="server" value="localhost" size="15" /></td>
+								<td>
+						<input name="server" type="text" id="server" value="localhost" size="15" />
+						<p style="margin:6px 0 0;color:#555;font-size:0.9em;">You may enter a remote MySQL server (for example <em>db.example.com</em>). The installer will detect remote hosts and warn you — remote connections are allowed but must be enabled on your DB server and firewall.</p>
+					</td>
 							</tr>
 							<tr>
 								<td>Database Name:</td>

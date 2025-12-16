@@ -64,7 +64,7 @@ $dbim->query('CREATE TABLE '.DB_PREFIX.'customfields` (
   `label` varchar(50) NOT NULL default "",
   `value` varchar(50) NOT NULL default "",
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;'); 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;'); 
 
 // Custom fields tables
 $dbim->query('CREATE TABLE '.DB_PREFIX.'customfields_data (
@@ -73,7 +73,7 @@ $dbim->query('CREATE TABLE '.DB_PREFIX.'customfields_data (
   `file_id` int(10) NOT NULL default 0,
   `value` varchar(50) NOT NULL default "",
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;');
 
 // Custom fields admin permissions				
 $dbim->query('INSERT INTO '.DB_PREFIX.'permissions

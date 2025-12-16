@@ -14,6 +14,14 @@
 
 // OD native functions not yet enslaved to a class
 
+// Fatal handler (avoids using trigger_error with E_USER_ERROR which is deprecated in PHP 8.4+)
+function od_fatal($msg)
+{
+	header('HTTP/1.1 500 Internal Server Error', true, 500);
+	echo $msg;
+	exit;
+}
+
 // Format date (as the name suggests)
 function format_date($date)
 {
@@ -22,14 +30,14 @@ function format_date($date)
 	$date = date($site_config['date_format'], $date);
 	
 	return $date;
-}
+} 
 
 // Check the variables are the expected type
 // Yoink...Idea taken from vBulletin
 function validate_types(&$array, $names)
 {
-	// Get rid of magic quotes 
-	if (get_magic_quotes_gpc())
+	// Get rid of magic quotes (polyfill for PHP 7/8 where magic quotes functions were removed)
+	if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc())
 	{
 		$array = array_map('stripslashes', $array);
 	}

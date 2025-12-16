@@ -14,15 +14,15 @@
 // returns array with ($width, $height, $type)                 //
 //                                                             //
 // Thanks to: Oyvind Hallsteinsen aka Gosub / ELq -            //
-// gosubØelq*org  for the original size determining code       //
+// gosubï¿½elq*org  for the original size determining code       //
 //                                                             //
 // PHP Hack by Filipe Laborde-Basto Oct 21/2000                //
 // FREELY DISTRIBUTABLE -- use at your sole discretion! :)     //
 // Enjoy. (Not to be sold in commercial packages though,       //
-// keep it free!) Feel free to contact me at filØrezox*com     //
+// keep it free!) Feel free to contact me at filï¿½rezox*com     //
 // (http://www.rezox.com)                                      //
 //                                                             //
-// Modified by James Heinrich <getid3Øusers*sourceforge*net>   //
+// Modified by James Heinrich <getid3ï¿½users*sourceforge*net>   //
 // June 1, 2001 - created GetDataImageSize($imgData) by        //
 // seperating the fopen() stuff to GetURLImageSize($urlpic)    //
 // which then calls GetDataImageSize($imgData). The idea being //
@@ -62,9 +62,9 @@ class getid3_lib
 		$returnstring = '';
 		for ($i = 0; $i < strlen($string); $i++) {
 			if ($hex) {
-				$returnstring .= str_pad(dechex(ord($string{$i})), 2, '0', STR_PAD_LEFT);
+				$returnstring .= str_pad(dechex(ord($string[$i])), 2, '0', STR_PAD_LEFT);
 			} else {
-				$returnstring .= ' '.(ereg("[\x20-\x7E]", $string{$i}) ? $string{$i} : '¤');
+				$returnstring .= ' '.(preg_match('/[\x20-\x7E]/', $string[$i]) ? $string[$i] : 'ï¿½');
 			}
 			if ($spaces) {
 				$returnstring .= ' ';
@@ -77,7 +77,7 @@ class getid3_lib
 	}
 
 	function SafeStripSlashes($text) {
-		if (get_magic_quotes_gpc()) {
+		if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
 			return stripslashes($text);
 		}
 		return $text;
@@ -128,11 +128,11 @@ class getid3_lib
 		// http://www.scri.fsu.edu/~jac/MAD3401/Backgrnd/binary.html
 		if (strpos($binarypointnumber, '.') === false) {
 			$binarypointnumber = '0.'.$binarypointnumber;
-		} elseif ($binarypointnumber{0} == '.') {
+		} elseif ($binarypointnumber[0] == '.') {
 			$binarypointnumber = '0'.$binarypointnumber;
 		}
 		$exponent = 0;
-		while (($binarypointnumber{0} != '1') || (substr($binarypointnumber, 1, 1) != '.')) {
+		while (($binarypointnumber[0] != '1') || (substr($binarypointnumber, 1, 1) != '.')) {
 			if (substr($binarypointnumber, 1, 1) == '.') {
 				$exponent--;
 				$binarypointnumber = substr($binarypointnumber, 2, 1).'.'.substr($binarypointnumber, 3);
@@ -140,7 +140,7 @@ class getid3_lib
 				$pointpos = strpos($binarypointnumber, '.');
 				$exponent += ($pointpos - 1);
 				$binarypointnumber = str_replace('.', '', $binarypointnumber);
-				$binarypointnumber = $binarypointnumber{0}.'.'.substr($binarypointnumber, 1);
+				$binarypointnumber = $binarypointnumber[0].'.'.substr($binarypointnumber, 1);
 			}
 		}
 		$binarypointnumber = str_pad(substr($binarypointnumber, 0, $maxbits + 2), $maxbits + 2, '0', STR_PAD_RIGHT);
@@ -206,7 +206,7 @@ class getid3_lib
 		// http://www.scri.fsu.edu/~jac/MAD3401/Backgrnd/ieee.html
 
 		$bitword = getid3_lib::BigEndian2Bin($byteword);
-		$signbit = $bitword{0};
+		$signbit = $bitword[0];
 
 		switch (strlen($byteword) * 8) {
 			case 32:
@@ -223,7 +223,7 @@ class getid3_lib
 				// 80-bit Apple SANE format
 				// http://www.mactech.com/articles/mactech/Vol.06/06.01/SANENormalized/
 				$exponentstring = substr($bitword, 1, 15);
-				$isnormalized = intval($bitword{16});
+				$isnormalized = intval($bitword[16]);
 				$fractionstring = substr($bitword, 17, 63);
 				$exponent = pow(2, getid3_lib::Bin2Dec($exponentstring) - 16383);
 				$fraction = $isnormalized + getid3_lib::DecimalBinary2Float($fractionstring);
@@ -280,9 +280,9 @@ class getid3_lib
 		$bytewordlen = strlen($byteword);
 		for ($i = 0; $i < $bytewordlen; $i++) {
 			if ($synchsafe) { // disregard MSB, effectively 7-bit bytes
-				$intvalue = $intvalue | (ord($byteword{$i}) & 0x7F) << (($bytewordlen - 1 - $i) * 7);
+				$intvalue = $intvalue | (ord($byteword[$i]) & 0x7F) << (($bytewordlen - 1 - $i) * 7);
 			} else {
-				$intvalue += ord($byteword{$i}) * pow(256, ($bytewordlen - 1 - $i));
+				$intvalue += ord($byteword[$i]) * pow(256, ($bytewordlen - 1 - $i));
 			}
 		}
 		if ($signed && !$synchsafe) {
@@ -316,7 +316,7 @@ class getid3_lib
 		$binvalue = '';
 		$bytewordlen = strlen($byteword);
 		for ($i = 0; $i < $bytewordlen; $i++) {
-			$binvalue .= str_pad(decbin(ord($byteword{$i})), 8, '0', STR_PAD_LEFT);
+			$binvalue .= str_pad(decbin(ord($byteword[$i])), 8, '0', STR_PAD_LEFT);
 		}
 		return $binvalue;
 	}
@@ -360,7 +360,7 @@ class getid3_lib
 	function Bin2Dec($binstring, $signed=false) {
 		$signmult = 1;
 		if ($signed) {
-			if ($binstring{0} == '1') {
+			if ($binstring[0] == '1') {
 				$signmult = -1;
 			}
 			$binstring = substr($binstring, 1);
@@ -400,7 +400,7 @@ class getid3_lib
 
 
 	function array_merge_clobber($array1, $array2) {
-		// written by kcØhireability*com
+		// written by kcï¿½hireability*com
 		// taken from http://www.php.net/manual/en/function.array-merge-recursive.php
 		if (!is_array($array1) || !is_array($array2)) {
 			return false;
@@ -513,7 +513,7 @@ class getid3_lib
 		//   $foo = array('path'=>array('to'=>'array('my'=>array('file.txt'))));
 		// or
 		//   $foo['path']['to']['my'] = 'file.txt';
-		while ($ArrayPath{0} == $Separator) {
+		while ($ArrayPath[0] == $Separator) {
 			$ArrayPath = substr($ArrayPath, 1);
 		}
 		if (($pos = strpos($ArrayPath, $Separator)) !== false) {
@@ -569,15 +569,14 @@ class getid3_lib
 				}
 			}
 			$commandline = GETID3_HELPERAPPSDIR.'md5sum.exe "'.str_replace('/', GETID3_OS_DIRSLASH, $file).'"';
-			if (ereg("^[\\]?([0-9a-f]{32})", strtolower(`$commandline`), $r)) {
-				return $r[1];
+		if (preg_match('/^[\\]?([0-9a-f]{32})/', strtolower(`$commandline`), $r)) {
 			}
 
 		} else {
 
 			// The following works under UNIX only
 			$file = str_replace('`', '\\`', $file);
-			if (ereg("^([0-9a-f]{32})[ \t\n\r]", `md5sum "$file"`, $r)) {
+			if (preg_match('/^([0-9a-f]{32})[ \t\n\r]/', `md5sum "$file"`, $r)) {
 				return $r[1];
 			}
 
@@ -604,14 +603,14 @@ class getid3_lib
 				}
 			}
 			$commandline = GETID3_HELPERAPPSDIR.'sha1sum.exe "'.str_replace('/', GETID3_OS_DIRSLASH, $file).'"';
-			if (ereg("^sha1=([0-9a-f]{40})", strtolower(`$commandline`), $r)) {
+			if (preg_match('/^sha1=([0-9a-f]{40})/', strtolower(`$commandline`), $r)) {
 				return $r[1];
 			}
 
 		} else {
 
 			$commandline = 'sha1sum "'.$file.'"';
-			if (ereg("^([0-9a-f]{40})[ \t\n\r]", strtolower(`$commandline`), $r)) {
+			if (preg_match('/^([0-9a-f]{40})[ \t\n\r]/', strtolower(`$commandline`), $r)) {
 				return $r[1];
 			}
 
@@ -621,7 +620,7 @@ class getid3_lib
 	}
 
 
-	// Allan Hansen <ahØartemis*dk>
+	// Allan Hansen <ahï¿½artemis*dk>
 	// getid3_lib::md5_data() - returns md5sum for a file from startuing position to absolute end position
 	function hash_data($file, $offset, $end, $algorithm) {
 
@@ -744,7 +743,7 @@ class getid3_lib
 			$newcharstring .= "\xEF\xBB\xBF";
 		}
 		for ($i = 0; $i < strlen($string); $i++) {
-			$charval = ord($string{$i});
+			$charval = ord($string[$i]);
 			$newcharstring .= getid3_lib::iconv_fallback_int_utf8($charval);
 		}
 		return $newcharstring;
@@ -757,7 +756,7 @@ class getid3_lib
 			$newcharstring .= "\xFE\xFF";
 		}
 		for ($i = 0; $i < strlen($string); $i++) {
-			$newcharstring .= "\x00".$string{$i};
+			$newcharstring .= "\x00".$string[$i];
 		}
 		return $newcharstring;
 	}
@@ -769,7 +768,7 @@ class getid3_lib
 			$newcharstring .= "\xFF\xFE";
 		}
 		for ($i = 0; $i < strlen($string); $i++) {
-			$newcharstring .= $string{$i}."\x00";
+			$newcharstring .= $string[$i]."\x00";
 		}
 		return $newcharstring;
 	}
@@ -1000,7 +999,7 @@ class getid3_lib
 
 		static $iconv_broken_or_unavailable = array();
 		if (is_null(@$iconv_broken_or_unavailable[$in_charset.'_'.$out_charset])) {
-			$GETID3_ICONV_TEST_STRING = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~€‚ƒ„…†‡ˆ‰Š‹Œ‘’“”•–—˜™š›œŸ ¡¢£¤¥¦§¨©ª«¬­®¯°±²³´µ¶·¸¹º»¼½¾¿ÀÁÂÃÄÅÆÇÈÉÊËÌÍÎÏĞÑÒÓÔÕÖ×ØÙÚÛÜİŞßàáâãäåæçèéêëìíîïğñòóôõö÷øùúûüışÿ';
+			$GETID3_ICONV_TEST_STRING = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½';
 
 			// Check iconv()
 			if (function_exists('iconv')) {
@@ -1101,7 +1100,7 @@ class getid3_lib
 			case 'UTF-8':
 				$strlen = strlen($string);
 				for ($i = 0; $i < $strlen; $i++) {
-					$char_ord_val = ord($string{$i});
+					$char_ord_val = ord($string[$i]);
 					$charval = 0;
 					if ($char_ord_val < 0x80) {
 						$charval = $char_ord_val;

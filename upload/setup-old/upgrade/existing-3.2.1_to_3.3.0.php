@@ -111,7 +111,7 @@ $dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict` (
   `action` tinyint(1) NOT NULL default '0',
   `active` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict_log` (
   `id` int(11) NOT NULL auto_increment,
@@ -120,14 +120,14 @@ $dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict_log` (
   `request_uri` text NOT NULL,
   `referer` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."leech_settings` (
 `id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
 `domain` TEXT NOT NULL ,
 `action` TINYINT( 1 ) NOT NULL ,
 PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;");
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_log` (
 	`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
@@ -142,13 +142,13 @@ $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_log` (
 	`confirm_hash` VARCHAR( 32 ) NOT NULL ,
 	`confirmed` TINYINT( 1 ) DEFAULT '0' NOT NULL ,
 	PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;");
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_blocklist` (
   `id` int(11) NOT NULL auto_increment,
   `address` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`,`address`)
-) TYPE=MyISAM ;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("ALTER TABLE `".DB_PREFIX."categories` ADD `keywords` TEXT NOT NULL ;");
 

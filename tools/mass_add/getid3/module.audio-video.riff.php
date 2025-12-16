@@ -1315,7 +1315,7 @@ class getid3_riff
 			$RIFFdataLength = strlen($RIFFdata);
 			$NewLengthString = getid3_lib::LittleEndian2String($RIFFdataLength, 4);
 			for ($i = 0; $i < 4; $i++) {
-				$RIFFdata{$i + 4} = $NewLengthString{$i};
+				$RIFFdata[$i + 4] = $NewLengthString[$i];
 			}
 			fwrite($fp_temp, $RIFFdata);
 			fclose($fp_temp);
@@ -1724,7 +1724,7 @@ class getid3_riff
 			IY41	Interlaced version of Y41P (www.leadtools.com)
 			IYU1	12 bit format used in mode 2 of the IEEE 1394 Digital Camera 1.04 spec    IEEE standard
 			IYU2	24 bit format used in mode 2 of the IEEE 1394 Digital Camera 1.04 spec    IEEE standard
-			IYUV	Planar YUV format (8-bpp Y plane, followed by 8-bpp 2×2 U and V planes)
+			IYUV	Planar YUV format (8-bpp Y plane, followed by 8-bpp 2ï¿½2 U and V planes)
 			i263	Intel ITU H.263 Videoconferencing (i263)
 			I420	Intel Indeo 4
 			IAN 	Intel Indeo 4 (RDX)
