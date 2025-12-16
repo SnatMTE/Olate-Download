@@ -55,8 +55,8 @@ if (isset($_REQUEST['file']))
 		// Increment file view count
 		$details['views'] = $details['views'] + 1;	
 		$dbim->query('UPDATE '.DB_PREFIX.'files
-						SET views = '.$details['views'].'
-						WHERE (id = '.$_REQUEST['file'].')');
+						SET views = '.intval($details['views']).'
+						WHERE (id = '.intval($_REQUEST['file']).')');
 		
 		if (empty($details['password']) || isset($_SESSION[$_REQUEST['file'].'_auth']))
 		{
@@ -171,10 +171,7 @@ if (isset($_REQUEST['file']))
 			$custom_query = $dbim->query('SELECT cf.label AS label, cfd.value AS value
 											FROM '.DB_PREFIX.'customfields_data AS cfd,
 												'.DB_PREFIX.'customfields AS cf
-											WHERE (cfd.file_id = '.$_REQUEST['file'].') 
-												AND	(cfd.field_id = cf.id)');
-			
-			$i = 0;
+								WHERE (cfd.file_id = '.intval($_REQUEST['file']).') 
 			while ($custom_fields_data = $dbim->fetch_array($custom_query))
 			{
 				$custom_fields[$i.'_label'] = $custom_fields_data['label'];
@@ -225,12 +222,14 @@ if (isset($_REQUEST['file']))
 				$comments_error->show();
 					
 				// Show toolbox with submitted data
-				$fldm->display_toolbox($_REQUEST['file'], $_REQUEST, $_REQUEST['page']);
+					$page_for_toolbox = (isset($_REQUEST['page']) && is_numeric($_REQUEST['page'])) ? max(1,intval($_REQUEST['page'])) : 1;
+					$fldm->display_toolbox(intval($_REQUEST['file']), $_REQUEST, $page_for_toolbox);
 			}
 			else
 			{
 				// Show toolbox
-				$fldm->display_toolbox($_REQUEST['file'], false, $_REQUEST['page']);
+					$page_for_toolbox = (isset($_REQUEST['page']) && is_numeric($_REQUEST['page'])) ? max(1,intval($_REQUEST['page'])) : 1;
+					$fldm->display_toolbox(intval($_REQUEST['file']), false, $page_for_toolbox);
 			}
 		}
 		else
