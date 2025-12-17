@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Database Interaction Module
@@ -41,7 +43,7 @@ class dbim
 		}
 		
 		// Error handling (If you have EHM debug >= 2 then you get a full var dump including DB access details)
-		trigger_error('[DBIM] Connection Failed: '.mysql_error(), FATAL);
+		od_fatal('[DBIM] Connection Failed: '.mysql_error()); 
 	}
 	
 	// Execute and return result of SQL query
@@ -57,11 +59,11 @@ class dbim
 				if (!$this->result)
 				{
 					// Error handling
-					trigger_error('[DBIM] Query Failed: '.mysql_error().' Query: '.$query, FATAL);
+					od_fatal('[DBIM] Query Failed: '.mysql_error().' Query: '.$query);
 				}
 				
 				// Increment query counter
-				$this->query_count++;
+				$this->query_count++; 
 				
 				$this->in_query = false;				
 				return $this->result;
@@ -69,35 +71,35 @@ class dbim
 			else
 			{
 				// Error handling
-				trigger_error('[DBIM] Already in query', FATAL);
-			}
+				od_fatal('[DBIM] Already in query');
+			} 
 		}
 		// Error handling
-		trigger_error('[DBIM] No Query Specified', FATAL);
+		od_fatal('[DBIM] No Query Specified'); 
 	}
 
 	// Return result row as an associative array
 	function fetch_array($result)
 	{
-		return ($result) ? @mysql_fetch_assoc($result) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+		return ($result) ? @mysql_fetch_assoc($result) : od_fatal('[DBIM] Query Failed: '.mysql_error()); 
 	}
 	
 	// Return number of rows in result
 	function num_rows($result)
 	{	
-		return ($result) ? @mysql_num_rows($result) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+		return ($result) ? @mysql_num_rows($result) : od_fatal('[DBIM] Query Failed: '.mysql_error()); 
 	}
 	
 	// Return number of affected rows in previous operation
 	function affected_rows()
 	{
-		return ($this->connection) ? @mysql_affected_rows($this->connection) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+		return ($this->connection) ? @mysql_affected_rows($this->connection) : od_fatal('[DBIM] Query Failed: '.mysql_error()); 
 	}
 	
 	// Return the ID generated from the previous INSERT operation
 	function insert_id()
 	{
-		return ($this->connection) ? @mysql_insert_id($this->connection) : trigger_error('[DBIM] Query Failed: '.mysql_error(), FATAL);
+		return ($this->connection) ? @mysql_insert_id($this->connection) : od_fatal('[DBIM] Query Failed: '.mysql_error()); 
 	}
 }
 ?>

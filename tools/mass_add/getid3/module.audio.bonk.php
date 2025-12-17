@@ -33,8 +33,8 @@ class getid3_bonk
 			fseek($fd, 0 - $BonkTagSize, SEEK_CUR);
 			$BonkTagOffset = ftell($fd);
 			$TagHeaderTest = fread($fd, 5);
-			if (($TagHeaderTest{0} != "\x00") || (substr($PossibleBonkTag, 4, 4) != strtolower(substr($PossibleBonkTag, 4, 4)))) {
-				$ThisFileInfo['error'][] = 'Expecting "Ø'.strtoupper(substr($PossibleBonkTag, 4, 4)).'" at offset '.$BonkTagOffset.', found "'.$TagHeaderTest.'"';
+			if (($TagHeaderTest[0] != "\x00") || (substr($PossibleBonkTag, 4, 4) != strtolower(substr($PossibleBonkTag, 4, 4)))) {
+				$ThisFileInfo['error'][] = 'Expecting "ï¿½'.strtoupper(substr($PossibleBonkTag, 4, 4)).'" at offset '.$BonkTagOffset.', found "'.$TagHeaderTest.'"';
 				return false;
 			}
 			$BonkTagName = substr($TagHeaderTest, 1, 4);
@@ -168,7 +168,7 @@ class getid3_bonk
 				$BonkData = "\x00".'META'.fread($fd, $ThisFileInfo['bonk']['META']['size'] - 5);
 				$ThisFileInfo['bonk']['META']['version'] = getid3_lib::LittleEndian2Int(substr($BonkData,  5, 1));
 
-				$MetaTagEntries = floor(((strlen($BonkData) - 8) - 6) / 8); // BonkData - xxxxmeta - ØMETA
+				$MetaTagEntries = floor(((strlen($BonkData) - 8) - 6) / 8); // BonkData - xxxxmeta - ï¿½META
 				$offset = 6;
 				for ($i = 0; $i < $MetaTagEntries; $i++) {
 					$MetaEntryTagName   =                  substr($BonkData, $offset, 4);

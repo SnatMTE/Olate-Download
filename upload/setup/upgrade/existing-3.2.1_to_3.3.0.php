@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 125 $
 * @package od
 *
-* Updated: $Date: 2005-10-15 22:16:22 +0100 (Sat, 15 Oct 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Initialisation
@@ -111,7 +113,7 @@ $dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict` (
   `action` tinyint(1) NOT NULL default '0',
   `active` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict_log` (
   `id` int(11) NOT NULL auto_increment,
@@ -120,14 +122,14 @@ $dbim->query("CREATE TABLE `".DB_PREFIX."ip_restrict_log` (
   `request_uri` text NOT NULL,
   `referer` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."leech_settings` (
 `id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
 `domain` TEXT NOT NULL ,
 `action` TINYINT( 1 ) NOT NULL ,
 PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;");
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_log` (
 	`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
@@ -142,13 +144,13 @@ $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_log` (
 	`confirm_hash` VARCHAR( 32 ) NOT NULL ,
 	`confirmed` TINYINT( 1 ) DEFAULT '0' NOT NULL ,
 	PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;");
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("CREATE TABLE `".DB_PREFIX."recommend_blocklist` (
   `id` int(11) NOT NULL auto_increment,
   `address` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`,`address`)
-) TYPE=MyISAM ;");
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ;");
 
 $dbim->query("ALTER TABLE `".DB_PREFIX."categories` ADD `keywords` TEXT NOT NULL ;");
 
@@ -156,7 +158,7 @@ $dbim->query("ALTER TABLE `".DB_PREFIX."categories` ADD `keywords` TEXT NOT NULL
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Olate Download 3 - Upgrade</title>
+<title>Olate Download 3.5.0 - Upgrade</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 <link href="../setup.css" rel="stylesheet" type="text/css" />
 </head>
@@ -189,15 +191,15 @@ $dbim->query("ALTER TABLE `".DB_PREFIX."categories` ADD `keywords` TEXT NOT NULL
           <h3>What's New?</h3>
           <p>In this version, the following changes have been made:</p>
           <p> 
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=163" title="[resolved] Custom Field Value Won't Update">0000163</a>: <b>[Admin]</b> Custom Field Value Won't Update (David)<br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=164" title="[resolved] Agreements Parse Error">0000164</a>: <b>[Admin]</b> Agreements Parse Error (David)<br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=136" title="[resolved] &quot;Accept&quot; button label">0000136</a>: <b>[Core: LM (Languages)]</b> "Accept" button label (David)<br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=158" title="[resolved] File Count">0000158</a>: <b>[General]</b> File Count (David)<br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=167" title="[resolved] Incorrect ID in admin notification email on user file upload">0000167</a>: <b>[General]</b> Incorrect ID in admin notification email on user file upload (David)<br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=169" title="[resolved] Ability to display custom fields">0000169</a>: <b>[General]</b> Ability to display custom fields (David) <br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=184" title="[resolved] Vulnerability with file uploads">0000184</a>: <b>[Security]</b> Vulnerability with file uploads (David)<br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=165" title="[resolved] Agreement line breaks not being preserved">0000165</a>: <b>[Templates: olate]</b> Agreement line breaks not being preserved (David)<br />
-			- <a href="http://www.olate.co.uk/tracker/view.php?id=181" title="[resolved] Page does not render fully in IE">0000181</a>: <b>[Templates: olate]</b> Page does not render fully in IE (David)</p>
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000163</a>: <b>[Admin]</b> Custom Field Value Won't Update (David)<br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000164</a>: <b>[Admin]</b> Agreements Parse Error (David)<br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000136</a>: <b>[Core: LM (Languages)]</b> "Accept" button label (David)<br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000158</a>: <b>[General]</b> File Count (David)<br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000167</a>: <b>[General]</b> Incorrect ID in admin notification email on user file upload (David)<br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000169</a>: <b>[General]</b> Ability to display custom fields (David) <br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000184</a>: <b>[Security]</b> Vulnerability with file uploads (David)<br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000165</a>: <b>[Templates: olate]</b> Agreement line breaks not being preserved (David)<br />
+			- <a href="https://github.com/SnatMTE/Olate-Download/issues">0000181</a>: <b>[Templates: olate]</b> Page does not render fully in IE (David)</p>
           <p>A full changelog can be viewed in the Changelog.txt file within the original download package.</p>
         </div>
 	</td>

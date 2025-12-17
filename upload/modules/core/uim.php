@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // "Why make your own templating system" you may ask? Why not use Smarty or any of the 
@@ -20,7 +22,7 @@
 class uim_main
 {	
 	// Declare some vars
-	var $theme;
+	var $theme, $meta_data;
 	
 	// Constructor - get the theme
 	function uim_main($theme = false)
@@ -34,11 +36,19 @@ class uim_main
 		else 
 		{			
 			$this->theme = $site_config['template'];		
-		}		
+		}
+		// Initialize meta-data to a safe default to avoid undefined property notices
+		$this->meta_data = array();		
 		
 		// Start output buffering for the generate() call
 		ob_start();
 	}
+
+	// PHP 5+/8+ constructor shim — call legacy constructor for backward compatibility
+	function __construct($theme = false)
+	{
+		$this->uim_main($theme);
+	} 
 	
 	// Get the template file requested
 	function fetch_template($template)
@@ -119,11 +129,22 @@ class uim_template
 		$this->dir = $dir;
 		$this->file = $file;
 		
+		// Initialize template storage to safe defaults
+		$this->vars = array();
+		$this->blocks = array();
+		$this->template = '';
+		
 		// Get the contents
 		$this->get_file();
-			
+		
 		// Assign global vars
 		$this->assign_globals();
+	}
+
+	// PHP 5+/8+ constructor shim — call legacy constructor for backward compatibility
+	function __construct($dir, $file)
+	{
+		$this->uim_template($dir, $file);
 	}
 	
 	// Assign variable for parsing later
@@ -135,16 +156,24 @@ class uim_template
 	// Assign variables for parsing later
 	function assign_vars($vars) 
 	{
-		// Go through each one and use assign_var
-		while (list($name, $value) = each($vars))
-		{			
-			$this->assign_var($name, $value);			
-		}		
+		// Accept only arrays
+		if (!is_array($vars)) {
+			return;
+		}
+		// Use foreach to iterate safely
+		foreach ($vars as $name => $value) {
+			$this->assign_var($name, $value);
+		}
 	}
-	
-	// Go through and parse each type
 	function parse(&$template) 
 	{		
+		// Guard against null or non-string templates (avoid deprecated warnings in PHP 8.4+)
+		if (!is_string($template) && !is_numeric($template)) {
+			return;
+		}
+		// Ensure it's a string for string operations
+		$template = (string)$template;
+		
 		// Declare things to parse, and what to check for
 		// If present, parse, if not, don't
 		$types = array('vars' => '{$',
@@ -154,16 +183,16 @@ class uim_template
 						'blocks' => '{block:');
 		
 		foreach ($types as $type => $search)
-		{			
+		{ 			
 			$parse_func = 'parse_'.$type;
 			
-			if (strstr($template, $search)) 
-			{			
-				$this->$parse_func($template);				
-			}			
-		}		
-	}
-	
+			if (strpos($template, $search) !== false) 
+			{ 			
+				$this->$parse_func($template); 			
+			} 			
+		} 		
+	} 
+
 	// Variable pArsing (hehe) with the joys of reg exps
 	function parse_vars(&$template) 
 	{		
@@ -193,9 +222,9 @@ class uim_template
 			// It's getting hot in here, so take off all your ]
 			$var_index = substr($var_index, '0', strlen($var_index) - 1);
 
-			// Now make the php out of it
-			$template = str_replace('{$'.$main_var.'['.$var_index.']}',
-									'<?php echo $this->vars[\''.$main_var.'\'][\''.$var_index.'\']; ?>',
+		// Now make the php out of it with a safe isset check to avoid undefined array key notices
+		$template = str_replace('{$'.$main_var.'['.$var_index.']}',
+						'<?php echo (isset($this->vars[\''.$main_var.'\'][\''.$var_index.'\']) ? $this->vars[\''.$main_var.'\'][\''.$var_index.'\'] : ""); ?>',
 									$template);
 		}
 	}
@@ -249,19 +278,33 @@ class uim_template
 		
 		foreach ($conditionals_if['1'] as $condition) 
 		{			
+			// Quote unquoted array indices in conditions (e.g., $a[key] -> $a['key']) to avoid undefined constant notices
+			$cond_safe = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[([a-zA-Z0-9_]+)\]/', function($m){ return '$'.$m[1]."['".$m[2]."']"; }, $condition);
+			// Replace array variable accesses in conditions with safe isset() accessors to avoid undefined array key notices
+			$cond_safe = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[\'([a-zA-Z0-9_]+)\'\]/', function($m){
+				return '(isset($this->vars[\''.$m[1].'\'][\''.$m[2].'\']) ? $this->vars[\''.$m[1].'\'][\''.$m[2].'\'] : false)';
+			}, $cond_safe);
+			
 			// Make the php
 			$template = str_replace('{if:'.$condition.'}',
-									'<?php if ('.$condition.') { ?>', $template);			
+							'<?php if ('.$cond_safe.') { ?>', $template);
+			// Safely replace any elseif that matches the same condition
+			$template = str_replace('{elseif:'.$condition.'}',
+							'<?php } elseif ('.$cond_safe.') { ?>', $template);
 		}
 		
-		// The soup today is elseif's and bread rolls
-		preg_match_all('/{elseif:(.+)}/', $template, $conditionals_elseif);		
-
-		foreach ($conditionals_elseif['1'] as $condition) 
-		{			
-			// Make the php
-			$template = str_replace('{elseif:'.$condition.'}',
-									'<?php } elseif ('.$condition.') { ?>', $template);
+		// Additionally, handle any remaining {elseif:...} occurrences that didn't match an {if:...} string
+		preg_match_all('/\{elseif:(.+)\}/', $template, $conditionals_elseif);
+		foreach ($conditionals_elseif['1'] as $condition_elseif)
+		{
+			// Quote unquoted array indices in elseif conditions
+			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[([a-zA-Z0-9_]+)\]/', function($m){ return '$'.$m[1]."['".$m[2]."']"; }, $condition_elseif);
+			// Replace array variable accesses in conditions with safe isset() accessors
+			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[\'([a-zA-Z0-9_]+)\'\]/', function($m){
+				return '(isset($this->vars[\''.$m[1].'\'][\''.$m[2].'\']) ? $this->vars[\''.$m[1].'\'][\''.$m[2].'\'] : false)';
+			}, $cond_safe_elseif);
+			// Replace the elseif
+			$template = str_replace('{elseif:'.$condition_elseif.'}', '<?php } elseif ('.$cond_safe_elseif.') { ?>', $template);
 		}
 		
 		// And finally you're waiter today will be else & endif
@@ -303,6 +346,11 @@ class uim_template
 			// Parse the block
 			$this->parse($block);
 			
+			// Ensure vars is an array before extracting (avoid extract() fatal when null)
+			if (!is_array($this->vars)) {
+				$this->vars = array();
+			}
+			
 			// Extract the vars
 			extract($this->vars);
 			
@@ -342,24 +390,28 @@ class uim_template
 	// Variable assignment
 	function give_vars($vars) 
 	{		
+		// Ignore non-arrays
+		if (!is_array($vars)) {
+			return;
+		}
 		// Go through each one, and add it to
 		// the vars array
-		while(list($name, $value) = each($vars)) 
-		{		
-			$this->vars["$name"] = $value;				
-		}		
+		foreach ($vars as $name => $value) {
+			$this->vars["$name"] = $value;
+		}
 	}
-	
-	// Get the required file
 	function get_file()
 	{		
-		// Read it in
-		$file = fopen($this->dir.'/'.$this->file, 'r');
-		$contents = fread($file, filesize($this->dir.'/'.$this->file));
-		
-		$this->template = $contents;
+		// Normalize path and read it in safely
+		$path = rtrim($this->dir, '/') . '/' . ltrim($this->file, '/');
+		if (!is_readable($path)) {
+			// Template missing or unreadable — use empty template to avoid warnings
+			$this->template = '';
+			return;
+		}
+		$contents = file_get_contents($path);
+		$this->template = ($contents === false) ? '' : $contents;
 	}
-	
 	// Create global vars
 	function assign_globals()
 	{
@@ -406,10 +458,14 @@ class uim_template
 		$this->assign_vars(array('get_vars' => $_GET,
 								 'post_vars' => $_POST));
 								 
-		// Assign user's permissions
+		// Assign user's permissions (always assign an array to avoid undefined variable in templates)
 		if ($uam->user_authed() && isset($uam->permissions))
 		{
 			$this->assign_var('user_permissions', $uam->permissions);
+		}
+		else
+		{
+			$this->assign_var('user_permissions', array());
 		}
 		
 		// And site config
@@ -429,6 +485,10 @@ class uim_template
 		// things like {if: $var == 'value'} if it wasn't this
 		// way, they'd have to type {if: $this->vars['var'] == 'value'}
 		// not really very fun
+		// Ensure vars is an array before extracting to avoid fatal extract() error
+		if (!is_array($this->vars)) {
+			$this->vars = array();
+		}
 		extract($this->vars);
 		
 		// Are we just dumping the PHP code?
@@ -441,6 +501,11 @@ class uim_template
 		// Catch output
 		ob_start();
 		
+		// If debug compilation is requested, write compiled template to file for offline linting
+		if (!empty($GLOBALS['OD_DEBUG_COMPILE'])) {
+			$compiled_path = dirname(__DIR__, 2) . '/compiled_template.php';
+			@file_put_contents($compiled_path, "<?php\n" . $this->template);
+		}
 		// Eval it
 		eval('?>'.$this->template);
 		

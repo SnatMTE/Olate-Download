@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Start admin cp
@@ -43,7 +45,7 @@ else
 	$split = explode("\r\n\r\n", $response);
 	$latest_version = trim($split[1]);
 	
-	if (!ereg('^[0-9]+\.[0-9]+\.[0-9]+$', $latest_version))
+	if (!preg_match('/^[0-9]+\.[0-9]+\.[0-9]+$/', $latest_version))
 	{
 		$updates_template->assign_var('error', $lm->language('admin', 'updates_unavailable'));
 	}
