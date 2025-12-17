@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Start admin cp
@@ -367,7 +369,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}
@@ -546,7 +548,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}
@@ -641,7 +643,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}
@@ -680,7 +682,7 @@ if ($uam->permitted('acp_ip_restrict_main'))
 		// Get list of IDs to work with
 		foreach ($_REQUEST as $name => $value)
 		{
-			if (ereg('ip_check_([0-9]{1,})', $name, $registers))
+			if (preg_match('/ip_check_([0-9]{1,})/', $name, $registers))
 			{
 				$id_list[] = intval($registers[1]);
 			}

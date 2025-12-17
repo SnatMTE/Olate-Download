@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,13 +9,15 @@
 * @version $Revision: 125 $
 * @package od
 *
-* Updated: $Date: 2005-10-15 22:16:22 +0100 (Sat, 15 Oct 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Olate Download 3 - Installation</title>
+<title>Olate Download 3.5.0 - Installation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 <link href="../setup.css" rel="stylesheet" type="text/css" />
 </head>
@@ -57,7 +59,7 @@
 				
 		<div id="options">
 			<h3>Server Requirements</h3>			
-			<p>The following are required before you can install Olate Download 3:</p>
+			<p>The following are required before you can install Olate Download 3.5.0:</p>
 			<?php
 			// PHP Version Checking
 			if (phpversion() >= '4.3.0')
@@ -74,18 +76,35 @@
 			<?php
 			}
 			
-			// MySQL Version Checking
-			if (extension_loaded('mysql'))
-			{
-			?>
-				<p>&#8226; MySQL <span style="color:#009900">Test Passed - MySQL is available. (Version 4.0.2+ is required for search functionality and will be auto detected).</span></p>
-			<?php
-			}
-			else
-			{
-				$requirements = false;
-			?>
-				<p>&#8226; MySQL <span style="color:#CC0000">Test Failed - MySQL is not available.</span></p>
+// Database support checking (accept ext/mysql OR PDO with mysql/sqlite drivers)
+		$has_mysql_ext = extension_loaded('mysql');
+		$has_pdo = extension_loaded('pdo');
+		$pdo_drivers = array();
+		$has_pdo_mysql = false;
+		$has_pdo_sqlite = false;
+		if ($has_pdo && class_exists('PDO')) {
+			$pdo_drivers = PDO::getAvailableDrivers();
+			$has_pdo_mysql = in_array('mysql', $pdo_drivers);
+			$has_pdo_sqlite = in_array('sqlite', $pdo_drivers);
+		}
+		if ($has_mysql_ext)
+		{
+		?>
+			<p>&#8226; MySQL <span style="color:#009900">Test Passed - MySQL extension is available.</span></p>
+		<?php
+		}
+		elseif ($has_pdo && ($has_pdo_mysql || $has_pdo_sqlite))
+		{
+			$drivers_list = htmlspecialchars(implode(', ', $pdo_drivers));
+		?>
+			<p>&#8226; PDO <span style="color:#009900">Test Passed - PDO available (drivers: <?php echo $drivers_list; ?>). Remote DB servers are allowed.</span></p>
+		<?php
+		}
+		else
+		{
+			$requirements = false;
+		?>
+			<p>&#8226; Database support <span style="color:#CC0000">Test Failed - MySQL or PDO (with pdo_mysql/pdo_sqlite) not available.</span></p>
 			<?php
 			}
 			
@@ -128,7 +147,7 @@
 			else
 			{
 			?>
-				<p>You need to fix the above problem(s) before you can continue with the installation. If you need assistance, please <a href="http://www.olate.co.uk/support" target="_blank">get help</a>.</p>
+					<p>You need to fix the above problem(s) before you can continue with the installation. If you need assistance, please <a href="https://github.com/SnatMTE/Olate-Download/issues" target="_blank">get help</a>.</p>
 			<?php
 			}
 			?>				

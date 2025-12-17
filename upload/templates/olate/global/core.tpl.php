@@ -29,7 +29,7 @@
 	{$page_content}
 	
 	<div id="footer">
-		Powered by <a style="color:#FFFFFF" href="http://www.olate.co.uk">Olate Download</a> {$global_vars[version]} 
+		Powered by <a style="color:#FFFFFF" href="https://github.com/SnatMTE/Olate-Download/">Olate Download</a> {$global_vars[version]} 
 		<p>
 {if: $site_config[allow_user_lang]}
 		<a style="color:#FFFFFF" href="language.php">{lang:frontend:change_language}</a>

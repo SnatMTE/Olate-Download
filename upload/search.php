@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Initialisation
@@ -30,13 +32,23 @@ if ($site_config['enable_search'])
 	// Get template
 	$search_template = $uim->fetch_template('search/search');
 	
-	// Get all results for the page box
-	$search_result = $dbim->query('SELECT id, name, description_small, description_big, date
-								FROM '.DB_PREFIX.'files 
-								WHERE MATCH (name, description_small, description_big) 
-										AGAINST ("'.$_REQUEST['query'].'" IN BOOLEAN MODE)
-											AND (category_id != 0)
-												AND (status != 0)');
+// Validate query parameter (early) and prepare safe version
+	if (isset($_REQUEST['query']) && !empty($_REQUEST['query']))
+	{
+		validate_types($_REQUEST, array('query' => 'STR'));
+		$safe_query = $_REQUEST['query'];
+		// Get all results for the page box (unsliced)
+		$search_result = $dbim->query('SELECT id, name, description_small, description_big, date
+						FROM '.DB_PREFIX.'files 
+						WHERE MATCH (name, description_small, description_big) 
+							AGAINST ("'.$safe_query.'" IN BOOLEAN MODE)
+								AND (category_id != 0)
+									AND (status != 0)');
+	}
+	else
+	{
+		$safe_query = '';
+	}
 	
 	$results = array();
 	
@@ -46,22 +58,20 @@ if ($site_config['enable_search'])
 	}
 	
 	// Checks
-	if (isset($_REQUEST['query']) && !empty($_REQUEST['query']))
+	if ($safe_query !== '')
 	{
-		validate_types($_REQUEST, array('query' => 'STR'));
-		
 		// Has a page been given
-		$page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+		$page = (isset($_GET['page']) && is_numeric($_GET['page'])) ? max(1, intval($_GET['page'])) : 1;
 		
-		// Get result
+		// Get result (sliced)
+		$offset = ($page - 1) * $amount;
 		$search_result = $dbim->query('SELECT id, name, description_small, description_big, date
-										FROM '.DB_PREFIX.'files 
-										WHERE MATCH (name, description_small, description_big) 
-												AGAINST ("'.$_REQUEST['query'].'" IN BOOLEAN MODE)
-													AND (category_id != 0)
-														AND (status != 0)
-										LIMIT '.($page - 1) * $amount .','.$amount);
-		
+						FROM '.DB_PREFIX.'files 
+						WHERE MATCH (name, description_small, description_big) 
+							AGAINST ("'.$safe_query.'" IN BOOLEAN MODE)
+								AND (category_id != 0)
+									AND (status != 0)
+						LIMIT '.$offset.','.$amount);
 		// Display
 		while ($result = $dbim->fetch_array($search_result))
 		{
@@ -80,11 +90,12 @@ if ($site_config['enable_search'])
 	if (isset($submitted))
 	{
 		// Show pagebox
-		$pagination = $fldm->make_page_box($results,'search.php?query='.$_REQUEST['query'].'&amp;', $amount);
+		$pagination = $fldm->make_page_box($results,'search.php?query='.urlencode($safe_query).'&amp;', $amount);
 		$search_template->assign_var('pagination', $pagination);
 	}
 	
 	// Show template
+	$search_template->assign_var('query', $safe_query);
 	$search_template->show();
 	
 	// End

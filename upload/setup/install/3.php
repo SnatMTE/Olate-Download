@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,10 +9,13 @@
 * @version $Revision: 125 $
 * @package od
 *
-* Updated: $Date: 2005-10-15 22:16:22 +0100 (Sat, 15 Oct 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Install
+require_once('../../includes/helper.php');
 // Check all fields filled in
 if (empty($_POST['server']) || empty($_POST['name']) || empty($_POST['username']) ||  empty($_POST['prefix']))
 {
@@ -23,17 +26,45 @@ else
 	// No errors? Good. Proceed with caution Mr Spock
 	if (!isset($error))
 	{
-		// Oh great, now I have chocolate all over me. Damn its low melting point. Bah.
-		// Connect to the MySQL server
-		@ $connect = mysql_connect($_POST['server'], $_POST['username'], $_POST['password']);
+			// Host detection for remote vs local
+			function _od_get_hostname($host) {
+				$h = trim((string)$host);
+				if ($h === '') return $h;
+				if (stripos($h, 'sqlite:') === 0) return $h;
+				if (preg_match('/^\[(.+)\](?::\d+)?$/', $h, $m)) return $m[1];
+				if (substr_count($h, ':') > 1) return $h; // IPv6
+				if (strpos($h, ':') !== false) {
+					$parts = explode(':', $h);
+					return $parts[0];
+				}
+				return $h;
+			}
+			$server_host = _od_get_hostname($_POST['server']);
+			$is_remote_host = true;
+			$local_candidates = array('localhost', '127.0.0.1', '::1');
+			foreach ($local_candidates as $lc) {
+				if (stripos($server_host, $lc) === 0) { $is_remote_host = false; break; }
+			}
+			if ($is_remote_host) {
+				$remote_message = 'Remote database host detected ('.htmlspecialchars($_POST['server']).'). The installer will attempt to connect; ensure your DB server accepts remote connections and user has remote access privileges.';
+			}
+
 		
-		// Select database
-		@ $select = mysql_select_db($_POST['name']);
-		
-		// Connect to the MySQL server: Error handling
-		if ($connect || $select)
-		{
-			// Everything seems ok (except the melted chocolate on my trousers)			
+			// Attempt to connect to the database server (supports remote hosts)
+			@ $connect = mysql_connect($_POST['server'], $_POST['username'], $_POST['password']);
+
+			// Select database
+			@ $select = mysql_select_db($_POST['name']);
+
+			// Connect to the MySQL server: Error handling
+			if (!$connect) {
+				// Connection failed
+				$error = 'Database Error: '.mysql_error();
+			} elseif (!$select) {
+				// Connected but DB not selected
+				$error = 'Database Error: No database selected. Please ensure the database exists and that the user has sufficient privileges. ('.mysql_error().')';
+			} else {
+				// Everything seems ok (except the melted chocolate on my trousers)			
 			// Detect MySQL version - greater than 4.0.2?
 			$version = mysql_query('SELECT VERSION() AS version');
 			$version = mysql_fetch_array($version);
@@ -58,20 +89,18 @@ else
 				$search = 0;
 				require('../sql/tables_oldmysql.php');
 			}
-			
-			foreach ($tables_sql as $sql)
-			{
-				$sql = str_replace('downloads_', $_POST['prefix'], $sql); // Inserts pefix	
-				
-				$result = mysql_query($sql);
-				if (!$result)
+				foreach ($tables_sql as $sql)
 				{
-					$error = '<br>Database Error: '.mysql_error();
-					break;
-				}
-				else
-				{
-					// Create the config.php file now we've got the database tables in
+					$sql = str_replace('downloads_', $_POST['prefix'], $sql); // Inserts pefix
+					$result = mysql_query($sql);
+					if (!$result)
+					{
+						$error = '<br>Database Error: '.mysql_error();
+						break;
+					}
+					else
+					{
+						// Create the config.php file now we've got the database tables in
 					@ $file = fopen('../../includes/config.php', 'w+');
 					if (!$file)
 					{
@@ -106,10 +135,6 @@ else
 				}
 			}
 		}
-		else
-		{
-			$error =  'Database Error: '.mysql_error();
-		}		
 	}
 }
 ?>
@@ -162,6 +187,7 @@ else
 		?>
 			<h1>General Settings</h1>
 			<p id="intro">Your database tables have been sucessfully created.</p>
+			<?php if (!empty($remote_message)) { echo '<p style="background:#fff7cc;border:1px solid #ffd27f;padding:8px;">'.htmlspecialchars($remote_message).'</p>'; } ?>
 			<br />
 					
 			<div id="options">
@@ -205,6 +231,7 @@ else
 			<h1>Failure</h1>
 			<p id="intro">
 				You must correct the error below before installation can continue:<br /><br /><span style="color:#000000"><?php echo $error; ?></span><br /><br />
+				<?php if (!empty($remote_message)) { echo '<strong>Note:</strong> '.htmlspecialchars($remote_message).'<br /><br />'; } ?>
 				Before you try again you will need to delete the tables created by the installer, which have the prefix "<?php echo $_POST['prefix']; ?>".<br /><br />
 				<a href="javascript: history.go(-1)">Click here to go back</a>.
 			</p>

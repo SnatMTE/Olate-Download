@@ -3,11 +3,23 @@
 			     www.olate.co.uk
 
 The following changes have been made in the development between Beta 1
-and stable 3.4.0:
+and stable 3.5.0:
 
-Olate Download - 3.4.0
+Olate Download - 3.5.0
 ============================
 
+- Minor bug fixes and stability improvements
+- Performance optimisations for database queries and template rendering
+- Template updates and language string fixes
+- Security and PHP compatibility updates
+- PHP 8.0 compatibility fixes (updated type hints, removed deprecated usage, fixed warnings/notices and strict behavior)
+- includes/helper.php updated to wrap legacy mysql_* calls with PDO
+- Documentation updates and miscellaneous maintenance
+  Note: The installer and SQL files are written for MySQL and may not be directly compatible with SQLite; expect to adapt SQL schema and data scripts when using SQLite.
+
+
+Olate Download - 3.4.0
+===========================
 From old tracker:
 - Issue #000232: Admin CP >> Add new file >> Double check password
 - Issue #000253: Mass purging

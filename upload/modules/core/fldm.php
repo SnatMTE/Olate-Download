@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // File Listing Display Module
@@ -33,16 +35,24 @@ class fldm
 		// Add categoryid
 		if ($category_id)
 		{
-			$files_query .= ' AND (c.id = '.$category_id.')';			
+			$files_query .= ' AND (c.id = '.intval($category_id).')';			
 		}
 
 		// Sorting
 		$files_query .= ' ORDER BY f.'.$sort;
 
-		// Limit	
+		// Limit - sanitize numeric offset/count to prevent injection
 		if ($limit)
 		{
-			$files_query .= ' LIMIT '.$limit;
+			if (strpos($limit, ',') !== false)
+			{
+				list($offset, $count) = explode(',', $limit, 2);
+				$files_query .= ' LIMIT '.intval($offset).','.intval($count);
+			}
+			else
+			{
+				$files_query .= ' LIMIT '.intval($limit);
+			}
 		}
 
 		$files_result = $dbim->query($files_query);
@@ -121,9 +131,9 @@ class fldm
 		global $uim, $site_config;
 		
 		// Find the current page
-		if (isset($_GET['page']) && !empty($_GET['page']))
+		if (isset($_GET['page']) && is_numeric($_GET['page']))
 		{
-			$current_page = $_GET['page'];
+			$current_page = max(1, intval($_GET['page']));
 		}
 		else
 		{
@@ -171,8 +181,10 @@ class fldm
 	function display_toolbox($file_id, $current_data = false, $page = false)
 	{	
 		global $dbim, $uim, $site_config;
-		
-		// If search isn't enabled, only show the rate box
+				// Sanitize inputs
+		$file_id = intval($file_id);
+		$page = (isset($page) && is_numeric($page)) ? max(1, intval($page)) : 1;
+				// If search isn't enabled, only show the rate box
 		if (!$site_config['enable_comments'])
 		{
 			$rate = $uim->fetch_template('files/rate');
@@ -198,8 +210,9 @@ class fldm
 				$results[] = $result;
 			}		
 			
-			// Has a page been given
-			$page = (isset($page)) ? $page : 1;		
+			// page was sanitized above; compute offset
+			$offset = ($page - 1) * $amount;
+			
 			
 			// Get all results for the page box
 			$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
@@ -207,7 +220,7 @@ class fldm
 												WHERE (file_id = '.$file_id.') 
 													AND (status = 1)
 												ORDER BY timestamp ASC
-												LIMIT '.($page - 1) * $amount .','.$amount);					
+												LIMIT '.$offset.','.$amount);					
 												
 			$toolbox = $uim->fetch_template('files/toolbox');
 			

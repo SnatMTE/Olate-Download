@@ -1124,7 +1124,7 @@ class getid3_write_id3v2
 					break;
 
 				default:
-					if ($frame_name{0} == 'T') {
+					if ($frame_name[0] == 'T') {
 						// 4.2. T???  Text information frames
 						// Text encoding                $xx
 						// Information                  <text string(s) according to encoding>
@@ -1135,7 +1135,7 @@ class getid3_write_id3v2
 							$framedata .= chr($source_data_array['encodingid']);
 							$framedata .= $source_data_array['data'];
 						}
-					} elseif ($frame_name{0} == 'W') {
+					} elseif ($frame_name[0] == 'W') {
 						// 4.3. W???  URL link frames
 						// URL              <text string>
 						if (!$this->IsValidURL($source_data_array['data'], false, false)) {
@@ -1759,10 +1759,10 @@ class getid3_write_id3v2
 		$unsyncheddata = '';
 		$datalength = strlen($data);
 		for ($i = 0; $i < $datalength; $i++) {
-			$thischar = $data{$i};
+			$thischar = $data[$i];
 			$unsyncheddata .= $thischar;
 			if ($thischar == "\xFF") {
-				$nextchar = ord($data{$i + 1});
+				$nextchar = ord($data[$i + 1]);
 				if (($nextchar & 0xE0) == 0xE0) {
 					// previous byte = 11111111, this byte = 111?????
 					$unsyncheddata .= "\x00";
@@ -1773,7 +1773,7 @@ class getid3_write_id3v2
 	}
 
 	function is_hash($var) {
-		// written by dev-nullØchristophe*vg
+		// written by dev-nullï¿½christophe*vg
 		// taken from http://www.php.net/manual/en/function.array-merge-recursive.php
 		if (is_array($var)) {
 			$keys = array_keys($var);
@@ -1788,7 +1788,7 @@ class getid3_write_id3v2
 	}
 
 	function array_join_merge($arr1, $arr2) {
-		// written by dev-nullØchristophe*vg
+		// written by dev-nullï¿½christophe*vg
 		// taken from http://www.php.net/manual/en/function.array-merge-recursive.php
 		if (is_array($arr1) && is_array($arr2)) {
 			// the same -> merge

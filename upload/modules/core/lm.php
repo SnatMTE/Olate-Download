@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Language Module
@@ -29,6 +31,12 @@ class lm
 		$this->load_language();
 	}
 	
+	// PHP 5+/8+ constructor shim — call legacy constructor for backward compatibility
+	function __construct()
+	{
+		$this->lm();
+	}
+	
 	// Return current language
 	function current_language()
 	{
@@ -38,13 +46,20 @@ class lm
 	// Return language data
 	function get_config($name)
 	{
-		// Return array
+		// Be defensive: ensure language config exists
+		if (!isset($this->language) || !isset($this->language['config']) || !isset($this->language['config'][$name])) {
+			return '';
+		}
 		return $this->language['config'][$name];
 	}
 	
 	// Return text for $language['text']['section']['$name']
 	function language($section, $name)
 	{
+		// Be defensive: if language data is missing or malformed return empty string
+		if (!isset($this->language) || !isset($this->language['text']) || !isset($this->language['text'][$section]) || !isset($this->language['text'][$section][$name])) {
+			return '';
+		}
 		return $this->language['text'][$section][$name];
 	}
 	
@@ -199,7 +214,7 @@ class lm
 				else 
 				{
 					// No languages at all for this version!!
-					trigger_error('[LM] No up to date languages are available to be used', FATAL);
+					od_fatal('[LM] No up to date languages are available to be used');
 				}
 			}
 			
@@ -212,7 +227,7 @@ class lm
 			}
 			else 
 			{
-				trigger_error('[LM] There are no languages available to be used', FATAL);
+				od_fatal('[LM] There are no languages available to be used');
 			}
 		}
 		

@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,10 +9,13 @@
 * @version $Revision: 192 $
 * @package od
 *
-* Updated: $Date: 2005-12-15 17:20:25 +0000 (Thu, 15 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Install
+require_once('../../includes/helper.php');
 // Check all fields filled in
 if (empty($_POST['site_name']) || empty($_POST['url']) || empty($_POST['admin_email']) || empty($_POST['username']) || empty($_POST['password']))
 {
@@ -62,7 +65,7 @@ else
 				
 				// Populate config table
 				$config_sql = 'INSERT INTO '.DB_PREFIX.'config 
-								SET version = "3.4.0", 
+								SET version = "3.5.0", 
 									site_name = "'.htmlentities($_POST['site_name']).'", 
 									url = "'.$_POST['url'].'", 
 									flood_interval = 60,
@@ -139,7 +142,7 @@ else
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-<title>Olate Download 3 - Installation</title>
+<title>Olate Download 3.5.0 - Installation</title>
 <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
 <link href="../setup.css" rel="stylesheet" type="text/css" />
 </head>
@@ -192,7 +195,7 @@ else
 				<h3>Environment Survey</h3>
 		          <p>To help us determine what environment our products are running in, we have created a simple script which will gather some information about the server it is run on and then anonymously submit that data to us.</p>
 		          <p>If you are interested in helping us by running this script, it would be much appreciated and will allow us to decide exactly what kind of platforms we need to continue to support, and what features of new software versions (e.g. PHP/MySQL) we can safely take advantage of.</p>
-		          <p>You can take part in this survey <a href="../../environment.php">by clicking here</a> and following the instructions.</p>
+			  <p>You can take part in this survey by following the instructions.</p>
 				<div class="begin"><a href="../../admin.php">Login</a></div><br />
 			</div>
 			<?php

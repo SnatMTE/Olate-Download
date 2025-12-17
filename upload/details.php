@@ -1,16 +1,17 @@
 <?php
 
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
-* @author $Author: dsalisbury $ (Olate Ltd)
-* @version $Revision: 197 $
+* Original Author: Olate Download
+* Updated by: Snat
+* @version $Revision: 1 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Last-Edited: 2025-12-16
 */
 
 
@@ -55,8 +56,8 @@ if (isset($_REQUEST['file']))
 		// Increment file view count
 		$details['views'] = $details['views'] + 1;	
 		$dbim->query('UPDATE '.DB_PREFIX.'files
-						SET views = '.$details['views'].'
-						WHERE (id = '.$_REQUEST['file'].')');
+						SET views = '.intval($details['views']).'
+						WHERE (id = '.intval($_REQUEST['file']).')');
 		
 		if (empty($details['password']) || isset($_SESSION[$_REQUEST['file'].'_auth']))
 		{
@@ -64,7 +65,7 @@ if (isset($_REQUEST['file']))
 			$details_files = $uim->fetch_template('files/file');
 					
 			// Add comment
-			if ($_REQUEST['cmd'] == 'addcomment')
+			if (isset($_REQUEST['cmd']) && $_REQUEST['cmd'] == 'addcomment')
 			{
 				// Check all fields are filled out
 				if (!empty($_REQUEST['name']) && !empty($_REQUEST['comment']))
@@ -103,7 +104,7 @@ if (isset($_REQUEST['file']))
 			}
 			
 			// Rate file
-			if ($_REQUEST['cmd'] == 'rate')
+			if (isset($_REQUEST['cmd']) && $_REQUEST['cmd'] == 'rate')
 			{
 				if (!empty($_REQUEST['rating']) && !isset($_SESSION['file_rating_'.$_REQUEST['file']]))
 				{						
@@ -171,18 +172,15 @@ if (isset($_REQUEST['file']))
 			$custom_query = $dbim->query('SELECT cf.label AS label, cfd.value AS value
 											FROM '.DB_PREFIX.'customfields_data AS cfd,
 												'.DB_PREFIX.'customfields AS cf
-											WHERE (cfd.file_id = '.$_REQUEST['file'].') 
-												AND	(cfd.field_id = cf.id)');
+							WHERE (cfd.file_id = '.intval($_REQUEST['file']).')
+								AND (cfd.field_id = cf.id)');
 			
 			$i = 0;
+			$custom_fields = array();
 			while ($custom_fields_data = $dbim->fetch_array($custom_query))
 			{
-				$custom_fields[$i.'_label'] = $custom_fields_data['label'];
-				$custom_fields[$i.'_value'] = $custom_fields_data['value'];
-				$i++;
-				
-				// Assigning template variables
-				$details_files->assign_var('custom_field_label', $custom_fields_data['label']);
+				$custom_fields[$i . '_label'] = $custom_fields_data['label'];
+				$custom_fields[$i . '_value'] = $custom_fields_data['value'];
 				$details_files->assign_var('custom_field_value', $custom_fields_data['value']);
 				$details_files->use_block('custom_fields');
 			}
@@ -225,12 +223,14 @@ if (isset($_REQUEST['file']))
 				$comments_error->show();
 					
 				// Show toolbox with submitted data
-				$fldm->display_toolbox($_REQUEST['file'], $_REQUEST, $_REQUEST['page']);
+					$page_for_toolbox = (isset($_REQUEST['page']) && is_numeric($_REQUEST['page'])) ? max(1,intval($_REQUEST['page'])) : 1;
+					$fldm->display_toolbox(intval($_REQUEST['file']), $_REQUEST, $page_for_toolbox);
 			}
 			else
 			{
 				// Show toolbox
-				$fldm->display_toolbox($_REQUEST['file'], false, $_REQUEST['page']);
+					$page_for_toolbox = (isset($_REQUEST['page']) && is_numeric($_REQUEST['page'])) ? max(1,intval($_REQUEST['page'])) : 1;
+					$fldm->display_toolbox(intval($_REQUEST['file']), false, $page_for_toolbox);
 			}
 		}
 		else

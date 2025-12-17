@@ -1,7 +1,7 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 197 $
 * @package od
 *
-* Updated: $Date: 2005-12-17 11:22:39 +0000 (Sat, 17 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Start admin cp
@@ -23,7 +25,7 @@ if ($uam->permitted('acp_files_delete_file'))
 	// Show all files
 	$delete_file = $uim->fetch_template('admin/files_delete_file');
 	
-	if ($_REQUEST['action'] == 'delete' && !empty($_REQUEST['file']))
+	if (isset($_REQUEST['action']) && $_REQUEST['action'] === 'delete' && !empty($_REQUEST['file']))
 	{	
 		if (empty($_REQUEST['confirm_yes']) && empty($_REQUEST['confirm_no']))
 		{
@@ -87,8 +89,8 @@ if ($uam->permitted('acp_files_delete_file'))
 		require_once('modules/core/listings.php');
 		$listing = new listing();
 		
-		// Categories to expand?
-		if (!empty($_REQUEST['files_for']) || $_REQUEST['files_for'] == '0')
+		// Categories to expand? (allow explicit '0')
+		if (isset($_REQUEST['files_for']) && $_REQUEST['files_for'] !== '')
 		{
 			$files_for = $_REQUEST['files_for'];
 			// Tidy it up
@@ -109,7 +111,7 @@ if ($uam->permitted('acp_files_delete_file'))
 			);
 		
 		// Query string
-		$self_query = 'cmd='.$_REQUEST['cmd'];
+		$self_query = 'cmd=' . (isset($_REQUEST['cmd']) ? $_REQUEST['cmd'] : '');
 		
 		// Filter category list leaving only categories that have files
 		$category_list = $listing->filter_cats();

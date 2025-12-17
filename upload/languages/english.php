@@ -1,26 +1,27 @@
 <?php
 /**********************************
-* Olate Download 3.4.0
-* http://www.olate.co.uk/od3
+* Olate Download 3.5.0
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
-* @author $Author: dsalisbury $ (Olate Ltd)
-* @version $Revision: 204 $
+* Original Author: Olate Download
+* Updated by: Snat
+* @version $Revision: 1 $
 * @package od
 *
-* Updated: $Date: 2005-12-18 16:43:21 +0000 (Sun, 18 Dec 2005) $
+* Last-Edited: 2025-12-16
 */
 
 // Language details
 $language['config']['full_name']	= 'English (British)'; 		// Full Language Name
 $language['config']['short_name']	= 'english';				// Short name (lowercase, no spaces or symbols)
-$language['config']['version']		= '3.4.0'; 					// Designed for Olate Download version
+$language['config']['version']		= '3.5.0'; 					// Designed for Olate Download version
 $language['config']['released']		= '18/12/05'; 				// Release date
 
 // Author/Translator Details
 $language['config']['author']		= 'Olate'; 					// Author/Translator Name
-$language['config']['url']			= 'http://www.olate.co.uk'; // Author/Translator Web Address
+$language['config']['url']			= 'https://github.com/SnatMTE/Olate-Download/'; // Author/Translator Web Address
 $language['config']['email']		= 'contact@olate.co.uk'; 	// Author/Translator E-Mail Address
 
 // Character set for this language
@@ -169,7 +170,7 @@ $language['text']['frontend']['your_email']						= 'Your email address';
 $language['text']['frontend']['your_message']					= 'Your message';
 $language['text']['frontend']['your_name']						= 'Your name';
 
-// 3.4.0
+// 3.5.0
 $language['text']['frontend']['change_language']				= 'Change language';
 $language['text']['frontend']['change_language_desc']			= 'You can choose your own language to view this site in by choosing a new language from the box below.';
 $language['text']['frontend']['choose_language']				= 'Please choose a language:';
@@ -591,10 +592,10 @@ $language['text']['admin']['separate_comma']					= '(Separate with a comma)';
 $language['text']['admin']['show_children']						= 'Show children';
 $language['text']['admin']['show_files']						= 'Show files';
 $language['text']['admin']['tech_support']						= 'Technical Support';
-$language['text']['admin']['tech_support_desc']					= 'Although Olate Download 3 is 100% free and open source, it comes with fully featured technical support should you have any questions or problems! A response to your question is guaranteed to make sure that you get the most out of using the product. Our <a href="http://www.olate.co.uk/support/">extensive support section</a> is here to help. 24 hour technical support is also provided through the <a href="http://www.olate.co.uk/forums">Customer Forums</a>.';
+$language['text']['admin']['tech_support_desc']					= 'Although Olate Download 3 is 100% free and open source, it comes with community support via GitHub. If you have a question or need help, please open an issue at <a href="https://github.com/SnatMTE/Olate-Download/issues">https://github.com/SnatMTE/Olate-Download/issues</a>.';
 $language['text']['admin']['total_inactive_files']				= 'Total Inactive Files';
-$language['text']['admin']['updates_available_desc_3']			= ' is now available from the <a href="http://www.olate.co.uk/products/od3/downloads.php">Olate website</a>.';
-$language['text']['admin']['updates_download']					= 'Updates are available for download from the Olate Website, <a href="http://www.olate.co.uk/products/od3/downloads.php">http://www.olate.co.uk/products/od3/downloads.php</a>';
+$language['text']['admin']['updates_available_desc_3']				= ' is now available from the <a href="https://github.com/SnatMTE/Olate-Download/releases">Olate Download releases</a>.';
+$language['text']['admin']['updates_download']						= 'Updates are available for download from the Olate Download releases page, <a href="https://github.com/SnatMTE/Olate-Download/releases">https://github.com/SnatMTE/Olate-Download/releases</a>';
 $language['text']['admin']['updates_unavailable']				= 'The update checker was unable to connect to the Olate webserver.  If this problem persists, please contact your web host.';
 $language['text']['admin']['upload_error_0']					= 'The file was uploaded successfully. Please note that the file may not appear immediately as it may require approval from the administrator.';
 $language['text']['admin']['uploads_separate']					= '(Put a dot before each extensions and separate with a comma)';
@@ -608,7 +609,7 @@ $language['text']['admin']['wysiwyg_editor_not_exist']			= 'You cannot use the W
 $language['text']['admin']['yes']								= 'Yes';
 $language['text']['admin']['you_want_to_continue']				= 'Do you want to continue?';
 
-// 3.4.0
+// 3.5.0
 $language['text']['admin']['activate']							= 'Activate?';
 $language['text']['admin']['activate_at']						= 'Activate at';
 $language['text']['admin']['activate_marked']					= 'Activate marked';
@@ -643,7 +644,7 @@ $language['text']['admin']['lang_exists']						= 'This language already exists i
 $language['text']['admin']['language_settings']					= 'Language settings';
 $language['text']['admin']['language_settings_desc']			= 'You can set multiple languages to be available for site users to use if they prefer.';
 $language['text']['admin']['language_settings_howto_title']		= 'How to use multiple languages';
-$language['text']['admin']['language_settings_howto_desc']		= 'Some language files are available from the <a href="http://www.olate.co.uk/">Olate Website</a>.  To use them on your site you need to download the relevant .zip files and extract them.  You then need to upload the .php files from the zip files you downloaded into the languages/ folder.  You can then add them using this page.';
+$language['text']['admin']['language_settings_howto_desc']			= 'Some language files are available from the <a href="https://github.com/SnatMTE/Olate-Download/">Olate Download project page</a>.  To use them on your site you need to download the relevant .zip files and extract them.  You then need to upload the .php files from the zip files you downloaded into the languages/ folder.  You can then add them using this page.';
 $language['text']['admin']['make_default']						= 'Make default';
 $language['text']['admin']['make_default_done']					= 'The language you chose has been set as the default language.';
 $language['text']['admin']['minute']							= 'Minute';

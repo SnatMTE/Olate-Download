@@ -1,7 +1,7 @@
 <?php
 /**********************************
 * Olate Download 3.3.0
-* http://www.olate.co.uk/od3
+* https://github.com/SnatMTE/Olate-Download/
 **********************************
 * Copyright Olate Ltd 2005
 *
@@ -9,7 +9,9 @@
 * @version $Revision: 192 $
 * @package od
 *
-* Updated: $Date: 2005-12-15 17:20:25 +0000 (Thu, 15 Dec 2005) $
+* Original Author: Olate Download
+* Updated by: Snat
+* Last-Edited: 2025-12-16
 */
 
 // Tables
@@ -18,7 +20,7 @@ $tables_sql[] = "CREATE TABLE `downloads_agreements` (
   `name` varchar(200) NOT NULL default '',
   `contents` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_categories` (
   `id` int(11) NOT NULL auto_increment,
@@ -28,7 +30,7 @@ $tables_sql[] = "CREATE TABLE `downloads_categories` (
   `sort` int(5) NOT NULL default '0',
   `keywords` TEXT NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_comments` (
   `id` int(11) NOT NULL auto_increment,
@@ -39,7 +41,7 @@ $tables_sql[] = "CREATE TABLE `downloads_comments` (
   `comment` text NOT NULL,
   `status` tinyint(4) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_config` (
   `version` varchar(20) NOT NULL default '',
@@ -77,14 +79,14 @@ $tables_sql[] = "CREATE TABLE `downloads_config` (
   `acp_check_extensions` tinyint(1) NOT NULL default '0',
   `use_fckeditor` tinyint(1) NOT NULL default '0',
   `allow_user_lang` TINYINT( 1 ) NOT NULL 
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_customfields` (
   `id` int(11) NOT NULL auto_increment,
   `label` varchar(50) NOT NULL default '',
   `value` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;"; 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;"; 
 
 $tables_sql[] = "CREATE TABLE `downloads_customfields_data` (
   `id` int(10) NOT NULL auto_increment,
@@ -92,7 +94,7 @@ $tables_sql[] = "CREATE TABLE `downloads_customfields_data` (
   `file_id` int(10) NOT NULL default '0',
   `value` varchar(50) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;"; 
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;"; 
 
 $tables_sql[] = "CREATE TABLE `downloads_files` (
   `id` int(11) NOT NULL auto_increment,
@@ -113,7 +115,7 @@ $tables_sql[] = "CREATE TABLE `downloads_files` (
   `keywords` TEXT NOT NULL,
   `activate_at` INT( 10 ) DEFAULT '0' NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_mirrors` (
   `id` int(11) NOT NULL auto_increment,
@@ -122,14 +124,14 @@ $tables_sql[] = "CREATE TABLE `downloads_mirrors` (
   `location` text NOT NULL,
   `url` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_permissions` (
   `permission_id` int(11) NOT NULL auto_increment,
   `name` varchar(40) NOT NULL default '',
   `setting` int(1) NOT NULL default '0',
   PRIMARY KEY  (`permission_id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_stats` (
   `id` int(11) NOT NULL auto_increment,
@@ -139,13 +141,13 @@ $tables_sql[] = "CREATE TABLE `downloads_stats` (
   `referrer` text NOT NULL,
   `user_agent` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_usergroups` (
   `id` int(11) NOT NULL auto_increment,
   `name` varchar(30) NOT NULL default '',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";
 
 $tables_sql[] = "CREATE TABLE `downloads_userpermissions` (
   `id` int(11) NOT NULL auto_increment,
@@ -154,7 +156,7 @@ $tables_sql[] = "CREATE TABLE `downloads_userpermissions` (
   `type_value` int(10) NOT NULL default '0',
   `setting` int(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;"; 
 
 $tables_sql[] = "CREATE TABLE `downloads_users` (
   `id` int(11) NOT NULL auto_increment,
@@ -168,7 +170,7 @@ $tables_sql[] = "CREATE TABLE `downloads_users` (
   `location` varchar(100) NOT NULL default '',
   `signature` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";        
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;";        
 
 $tables_sql[] = "CREATE TABLE `downloads_ip_restrict` (
   `id` int(11) NOT NULL auto_increment,
@@ -179,7 +181,7 @@ $tables_sql[] = "CREATE TABLE `downloads_ip_restrict` (
   `action` tinyint(1) NOT NULL default '0',
   `active` tinyint(1) NOT NULL default '0',
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;"; 
 
 $tables_sql[] = "CREATE TABLE `downloads_ip_restrict_log` (
   `id` int(11) NOT NULL auto_increment,
@@ -188,14 +190,14 @@ $tables_sql[] = "CREATE TABLE `downloads_ip_restrict_log` (
   `request_uri` text NOT NULL,
   `referer` text NOT NULL,
   PRIMARY KEY  (`id`)
-) TYPE=MyISAM;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;"; 
 
 $tables_sql[] = "CREATE TABLE `downloads_leech_settings` (
 `id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
 `domain` TEXT NOT NULL ,
 `action` TINYINT( 1 ) NOT NULL ,
 PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;";
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;";
 
 $tables_sql[] = "CREATE TABLE `downloads_recommend_log` (
 	`id` INT( 11 ) NOT NULL AUTO_INCREMENT ,
@@ -210,13 +212,13 @@ $tables_sql[] = "CREATE TABLE `downloads_recommend_log` (
 	`confirm_hash` VARCHAR( 32 ) NOT NULL ,
 	`confirmed` TINYINT( 1 ) DEFAULT '0' NOT NULL ,
 	PRIMARY KEY ( `id` )
-) TYPE = MYISAM ;";
+) ENGINE = MYISAM DEFAULT CHARSET=utf8mb4 ;";
 
 $tables_sql[] = "CREATE TABLE `downloads_recommend_blocklist` (
   `id` int(11) NOT NULL auto_increment,
   `address` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`,`address`)
-) TYPE=MyISAM ;";
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4 ;";
 
 $tables_sql[] = 'CREATE TABLE `downloads_languages` (
 	`id` int(11) NOT NULL auto_increment,
@@ -226,6 +228,6 @@ $tables_sql[] = 'CREATE TABLE `downloads_languages` (
 	`version_major` tinyint(4) NOT NULL default \'0\',
 	`version_minor` tinyint(4) NOT NULL default \'0\',
 	PRIMARY KEY  (`id`)
-) TYPE=MyISAM;';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8mb4;';
 
 ?>

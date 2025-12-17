@@ -22,7 +22,6 @@
 		<li><a href="admin.php?cmd=languages">{lang:admin:language_settings}</a></li>
 {endif}
 		<li><a href="index.php">{lang:admin:view_site}</a></li>
-		<li><a href="environment.php">{lang:admin:environment_survey}</a></li>
 		<li><a href="admin.php?cmd=logout">{lang:admin:logout}</a></li>
 	</ul>
 </li>
