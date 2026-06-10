@@ -28,9 +28,10 @@ if ($uam->permitted('acp_customfields_add'))
 	{
 		validate_types($_REQUEST, array('label' => 'STR', 'value' => 'STR'));
 		
-		$dbim->query('INSERT INTO '.DB_PREFIX.'customfields
-						SET label = "'.$_REQUEST['label'].'", 
-							value = "'.$_REQUEST['value'].'"');
+		$dbim->pquery('INSERT INTO '.DB_PREFIX.'customfields
+						SET label = ?, 
+							value = ?',
+							array($_REQUEST['label'], $_REQUEST['value']));
 	
 		$success = true;
 		$customfields_add->assign_var('success', $success);

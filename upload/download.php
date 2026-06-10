@@ -49,23 +49,24 @@ if (isset($_REQUEST['file']))
 			if (!empty($details))
 			{	
 				// Get mirrors
-				$mirrors_result = $dbim->query('SELECT id, file_id, name, location, url
+				$mirrors_result = $dbim->pquery('SELECT id, file_id, name, location, url
 												FROM '.DB_PREFIX.'mirrors
-												WHERE (file_id = '.$_REQUEST['file'].')');
+												WHERE (file_id = ?)',
+												array($_REQUEST['file']));
 				
-				// 4. If $dbim->num_rows($mirrors_result) == 1 redirect to get it
-				if ($dbim->num_rows($mirrors_result) == 1)
+				// 4. If $dbim->num_rows_p($mirrors_result) == 1 redirect to get it
+				if ($dbim->num_rows_p($mirrors_result) == 1)
 				{				
-					$mirror = $dbim->fetch_array($mirrors_result);
+					$mirror = $dbim->fetch_array_p($mirrors_result);
 					header('Location: download.php?go=2&file='.$_REQUEST['file'].'&mirror='.$mirror['id']); 
 				}
 				// 5. If $dbim->num_rows($mirrors_result) > 1 get and display list
-				elseif ($dbim->num_rows($mirrors_result) > 1)
+				elseif ($dbim->num_rows_p($mirrors_result) > 1)
 				{
 					// Fetch and display
 					$mirrors_template = $uim->fetch_template('files/mirrors');
 					
-					while ($mirror = $dbim->fetch_array($mirrors_result))
+					while ($mirror = $dbim->fetch_array_p($mirrors_result))
 					{
 						$mirrors_template->assign_var('file_id', $_REQUEST['file']);
 						$mirrors_template->assign_var('mirror', $mirror);
@@ -112,28 +113,31 @@ if (isset($_REQUEST['file']))
 			
 			// Incrememnt and update
 			$details['downloads']++;
-			$update = $dbim->query('UPDATE '.DB_PREFIX.'files 
-									SET downloads = '.$details['downloads'].'
-									WHERE (id = '.$_REQUEST['file'].')');
+			$update = $dbim->pquery('UPDATE '.DB_PREFIX.'files 
+									SET downloads = ?
+									WHERE (id = ?)',
+									array($details['downloads'], $_REQUEST['file']));
 										
 			if ($site_config['enable_stats'])
 			{
-				$dbim->query('INSERT INTO '.DB_PREFIX.'stats 
-								SET file_id = '.$_REQUEST['file'].', 
-									timestamp = "'.time().'", 
-									ip = "'.$_SERVER['REMOTE_ADDR'].'", 
-									referrer = "'.$_SERVER['HTTP_REFERRER'].'", 
-									user_agent = "'.$_SERVER['HTTP_USER_AGENT'].'"');
+				$dbim->pquery('INSERT INTO '.DB_PREFIX.'stats 
+								SET file_id = ?, 
+									timestamp = ?, 
+									ip = ?, 
+									referrer = ?, 
+									user_agent = ?',
+									array($_REQUEST['file'], time(), $_SERVER['REMOTE_ADDR'], $_SERVER['HTTP_REFERRER'], $_SERVER['HTTP_USER_AGENT']));
 			}
 																	
 			// Get URL
-			$mirrors_result = $dbim->query('SELECT id, url
+			$mirrors_result = $dbim->pquery('SELECT id, url
 											FROM '.DB_PREFIX.'mirrors
-											WHERE (id = '.$_REQUEST['mirror'].')');
+											WHERE (id = ?)',
+											array($_REQUEST['mirror']));
 												
-			$mirror = $dbim->fetch_array($mirrors_result);
+			$mirror = $dbim->fetch_array_p($mirrors_result);
 				
-			if ($dbim->num_rows($mirrors_result) == 0)
+			if ($dbim->num_rows_p($mirrors_result) == 0)
 			{
 				$error_message = $lm->language('frontend', 'error_no_file');
 				$error = $uim->fetch_template('global/error');

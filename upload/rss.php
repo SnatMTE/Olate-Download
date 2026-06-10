@@ -76,16 +76,16 @@ if ($site_config['enable_rss'])
 	elseif ($_REQUEST['mode'] == 3)
 	{
 		// Count files
-		$count_result = $dbim->query('SELECT COUNT(*) AS files
+		$count_result = $dbim->pquery('SELECT COUNT(*) AS files
 										FROM '.DB_PREFIX.'files
-										WHERE (status = 1)');	
-		$count = $dbim->fetch_array($count_result);
+										WHERE (status = 1)', array());	
+		$count = $dbim->fetch_array_p($count_result);
 		$files = $count['files'];
 		
 		// Count downloads
-		$count_result = $dbim->query('SELECT COUNT(*) AS downloads
-										FROM '.DB_PREFIX.'stats');	
-		$count = $dbim->fetch_array($count_result);
+		$count_result = $dbim->pquery('SELECT COUNT(*) AS downloads
+										FROM '.DB_PREFIX.'stats', array());	
+		$count = $dbim->fetch_array_p($count_result);
 		$downloads = $count['downloads'];
 	?>	
 		<item>

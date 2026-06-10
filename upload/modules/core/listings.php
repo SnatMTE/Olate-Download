@@ -47,7 +47,7 @@ class listing
 		
 		$sql = 'SELECT id 
 				FROM '.DB_PREFIX.'categories 
-				WHERE parent_id = '.$parent_id;
+				WHERE parent_id = ?';
 		
 		if ($this->where_cat != '')
 		{
@@ -57,11 +57,11 @@ class listing
 		// Sort by category order
 		$sql .= ' ORDER BY sort ASC';
 		
-		$result = $dbim->query($sql);
+		$result = $dbim->pquery($sql, array($parent_id));
 		
 		$this_level = array();
 		
-		while ($row = $dbim->fetch_array($result))
+		while ($row = $dbim->fetch_array_p($result))
 		{
 			$id = $row['id'];
 			
@@ -69,15 +69,15 @@ class listing
 			
 			$cat_sql = 'SELECT COUNT(*) AS count 
 						FROM '.DB_PREFIX.'categories 
-						WHERE parent_id = '.$row['id'];
+						WHERE parent_id = ?';
 			
 			if ($this->where_cat != '')
 			{
 				$cat_sql .= ' AND ('.$this->where_cat.')';
 			}	
 			
-			$cat_res = $dbim->query($cat_sql);
-			$cat_row = $dbim->fetch_array($cat_res);
+			$cat_res = $dbim->pquery($cat_sql, array($row['id']));
+			$cat_row = $dbim->fetch_array_p($cat_res);
 			
 			if ($cat_row['count'] > 0)
 			{
@@ -102,17 +102,17 @@ class listing
 		{
 			$sql = 'SELECT * 
 					FROM '.DB_PREFIX.'files
-					WHERE category_id = '.$category_id;
+					WHERE category_id = ?';
 			
 			if ($this->where_file != '')
 			{
 				$sql .= ' AND ('.$this->where_file.')';
 			}	
 			
-			$this->file_results[$category_id]['result'] = $dbim->query($sql);
+			$this->file_results[$category_id]['result'] = $dbim->pquery($sql, array($category_id));
 		}
 		
-		$row = $dbim->fetch_array($this->file_results[$category_id]['result']);
+		$row = $dbim->fetch_array_p($this->file_results[$category_id]['result']);
 		
 		return $row;
 	}
@@ -564,15 +564,15 @@ class listing
 			
 			$sql = 'SELECT COUNT(*) as count
 					FROM '.DB_PREFIX.'files
-					WHERE category_id = '.$category_id;
+					WHERE category_id = ?';
 			
 			if ($where_file !== false && $where_file != '')
 			{
 				$sql .= ' AND ('.$where_file.')';
 			}
 			
-			$result = $dbim->query($sql);
-			$row = $dbim->fetch_array($result);
+			$result = $dbim->pquery($sql, array($category_id));
+			$row = $dbim->fetch_array_p($result);
 			
 			$count = $row['count'];
 			

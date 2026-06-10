@@ -28,12 +28,13 @@ if ($uam->permitted('acp_categories_add'))
 	{
 		validate_types($_REQUEST, array('name' => 'STR', 'description' => 'STR', 'parent_id' => 'INT', 'order' => 'INT', 'keywords' => 'STR'));
 		
-		$dbim->query('INSERT INTO '.DB_PREFIX.'categories
-						SET name = "'.$_REQUEST['name'].'", 
-							description = "'.$_REQUEST['description'].'", 
-							parent_id = "'.$_REQUEST['parent_id'].'",
-							sort = "'.$_REQUEST['sort'].'",
-							keywords = "'.$_REQUEST['keywords'].'"');
+		$dbim->pquery('INSERT INTO '.DB_PREFIX.'categories
+						SET name = ?, 
+							description = ?, 
+							parent_id = ?,
+							sort = ?,
+							keywords = ?',
+							array($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['parent_id'], $_REQUEST['sort'], $_REQUEST['keywords']));
 	
 		$success = true;
 		$categories_add->assign_var('success', $success);

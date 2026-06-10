@@ -150,12 +150,13 @@ if (!empty($_REQUEST['cat']))
     	{
     		if ($site_config['enable_count'] == 1)
 			{			
-				$count_query = $dbim->query('SELECT c.name, COUNT( * ) AS download_count
+				$count_query = $dbim->pquery('SELECT c.name, COUNT( * ) AS download_count
 												FROM '.DB_PREFIX.'files AS f, '.DB_PREFIX.'categories AS c
-												WHERE f.category_id = c.id AND c.id = '.$child['id'].'
-												GROUP BY f.category_id');
+												WHERE f.category_id = c.id AND c.id = ?
+												GROUP BY f.category_id',
+												array($child['id']));
 						
-				$count = $dbim->fetch_array($count_query);
+				$count = $dbim->fetch_array_p($count_query);
 						
 				if ($count['download_count'] != 0)
 				{

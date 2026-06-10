@@ -189,12 +189,11 @@ if ($site_config['enable_recommend_friend'])
 			else
 			{
 				// Check for there already being an entry
-				$sql = 'SELECT COUNT(*) as count
-						FROM '.DB_PREFIX.'recommend_blocklist
-						WHERE address = "'.$_REQUEST['address'].'"';
-				
-				$result = $dbim->query($sql);
-				$row = $dbim->fetch_array($result);
+				$result = $dbim->pquery('SELECT COUNT(*) as count
+										FROM '.DB_PREFIX.'recommend_blocklist
+										WHERE address = ?',
+										array($_REQUEST['address']));
+				$row = $dbim->fetch_array_p($result);
 				
 				if (intval($row['count']) > 0)
 				{
@@ -215,13 +214,12 @@ if ($site_config['enable_recommend_friend'])
 						$template->assign_var('hide_form', true);
 						
 						
-						$sql = 'INSERT INTO '.DB_PREFIX.'recommend_blocklist
+						// Insert into database
+						$dbim->pquery('INSERT INTO '.DB_PREFIX.'recommend_blocklist
 									(address)
 								VALUES
-									("'.$_REQUEST['address'].'")';
-						
-						// Insert into database
-						$dbim->query($sql);
+									(?)',
+									array($_REQUEST['address']));
 						
 						$template->assign_var('message', $lm->language('frontend', 'email_blocked'));
 					}
@@ -255,14 +253,13 @@ if ($site_config['enable_recommend_friend'])
 			else
 			{
 				// Find data relating to that hash
-				$sql = 'SELECT id, timestamp, ip_address, file_id, sender_name, sender_email, rcpt_name, rcpt_email, message, confirmed 
-						FROM '.DB_PREFIX.'recommend_log 
-						WHERE (confirm_hash = "'.$_REQUEST['hash'].'")
-						LIMIT 1';
+				$result = $dbim->pquery('SELECT id, timestamp, ip_address, file_id, sender_name, sender_email, rcpt_name, rcpt_email, message, confirmed 
+										FROM '.DB_PREFIX.'recommend_log 
+										WHERE (confirm_hash = ?)
+										LIMIT 1',
+										array($_REQUEST['hash']));
 				
-				$result = $dbim->query($sql);
-				
-				if ($row = $dbim->fetch_array($result))
+				if ($row = $dbim->fetch_array_p($result))
 				{
 					if (intval($row['confirmed']) == 1)
 					{
@@ -287,9 +284,10 @@ if ($site_config['enable_recommend_friend'])
 						{
 							$template->assign_var('message', $message_success);
 							
-							$dbim->query('UPDATE '.DB_PREFIX.'recommend_log
+							$dbim->pquery('UPDATE '.DB_PREFIX.'recommend_log
 											SET confirmed = 1
-											WHERE id = '.$row['id']);
+											WHERE id = ?',
+											array($row['id']));
 						}
 						else
 						{
@@ -375,15 +373,14 @@ if ($site_config['enable_recommend_friend'])
 				$time = time();
 				
 				// Check sender/recipient addresses aren't blocked
-				$sql = 'SELECT address, COUNT(*) AS count
-						FROM '.DB_PREFIX.'recommend_blocklist
-						WHERE (address = "'.$_REQUEST['sender_email'].'")
-								OR (address = "'.$_REQUEST['rcpt_email'].'")
-						GROUP BY address';
+				$result = $dbim->pquery('SELECT address, COUNT(*) AS count
+										FROM '.DB_PREFIX.'recommend_blocklist
+										WHERE (address = ?)
+												OR (address = ?)
+										GROUP BY address',
+										array($_REQUEST['sender_email'], $_REQUEST['rcpt_email']));
 				
-				$result = $dbim->query($sql);
-				
-				while ($row = $dbim->fetch_array($result))
+				while ($row = $dbim->fetch_array_p($result))
 				{
 					if ($row['count'] > 0)
 					{
@@ -444,19 +441,18 @@ if ($site_config['enable_recommend_friend'])
 					}
 					
 					// Insert into database
-					$sql = 'INSERT INTO '.DB_PREFIX.'recommend_log
-								SET timestamp = '.$time.',
-									ip_address = "'.$_SERVER['REMOTE_ADDR'].'",
-									file_id = '.$file['id'].',
-									sender_name = "'.$_POST['sender_name'].'",
-									sender_email = "'.$_POST['sender_email'].'",
-									rcpt_name = "'.$_POST['rcpt_name'].'",
-									rcpt_email = "'.$_POST['rcpt_email'].'",
-									message = "'.$_POST['message'].'",
-									confirm_hash = "'.$email_content['confirm_hash'].'",
-									confirmed = '.$confirmed;
-					
-					$dbim->query($sql);
+					$dbim->pquery('INSERT INTO '.DB_PREFIX.'recommend_log
+								SET timestamp = ?,
+									ip_address = ?,
+									file_id = ?,
+									sender_name = ?,
+									sender_email = ?,
+									rcpt_name = ?,
+									rcpt_email = ?,
+									message = ?,
+									confirm_hash = ?,
+									confirmed = ?',
+									array($time, $_SERVER['REMOTE_ADDR'], $file['id'], $_POST['sender_name'], $_POST['sender_email'], $_POST['rcpt_name'], $_POST['rcpt_email'], $_POST['message'], $email_content['confirm_hash'], $confirmed));
 					
 					// Template
 					$template->show();

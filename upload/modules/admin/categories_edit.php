@@ -27,10 +27,11 @@ if ($uam->permitted('acp_categories_edit'))
 		// Template
 		$categories_edit = $uim->fetch_template('admin/categories_edit');
 
-		$category_result = $dbim->query('SELECT id, parent_id, name, description, sort, keywords
+		$category_result = $dbim->pquery('SELECT id, parent_id, name, description, sort, keywords
 											FROM '.DB_PREFIX.'categories
-											WHERE (id = '.$_REQUEST['id'].')');										
-		$category_row = $dbim->fetch_array($category_result);
+											WHERE (id = ?)',
+											array($_REQUEST['id']));										
+		$category_row = $dbim->fetch_array_p($category_result);
 		$categories_edit->assign_var('current_category', $category_row);
 		
 		// Include listings module
@@ -45,10 +46,11 @@ if ($uam->permitted('acp_categories_edit'))
 		$listing->list_cat_combo_box($categories_edit, 'category', 'cats', $cats_filtered);
 		
 		// Get the name and ID of the parent category
-		$category_result = $dbim->query('SELECT id, name
+		$category_result = $dbim->pquery('SELECT id, name
 											FROM '.DB_PREFIX.'categories
-											WHERE (id = '.$category_row['parent_id'].')');		
-		$category_row = $dbim->fetch_array($category_result);
+											WHERE (id = ?)',
+											array($category_row['parent_id']));		
+		$category_row = $dbim->fetch_array_p($category_result);
 	
 		// Assign name/ID
 		if (empty($category_row))
@@ -67,13 +69,14 @@ if ($uam->permitted('acp_categories_edit'))
 		// Template
 		$categories_edit = $uim->fetch_template('admin/categories_edit');
 
-		$dbim->query('UPDATE '.DB_PREFIX.'categories
-						SET name = "'.$_REQUEST['name'].'", 
-							description = "'.$_REQUEST['description'].'", 
-							parent_id = "'.$_REQUEST['parent_id'].'",
-							sort = "'.$_REQUEST['sort'].'",
-							keywords = "'.$_REQUEST['keywords'].'"
-						WHERE (id = '.$_REQUEST['id'].')');
+		$dbim->pquery('UPDATE '.DB_PREFIX.'categories
+						SET name = ?, 
+							description = ?, 
+							parent_id = ?,
+							sort = ?,
+							keywords = ?
+						WHERE (id = ?)',
+						array($_REQUEST['name'], $_REQUEST['description'], $_REQUEST['parent_id'], $_REQUEST['sort'], $_REQUEST['keywords'], $_REQUEST['id']));
 						
 		$success = true;
 		$categories_edit->assign_var('success', $success);

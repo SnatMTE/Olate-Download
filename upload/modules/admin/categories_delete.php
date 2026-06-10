@@ -27,11 +27,12 @@ if ($uam->permitted('acp_categories_delete'))
 	{
 		validate_types($_REQUEST, array('id' => 'INT'));
 		
-		$check_result = $dbim->query('SELECT count(id) as count
+		$check_result = $dbim->pquery('SELECT count(id) as count
 										FROM '.DB_PREFIX.'files
-										WHERE (category_id = '.$_REQUEST['id'].')');
+										WHERE (category_id = ?)',
+										array($_REQUEST['id']));
 		
-		$check_row = $dbim->fetch_array($check_result);
+		$check_row = $dbim->fetch_array_p($check_result);
 		
 		if ($check_row['count'] == 0)
 		{
@@ -55,9 +56,10 @@ if ($uam->permitted('acp_categories_delete'))
 			elseif (!empty($_REQUEST['confirm_yes']))
 			{
 				// There are no files in the category
-				$dbim->query('DELETE FROM '.DB_PREFIX.'categories
-								WHERE (id = '.$_REQUEST['id'].')
-								LIMIT 1');
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'categories
+								WHERE (id = ?)
+								LIMIT 1',
+								array($_REQUEST['id']));
 				
 				// And show the message
 				$categories_delete->assign_var('result', 1);
@@ -125,13 +127,13 @@ if ($uam->permitted('acp_categories_delete'))
 		elseif (!empty($_REQUEST['confirm_yes']))
 		{
 			// Firstly, move all files
-			$dbim->query('UPDATE '.DB_PREFIX.'files SET category_id="'.$_REQUEST['move'].'" WHERE category_id="'.$_REQUEST['current'].'"');
+			$dbim->pquery('UPDATE '.DB_PREFIX.'files SET category_id = ? WHERE category_id = ?', array($_REQUEST['move'], $_REQUEST['current']));
 			
 			// Now, the children
-			$dbim->query('UPDATE '.DB_PREFIX.'categories SET parent_id="'.$_REQUEST['move'].'" WHERE parent_id="'.$_REQUEST['current'].'"');
+			$dbim->pquery('UPDATE '.DB_PREFIX.'categories SET parent_id = ? WHERE parent_id = ?', array($_REQUEST['move'], $_REQUEST['current']));
 			
 			// And finally, delete the category
-			$dbim->query('DELETE FROM '.DB_PREFIX.'categories WHERE id="'.$_REQUEST['current'].'"');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'categories WHERE id = ?', array($_REQUEST['current']));
 			
 			// And show the message
 			$categories_delete->assign_var('result', 1);

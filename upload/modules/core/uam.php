@@ -326,10 +326,10 @@ class uam
 		global $dbim;
 		
 		// Get all the permission names
-		$result = $dbim->query('SELECT permission_id, name, setting 
-								FROM '.DB_PREFIX.'permissions');
+		$result = $dbim->pquery('SELECT permission_id, name, setting 
+								FROM '.DB_PREFIX.'permissions', array());
 		
-		while ($permission = $dbim->fetch_array($result))
+		while ($permission = $dbim->fetch_array_p($result))
 		{
 			$permissions["$permission[name]"] = $permission['setting'];
 		}
@@ -404,10 +404,10 @@ class uam
 		global $dbim;
 		
 		// Get permission list from database
-		$result = $dbim->query('SELECT permission_id, name 
-								FROM '.DB_PREFIX.'permissions');
+		$result = $dbim->pquery('SELECT permission_id, name 
+								FROM '.DB_PREFIX.'permissions', array());
 		
-		while ($row = $dbim->fetch_array($result))
+		while ($row = $dbim->fetch_array_p($result))
 		{
 			$name = $row['name'];
 			$id = $row['permission_id'];

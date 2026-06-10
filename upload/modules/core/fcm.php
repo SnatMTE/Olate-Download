@@ -23,22 +23,22 @@ class fcm
 		global $dbim;
 		
 		// Get all root categories (parent_id = the big daddy, otherwise known as the big 0)
-		$cat_result = $dbim->query('SELECT id, name, description, sort 
+		$cat_result = $dbim->pquery('SELECT id, name, description, sort 
 									FROM '.DB_PREFIX.'categories 
 									WHERE (parent_id = 0)
-									ORDER BY sort ASC');
+									ORDER BY sort ASC', array());
 		
-		while ($category = $dbim->fetch_array($cat_result))
+		while ($category = $dbim->fetch_array_p($cat_result))
 		{
 			$categories[$category['name']] = $category;
 			
 			// Now have children						
-			$child_result = $dbim->query('SELECT id, name, description, sort 
-											FROM '.DB_PREFIX.'categories 
-											WHERE (parent_id = '.$category['id'].')
-											ORDER BY sort ASC');
+			$child_result = $dbim->pquery('SELECT id, name, description, sort 
+												FROM '.DB_PREFIX.'categories 
+												WHERE (parent_id = ?)
+												ORDER BY sort ASC', array($category['id']));
 			
-			while ($child = $dbim->fetch_array($child_result))
+			while ($child = $dbim->fetch_array_p($child_result))
 			{
 				$categories[$category['name']]['children'][$child['name']] = $child;
 			}	
@@ -53,11 +53,11 @@ class fcm
 		global $dbim;
 		
 		// Get all root categories (parent_id = the big daddy, otherwise known as the big 0)
-		$cat_result = $dbim->query('SELECT id, name, description, sort 
+		$cat_result = $dbim->pquery('SELECT id, name, description, sort 
 									FROM '.DB_PREFIX.'categories 
-									ORDER BY sort ASC');
+									ORDER BY sort ASC', array());
 		
-		while ($category = $dbim->fetch_array($cat_result))
+		while ($category = $dbim->fetch_array_p($cat_result))
 		{
 			$categories[$category['name']] = $category;
 		}
@@ -72,11 +72,12 @@ class fcm
 		
 		if ($category_id != 0)
 		{
-			$cat_result = $dbim->query('SELECT id, parent_id, name, description, keywords 
+			$cat_result = $dbim->pquery('SELECT id, parent_id, name, description, keywords 
 										FROM '.DB_PREFIX.'categories 
-										WHERE (id = '.$category_id.')');
+										WHERE (id = ?)',
+										array($category_id));
 									
-			$category = $dbim->fetch_array($cat_result);
+			$category = $dbim->fetch_array_p($cat_result);
 		}
 		else
 		{
@@ -96,12 +97,13 @@ class fcm
 	{
 		global $dbim;
 		
-		$child_result = $dbim->query('SELECT id, name, description 
+		$child_result = $dbim->pquery('SELECT id, name, description 
 										FROM '.DB_PREFIX.'categories 
-										WHERE (parent_id = '.$category_id.')
-										ORDER BY sort ASC');
+										WHERE (parent_id = ?)
+										ORDER BY sort ASC',
+										array($category_id));
 		
-		while ($child = $dbim->fetch_array($child_result))
+		while ($child = $dbim->fetch_array_p($child_result))
 		{
 			$children[] = $child;
 		}
@@ -193,9 +195,10 @@ class fcm
 		else 
 		{
 			// Query
+			$params = array($category_id);
 			$sql = 'SELECT COUNT(id) AS count 
 					FROM '.DB_PREFIX.'files 
-					WHERE category_id = '.$category_id;
+					WHERE category_id = ?';
 			
 			if ($where_clause != '')
 			{
@@ -209,8 +212,8 @@ class fcm
 				$sql .= ' AND '.$date_condition;
 			}
 			
-			$result = $dbim->query($sql);
-			$row = $dbim->fetch_array($result);
+			$result = $dbim->pquery($sql, $params);
+			$row = $dbim->fetch_array_p($result);
 		}
 		
 		// Return something...
@@ -250,8 +253,8 @@ class fcm
 				$sql .= ' AND '.$date_condition;
 			}
 			
-			$result = $dbim->query($sql);
-			$row = $dbim->fetch_array($result);
+			$result = $dbim->pquery($sql, array());
+			$row = $dbim->fetch_array_p($result);
 			
 			$file_count = $row['count'];
 		}

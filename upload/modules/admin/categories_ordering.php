@@ -26,17 +26,18 @@ if ($uam->permitted('acp_categories_ordering'))
 	{		
 		$ordering->assign_var('specified', true);
 		
-		$child_result = $dbim->query('SELECT id, name, description, sort 
+		$child_result = $dbim->pquery('SELECT id, name, description, sort 
 										FROM '.DB_PREFIX.'categories 
-										WHERE (parent_id = '.$_REQUEST['cat'].')');
+										WHERE (parent_id = ?)',
+										array($_REQUEST['cat']));
 		
-		if ($dbim->num_rows($child_result) == 0)
+		if ($dbim->num_rows_p($child_result) == 0)
 		{
 			$ordering->assign_var('none', true);
 		}
 		else
 		{
-			while ($category = $dbim->fetch_array($child_result))
+			while ($category = $dbim->fetch_array_p($child_result))
 			{
 				$ordering->assign_var('category', $category);
 				$ordering->use_block('cats_specified');
@@ -72,18 +73,19 @@ if ($uam->permitted('acp_categories_ordering'))
 	else
 	{
 		// Count number of categories		
-		$count_result = $dbim->query('SELECT id
-										FROM '.DB_PREFIX.'categories');	
+		$count_result = $dbim->pquery('SELECT id
+										FROM '.DB_PREFIX.'categories', array());	
 		
-		while ($category = $dbim->fetch_array($count_result))
+		while ($category = $dbim->fetch_array_p($count_result))
 		{
 			validate_types($_REQUEST, array('sort_'.$category['id'] => 'INT'));
 			
 			if (!empty($_REQUEST['sort_'.$category['id']]))
 			{
-				$dbim->query('UPDATE '.DB_PREFIX.'categories
-								SET sort = '.$_REQUEST['sort_'.$category['id']].' 
-								WHERE (id = '.$category['id'].')');
+				$dbim->pquery('UPDATE '.DB_PREFIX.'categories
+								SET sort = ? 
+								WHERE (id = ?)',
+								array($_REQUEST['sort_'.$category['id']], $category['id']));
 			}
 		}
 		

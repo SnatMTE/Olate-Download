@@ -108,10 +108,10 @@ $dbim = new dbim();
 $dbim->connect($config['database']['username'], $config['database']['password'], $config['database']['server'], $config['database']['name'], $config['database']['persistant']);
 
 // Get the site config
-$config_result = $dbim->query('SELECT * 
+$config_result = $dbim->pquery('SELECT * 
 								FROM '.DB_PREFIX.'config 
-								LIMIT 1');
-$site_config = $dbim->fetch_array($config_result);
+								LIMIT 1', array());
+$site_config = $dbim->fetch_array_p($config_result);
 $site_config['debug'] = $debug; // It will get overwritten otherwise
 
 // Define page title prefix

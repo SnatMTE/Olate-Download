@@ -74,26 +74,25 @@ class lm
 		// Are we only returning up-to-date languages for this version of OD?
 		if ($version_check === true)
 		{
-			$version_check_sql = 'WHERE version_major = "'.$site_version[0].'" AND version_minor = "'.$site_version[1].'"';
+			$language_sql = 'SELECT * 
+								FROM '.DB_PREFIX.'languages
+								WHERE version_major = ? AND version_minor = ?
+								ORDER BY site_default DESC, name ASC';
+			$language_result = $dbim->pquery($language_sql, array($site_version[0], $site_version[1]));
 		}
 		else 
 		{
-			$version_check_sql = '';
+			$language_sql = 'SELECT * 
+								FROM '.DB_PREFIX.'languages
+								ORDER BY site_default DESC, name ASC';
+			$language_result = $dbim->pquery($language_sql, array());
 		}
-		
-		// Query database
-		$language_sql = 'SELECT * 
-							FROM '.DB_PREFIX.'languages
-							'.$version_check_sql.'
-							ORDER BY site_default DESC, name ASC';
-		
-		$language_result = $dbim->query($language_sql);
 		
 		// Initialise variables
 		$languages = array();
 		$deleted_default = false;
 		
-		while ($language = $dbim->fetch_array($language_result))
+		while ($language = $dbim->fetch_array_p($language_result))
 		{
 			// No point returning a language which doesn't actually exist
 			if (file_exists('languages/'.$language['filename']))
@@ -103,8 +102,9 @@ class lm
 			}
 			else
 			{
-				$dbim->query('DELETE FROM '.DB_PREFIX.'languages
-								WHERE id = '.$language['id']);
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'languages
+								WHERE id = ?',
+								array($language['id']));
 				
 				if ((bool)$language['site_default'])
 				{
@@ -121,9 +121,10 @@ class lm
 			$key = key($languages);
 			
 			// Update database to set this language to be default
-			$dbim->query('UPDATE '.DB_PREFIX.'languages
+			$dbim->pquery('UPDATE '.DB_PREFIX.'languages
 							SET site_default = 1
-							WHERE id = '.$current['id']);
+							WHERE id = ?',
+							array($current['id']));
 			
 			$languages[$key]['site_default'] = 1;
 		}
@@ -145,16 +146,17 @@ class lm
 			validate_types($_COOKIE, array('OD3_language', 'INT'));
 			
 			// Check cookie language is valid
-			$result = $dbim->query('SELECT *
+			$result = $dbim->pquery('SELECT *
 									FROM '.DB_PREFIX.'languages
-									WHERE (id = '.$_COOKIE['OD3_language'].') 
-											AND (version_major = "'.$site_version[0].'") 
-											AND (version_minor = "'.$site_version[1].'")');
+									WHERE (id = ?) 
+											AND (version_major = ?) 
+											AND (version_minor = ?)',
+									array($_COOKIE['OD3_language'], $site_version[0], $site_version[1]));
 			
-			if ($dbim->num_rows($result) > 0)
+			if ($dbim->num_rows_p($result) > 0)
 			{
 				// It is, so fetch row
-				$row = $dbim->fetch_array($result);
+				$row = $dbim->fetch_array_p($result);
 				
 				// Language file exists?
 				if (file_exists('languages/'.$row['filename']))
@@ -183,33 +185,35 @@ class lm
 		// Default language
 		if ($use_default !== false)
 		{
-			$language_res = $dbim->query('SELECT *
+			$language_res = $dbim->pquery('SELECT *
 											FROM '.DB_PREFIX.'languages
 											WHERE 
 												(site_default = 1) 
-												AND (version_major = "'.$site_version[0].'") 
-												AND (version_minor = "'.$site_version[1].'")
-											LIMIT 1');
+												AND (version_major = ?) 
+												AND (version_minor = ?)
+											LIMIT 1',
+											array($site_version[0], $site_version[1]));
 			
-			if ($dbim->num_rows($language_res) > 0)
+			if ($dbim->num_rows_p($language_res) > 0)
 			{
 				// Language exists
-				$language_row = $dbim->fetch_array($language_res);
+				$language_row = $dbim->fetch_array_p($language_res);
 			}
 			else 
 			{
 				// No default language, fall back on any up-to-date language
-				$language_res = $dbim->query('SELECT *
+				$language_res = $dbim->pquery('SELECT *
 												FROM '.DB_PREFIX.'languages
 												WHERE
-													(version_major = "'.$site_version[0].'") 
-													AND (version_minor = "'.$site_version[1].'")
-												LIMIT 1');
+													(version_major = ?) 
+													AND (version_minor = ?)
+												LIMIT 1',
+												array($site_version[0], $site_version[1]));
 				
-				if ($dbim->num_rows($language_res) > 0)
+				if ($dbim->num_rows_p($language_res) > 0)
 				{
 					// Success, we have a language
-					$language_row = $dbim->fetch_array($language_res);
+					$language_row = $dbim->fetch_array_p($language_res);
 				}
 				else 
 				{

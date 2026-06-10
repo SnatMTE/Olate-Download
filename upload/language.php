@@ -30,11 +30,12 @@ if ($site_config['allow_user_lang'])
 	if (!empty($_REQUEST['language']))
 	{
 		// Check language exists in database
-		$search = $dbim->query('SELECT COUNT(*) AS count
+		$search = $dbim->pquery('SELECT COUNT(*) AS count
 								FROM '.DB_PREFIX.'languages
-								WHERE id = '.intval($_REQUEST['language']));
+								WHERE id = ?',
+								array($_REQUEST['language']));
 		
-		$row = $dbim->fetch_array($search);
+		$row = $dbim->fetch_array_p($search);
 		
 		if ($row['count'] > 0)
 		{

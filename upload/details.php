@@ -55,9 +55,10 @@ if (isset($_REQUEST['file']))
 	{
 		// Increment file view count
 		$details['views'] = $details['views'] + 1;	
-		$dbim->query('UPDATE '.DB_PREFIX.'files
-						SET views = '.intval($details['views']).'
-						WHERE (id = '.intval($_REQUEST['file']).')');
+		$dbim->pquery('UPDATE '.DB_PREFIX.'files
+						SET views = ?
+						WHERE (id = ?)',
+						array(intval($details['views']), intval($_REQUEST['file'])));
 		
 		if (empty($details['password']) || isset($_SESSION[$_REQUEST['file'].'_auth']))
 		{
@@ -72,13 +73,14 @@ if (isset($_REQUEST['file']))
 				{					
 					$status = $site_config['approve_comments'] ? 0 : 1;
 					
-					$dbim->query('INSERT INTO '.DB_PREFIX.'comments
-									SET file_id = '.$_REQUEST['file'].', 
-										timestamp = '.time().', 
-										name = "'.$_REQUEST['name'].'", 
-										email = "'.$_REQUEST['email'].'", 
-										comment = "'.$_REQUEST['comment'].'", 
-										status = '.$status.'');
+					$dbim->pquery('INSERT INTO '.DB_PREFIX.'comments
+									SET file_id = ?, 
+										timestamp = ?, 
+										name = ?, 
+										email = ?, 
+										comment = ?, 
+										status = ?',
+										array($_REQUEST['file'], time(), $_REQUEST['name'], $_REQUEST['email'], $_REQUEST['comment'], $status));
 					
 					// Get success message ready
 					$success = 'Comments';
@@ -116,10 +118,11 @@ if (isset($_REQUEST['file']))
 					$new_rating_formatted = number_format($new_rating, 2, '.', '');
 					
 					// Update
-					$dbim->query('UPDATE '.DB_PREFIX.'files
-									SET rating_votes = '.$new_count.', 
-										rating_value = "'.$new_rating_formatted.'"
-									WHERE (id = '.$_REQUEST['file'].')');
+					$dbim->pquery('UPDATE '.DB_PREFIX.'files
+									SET rating_votes = ?, 
+										rating_value = ?
+									WHERE (id = ?)',
+									array($new_count, $new_rating_formatted, $_REQUEST['file']));
 								
 					$_SESSION['file_rating_'.$_REQUEST['file']] = true;
 					
@@ -169,15 +172,16 @@ if (isset($_REQUEST['file']))
 			$details_files->use_block('file');
 			
 			// Custom fields
-			$custom_query = $dbim->query('SELECT cf.label AS label, cfd.value AS value
+			$custom_query = $dbim->pquery('SELECT cf.label AS label, cfd.value AS value
 											FROM '.DB_PREFIX.'customfields_data AS cfd,
 												'.DB_PREFIX.'customfields AS cf
-							WHERE (cfd.file_id = '.intval($_REQUEST['file']).')
-								AND (cfd.field_id = cf.id)');
+							WHERE (cfd.file_id = ?)
+								AND (cfd.field_id = cf.id)',
+								array($_REQUEST['file']));
 			
 			$i = 0;
 			$custom_fields = array();
-			while ($custom_fields_data = $dbim->fetch_array($custom_query))
+			while ($custom_fields_data = $dbim->fetch_array_p($custom_query))
 			{
 				$custom_fields[$i . '_label'] = $custom_fields_data['label'];
 				$custom_fields[$i . '_value'] = $custom_fields_data['value'];

@@ -32,29 +32,31 @@ if ($site_config['enable_search'])
 	// Get template
 	$search_template = $uim->fetch_template('search/search');
 	
+	$results = array();
+	$search_result = false;
+	
 // Validate query parameter (early) and prepare safe version
 	if (isset($_REQUEST['query']) && !empty($_REQUEST['query']))
 	{
 		validate_types($_REQUEST, array('query' => 'STR'));
 		$safe_query = $_REQUEST['query'];
 		// Get all results for the page box (unsliced)
-		$search_result = $dbim->query('SELECT id, name, description_small, description_big, date
+		$search_result = $dbim->pquery('SELECT id, name, description_small, description_big, date
 						FROM '.DB_PREFIX.'files 
 						WHERE MATCH (name, description_small, description_big) 
-							AGAINST ("'.$safe_query.'" IN BOOLEAN MODE)
+							AGAINST (? IN BOOLEAN MODE)
 								AND (category_id != 0)
-									AND (status != 0)');
+									AND (status != 0)',
+							array($safe_query));
+		
+		while ($result = $dbim->fetch_array_p($search_result))
+		{
+			$results[] = $result;
+		}
 	}
 	else
 	{
 		$safe_query = '';
-	}
-	
-	$results = array();
-	
-	while ($result = $dbim->fetch_array($search_result))
-	{
-		$results[] = $result;
 	}
 	
 	// Checks
@@ -65,15 +67,16 @@ if ($site_config['enable_search'])
 		
 		// Get result (sliced)
 		$offset = ($page - 1) * $amount;
-		$search_result = $dbim->query('SELECT id, name, description_small, description_big, date
+		$search_result = $dbim->pquery('SELECT id, name, description_small, description_big, date
 						FROM '.DB_PREFIX.'files 
 						WHERE MATCH (name, description_small, description_big) 
-							AGAINST ("'.$safe_query.'" IN BOOLEAN MODE)
+							AGAINST (? IN BOOLEAN MODE)
 								AND (category_id != 0)
 									AND (status != 0)
-						LIMIT '.$offset.','.$amount);
+						LIMIT '.$offset.','.$amount,
+						array($safe_query));
 		// Display
-		while ($result = $dbim->fetch_array($search_result))
+		while ($result = $dbim->fetch_array_p($search_result))
 		{
 			$search_template->assign_var('result', $result);
 			$search_template->assign_var('date', format_date($result['date']));
@@ -83,7 +86,7 @@ if ($site_config['enable_search'])
 		$submitted = true;
 		
 		$search_template->assign_var('query', $_REQUEST['query']);
-		$search_template->assign_var('num_results', $dbim->num_rows($search_result));
+		$search_template->assign_var('num_results', $dbim->num_rows_p($search_result));
 		$search_template->assign_var('submitted', $submitted);
 	}
 	

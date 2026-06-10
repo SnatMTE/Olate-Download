@@ -153,31 +153,35 @@ class sm
 		if (!isset($this->_temp_result))
 		{
 			$sql = 'SELECT * FROM '.DB_PREFIX.'ip_restrict WHERE (
-						(type = 1 AND INET_ATON(start) = INET_ATON("'.$ip_address.'")) OR
+						(type = 1 AND INET_ATON(start) = INET_ATON(?)) OR
 						(type = 2 AND 
-							INET_ATON(start) <= INET_ATON("'.$ip_address.'") AND 
-							INET_ATON(end) >= INET_ATON("'.$ip_address.'")) OR 
+							INET_ATON(start) <= INET_ATON(?) AND 
+							INET_ATON(end) >= INET_ATON(?)) OR 
 						(type = 3 AND (SIGN(INET_ATON(mask)) >= 0) AND 
-							(floor(INET_ATON("'.$ip_address.'")/(POWER(2,32)-INET_ATON(mask))) = floor(INET_ATON(start)/(POWER(2,32)-INET_ATON(mask)))) ) OR 
+							(floor(INET_ATON(?)/(POWER(2,32)-INET_ATON(mask))) = floor(INET_ATON(start)/(POWER(2,32)-INET_ATON(mask)))) ) OR 
 						(type = 3 AND (SIGN(INET_ATON(mask)) = -1) AND 
-							(floor(INET_ATON("'.$ip_address.'")/(POWER(2,32)-(POWER(2,3)+INET_ATON(mask)))) = floor(INET_ATON(start)/(POWER(2,32)-(POWER(2,32)+INET_ATON(mask))))) ) OR 
+							(floor(INET_ATON(?)/(POWER(2,32)-(POWER(2,3)+INET_ATON(mask)))) = floor(INET_ATON(start)/(POWER(2,32)-(POWER(2,32)+INET_ATON(mask))))) ) OR 
 						(type = 4 AND 
-							(floor(INET_ATON("'.$ip_address.'")/(POWER(2,(32-mask))))) = (floor(INET_ATON(start)/(POWER(2,(32-mask))))))
+							(floor(INET_ATON(?)/(POWER(2,(32-mask))))) = (floor(INET_ATON(start)/(POWER(2,(32-mask))))))
 					)';
-			#echo $sql;
+			
+			// Build params array (ip_address repeated for each ? placeholder)
+			$params = array_fill(0, 6, $ip_address);
+			
 			// Filtering by active status?
 			if ($filter_active !== false && ($filter_active === 0 || $filter_active === 1))
 			{
-				$sql .= "\n AND active = $filter_active\n";
+				$sql .= "\n AND active = ?";
+				$params[] = $filter_active;
 			}
 			
 			$sql .= 'ORDER BY active DESC';
 			
 			// Query
-			$this->_temp_result = $dbim->query($sql);
+			$this->_temp_result = $dbim->pquery($sql, $params);
 		}
 		
-		$row = $dbim->fetch_array($this->_temp_result);
+		$row = $dbim->fetch_array_p($this->_temp_result);
 		
 		// Finished getting stuff from database, so clean up
 		if ($row === false)
@@ -194,27 +198,31 @@ class sm
 		global $dbim;
 		
 		$sql = 'SELECT COUNT(*) as count FROM '.DB_PREFIX.'ip_restrict WHERE (
-					(type = 1 AND INET_ATON(start) = INET_ATON("'.$ip_address.'")) OR
+					(type = 1 AND INET_ATON(start) = INET_ATON(?)) OR
 					(type = 2 AND 
-						INET_ATON(start) <= INET_ATON("'.$ip_address.'") AND 
-						INET_ATON(end) >= INET_ATON("'.$ip_address.'")) OR 
+						INET_ATON(start) <= INET_ATON(?) AND 
+						INET_ATON(end) >= INET_ATON(?)) OR 
 					(type = 3 AND (SIGN(INET_ATON(mask)) >= 0) AND 
-						(floor(INET_ATON("'.$ip_address.'")/(POWER(2,32)-INET_ATON(mask))) = floor(INET_ATON(start)/(POWER(2,32)-INET_ATON(mask)))) ) OR 
+						(floor(INET_ATON(?)/(POWER(2,32)-INET_ATON(mask))) = floor(INET_ATON(start)/(POWER(2,32)-INET_ATON(mask)))) ) OR 
 					(type = 3 AND (SIGN(INET_ATON(mask)) = -1) AND 
-						(floor(INET_ATON("'.$ip_address.'")/(POWER(2,32)-(POWER(2,3)+INET_ATON(mask)))) = floor(INET_ATON(start)/(POWER(2,32)-(POWER(2,32)+INET_ATON(mask))))) ) OR 
+						(floor(INET_ATON(?)/(POWER(2,32)-(POWER(2,3)+INET_ATON(mask)))) = floor(INET_ATON(start)/(POWER(2,32)-(POWER(2,32)+INET_ATON(mask))))) ) OR 
 					(type = 4 AND 
-						(floor(INET_ATON("'.$ip_address.'")/(POWER(2,(32-mask))))) = (floor(INET_ATON(start)/(POWER(2,(32-mask))))))
+						(floor(INET_ATON(?)/(POWER(2,(32-mask))))) = (floor(INET_ATON(start)/(POWER(2,(32-mask))))))
 				)';
+		
+		// Build params array (ip_address repeated for each ? placeholder)
+		$params = array_fill(0, 6, $ip_address);
 		
 		// Filtering?
 		if ($filter_active !== false && ($filter_active === 0 || $filter_active === 1))
 		{
-			$sql .= "\n AND active = $filter_active\n";
+			$sql .= "\n AND active = ?";
+			$params[] = $filter_active;
 		}
 		
 		// Query
-		$result = $dbim->query($sql);
-		$row = $dbim->fetch_array($result);
+		$result = $dbim->pquery($sql, $params);
+		$row = $dbim->fetch_array_p($result);
 		
 		return $row['count'];
 	}
@@ -291,15 +299,14 @@ class sm
 		$id = intval($id);
 		
 		// Query DB
-		$sql = 'SELECT * FROM '.DB_PREFIX.'ip_restrict
-				WHERE id = '.$id.'
-				LIMIT 1';
+		$result = $dbim->pquery('SELECT * FROM '.DB_PREFIX.'ip_restrict
+								WHERE id = ?
+								LIMIT 1',
+								array($id));
 		
-		$result = $dbim->query($sql);
-		
-		if ($dbim->num_rows($result) != 0)
+		if ($dbim->num_rows_p($result) != 0)
 		{
-			return $dbim->fetch_array($result);
+			return $dbim->fetch_array_p($result);
 		}
 		else
 		{
@@ -320,9 +327,9 @@ class sm
 		$sql = 'INSERT INTO '.DB_PREFIX.'ip_restrict_log
 					(timestamp, ip_address, request_uri, referer)
 				VALUES
-					('.$timestamp.', "'.$ip_address.'", "'.$request_uri.'", "'.$referer.'")';
+					(?, ?, ?, ?)';
 		
-		return $dbim->query($sql);
+		return $dbim->pquery($sql, array($timestamp, $ip_address, $request_uri, $referer));
 	}
 	
 	function domain_can_leech($domain)
@@ -341,11 +348,11 @@ class sm
 		
 		$sql = 'SELECT COUNT(*) AS count 
 				FROM '.DB_PREFIX.'leech_settings 
-				WHERE ("'.$domain.'" LIKE (REPLACE(domain, "*", "%")))
-						AND (action = '.$action.')';
+				WHERE (? LIKE (REPLACE(domain, "*", "%")))
+						AND (action = ?)';
 		
-		$result = $dbim->query($sql);
-		$row = $dbim->fetch_array($result);
+		$result = $dbim->pquery($sql, array($domain, $action));
+		$row = $dbim->fetch_array_p($result);
 		
 		// So we have the data, now decide whether to allow or deny
 		if ($row['count'] > 0)

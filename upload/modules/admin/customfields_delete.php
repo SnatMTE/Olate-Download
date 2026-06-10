@@ -30,11 +30,12 @@ if ($uam->permitted('acp_customfields_delete'))
 		if (empty($_REQUEST['confirm_yes']) && empty($_REQUEST['confirm_no']))
 		{
 			// Get field label
-			$result = $dbim->query('SELECT label
+			$result = $dbim->pquery('SELECT label
 									FROM '.DB_PREFIX.'customfields
-									WHERE id = '.$_REQUEST['id']);
+									WHERE id = ?',
+									array($_REQUEST['id']));
 			
-			$row = $dbim->fetch_array($result);
+			$row = $dbim->fetch_array_p($result);
 			
 			// Template for confirmation
 			$customfields_delete = $uim->fetch_template('admin/generic_yes_no');
@@ -51,11 +52,13 @@ if ($uam->permitted('acp_customfields_delete'))
 		}
 		elseif (!empty($_REQUEST['confirm_yes']))
 		{
-			$dbim->query('DELETE FROM '.DB_PREFIX.'customfields
-							WHERE (id = '.$_REQUEST['id'].')');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'customfields
+							WHERE (id = ?)',
+							array($_REQUEST['id']));
 			
-			$dbim->query('DELETE FROM '.DB_PREFIX.'customfields_data
-							WHERE (field_id = '.$_REQUEST['id'].')');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'customfields_data
+							WHERE (field_id = ?)',
+							array($_REQUEST['id']));
 		
 			$success = true;
 			$customfields_delete->assign_var('success', $success);
@@ -71,10 +74,10 @@ if ($uam->permitted('acp_customfields_delete'))
 		// Template
 		$customfields_delete = $uim->fetch_template('admin/customfields_delete');
 		
-		$customfields_query = $dbim->query('SELECT id, label
-											FROM '.DB_PREFIX.'customfields');
+		$customfields_query = $dbim->pquery('SELECT id, label
+											FROM '.DB_PREFIX.'customfields', array());
 		
-		while ($customfields = $dbim->fetch_array($customfields_query))
+		while ($customfields = $dbim->fetch_array_p($customfields_query))
 		{		
 			$customfields_delete->assign_var('customfield', $customfields);
 			$customfields_delete->use_block('customfields');

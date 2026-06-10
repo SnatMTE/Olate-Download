@@ -47,14 +47,15 @@ if ($uam->permitted('acp_files_delete_file'))
 		elseif (!empty($_REQUEST['confirm_yes']))
 		{
 			// Delete file
-			$dbim->query('DELETE FROM '.DB_PREFIX.'files
-							WHERE (id = '.$_REQUEST['file'].')
-							LIMIT 1');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'files
+							WHERE (id = ?)
+							LIMIT 1',
+							array($_REQUEST['file']));
 							
 			// Is this file located on the server? If so, we'll delete it
-			$mirror_query = $dbim->query('SELECT id, url FROM '.DB_PREFIX.'mirrors WHERE (file_id = '.$_REQUEST['file'].')');
+			$mirror_query = $dbim->pquery('SELECT id, url FROM '.DB_PREFIX.'mirrors WHERE (file_id = ?)', array($_REQUEST['file']));
 			
-			while ($mirror = $dbim->fetch_array($mirror_query))
+			while ($mirror = $dbim->fetch_array_p($mirror_query))
 			{
 				$url = explode('/', $mirror['url']);
 				$file = array_pop($url);
@@ -67,12 +68,14 @@ if ($uam->permitted('acp_files_delete_file'))
 			}
 			
 			// Delete mirror(s)
-			$dbim->query('DELETE FROM '.DB_PREFIX.'mirrors
-							WHERE (file_id = '.$_REQUEST['file'].')');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'mirrors
+							WHERE (file_id = ?)',
+							array($_REQUEST['file']));
 							
 			// Delete comment(s)
-			$dbim->query('DELETE FROM '.DB_PREFIX.'comments
-							WHERE (file_id = '.$_REQUEST['file'].')');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'comments
+							WHERE (file_id = ?)',
+							array($_REQUEST['file']));
 							
 			$success = true; // For redirect EOF
 			$delete_file->assign_var('success', true);

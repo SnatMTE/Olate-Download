@@ -38,8 +38,16 @@ class fldm
 			$files_query .= ' AND (c.id = '.intval($category_id).')';			
 		}
 
-		// Sorting
-		$files_query .= ' ORDER BY f.'.$sort;
+		// Sorting — whitelist allowed columns to prevent SQL injection
+		$allowed_sorts = array('date', 'name', 'downloads', 'size', 'id', 'category_id', 'views', 'rating_votes', 'rating_value');
+		$sort_parts = explode(' ', trim($sort));
+		$sort_col = $sort_parts[0];
+		$sort_dir = (isset($sort_parts[1]) && strtoupper($sort_parts[1]) === 'DESC') ? 'DESC' : 'ASC';
+		if (!in_array($sort_col, $allowed_sorts))
+		{
+			$sort_col = 'date';
+		}
+		$files_query .= ' ORDER BY f.'.$sort_col.' '.$sort_dir;
 
 		// Limit - sanitize numeric offset/count to prevent injection
 		if ($limit)
@@ -55,11 +63,11 @@ class fldm
 			}
 		}
 
-		$files_result = $dbim->query($files_query);
+		$files_result = $dbim->pquery($files_query, array());
 		
 		$files = array();
 		
-		while ($file = $dbim->fetch_array($files_result))
+		while ($file = $dbim->fetch_array_p($files_result))
 		{
 			// Format the date
 			$file['date'] = format_date($file['date']);
@@ -88,17 +96,16 @@ class fldm
 			$status_conditional .= ' AND (f.activate_at <= '.time().')';
 		}
 		
+		$params = array($file_id);
 		$sql = 'SELECT c.name as cat_name, c.id as cat_id, f.id, f.name, f.category_id, f.description_small, f.description_big, f.downloads, f.size, f.date, f.status, f.convert_newlines, f.views, f.rating_votes, f.rating_value, f.keywords, f.agreement_id, f.password, f.activate_at
 				FROM '.DB_PREFIX.'files f
 				LEFT JOIN '.DB_PREFIX.'categories c ON f.category_id = c.id
-				WHERE (f.id = '.$file_id.')
+				WHERE (f.id = ?)
 						'.$status_conditional;
 		
-		$details_result = $dbim->query($sql);
+		$details_result = $dbim->pquery($sql, $params);
 		
-		echo ($date_active) ? $sql : '';
-		
-		$details = $dbim->fetch_array($details_result);
+		$details = $dbim->fetch_array_p($details_result);
 		
 		if (!empty($details))
 		{
@@ -115,12 +122,13 @@ class fldm
 		
 		if ($agreement_id)
 		{
-			$agreement_result = $dbim->query('SELECT contents 
+			$agreement_result = $dbim->pquery('SELECT contents 
 												FROM '.DB_PREFIX.'agreements 
-												WHERE (id = '.$agreement_id.')');
+												WHERE (id = ?)',
+												array($agreement_id));
 		}
 		
-		$agreement = $dbim->fetch_array($agreement_result);
+		$agreement = $dbim->fetch_array_p($agreement_result);
 		
 		return $agreement['contents'];
 	}
@@ -197,15 +205,16 @@ class fldm
 			$amount = $site_config['page_amount'];
 			
 			// Get all results for the page box
-			$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
+			$comments_result = $dbim->pquery('SELECT id, file_id, timestamp, name, email, comment, status
 												FROM '.DB_PREFIX.'comments 
-												WHERE (file_id = '.$file_id.') 
+												WHERE (file_id = ?) 
 													AND (status = 1)
-												ORDER BY timestamp ASC');
+												ORDER BY timestamp ASC',
+												array($file_id));
 												
 			$results = array();
 		
-			while ($result = $dbim->fetch_array($comments_result))
+			while ($result = $dbim->fetch_array_p($comments_result))
 			{
 				$results[] = $result;
 			}		
@@ -215,16 +224,17 @@ class fldm
 			
 			
 			// Get all results for the page box
-			$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
+			$comments_result = $dbim->pquery('SELECT id, file_id, timestamp, name, email, comment, status
 												FROM '.DB_PREFIX.'comments 
-												WHERE (file_id = '.$file_id.') 
+												WHERE (file_id = ?) 
 													AND (status = 1)
 												ORDER BY timestamp ASC
-												LIMIT '.$offset.','.$amount);					
+												LIMIT '.intval($offset).','.intval($amount),
+												array($file_id));					
 												
 			$toolbox = $uim->fetch_template('files/toolbox');
 			
-			while ($comment = $dbim->fetch_array($comments_result))
+			while ($comment = $dbim->fetch_array_p($comments_result))
 			{
 				$toolbox->assign_var('comment', $comment);
 				$toolbox->assign_var('date', format_date($comment['timestamp']));
