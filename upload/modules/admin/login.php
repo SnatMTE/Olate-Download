@@ -35,9 +35,9 @@ else
 		// Do they want to be remembered?
 		if (isset($_POST['remember']) && $_POST['remember'])
 		{
-			// Get the data ready
-			$hash = md5($user['id'].$user['username'].$user['group_id']);
-			$data = serialize(array($user['id'], $user['username'], $user['group_id']));
+			// Get the data ready — use json_encode instead of serialize to prevent PHP Object Injection
+			$data = json_encode(array($user['id'], $user['username'], $user['group_id']));
+			$hash = hash_hmac('sha256', $user['id'].'::'.$user['username'].'::'.$user['group_id'], defined('SECRET_KEY') ? SECRET_KEY : 'Od3DefaultKey_changeMe');
 			
 			// Set our cookie for 1 week
 			setcookie('OD3_AutoLogin',$hash.'::'.$data, time() + 604800);

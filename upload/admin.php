@@ -67,27 +67,41 @@ if (isset($_COOKIE['OD3_AutoLogin']))
 	$hash = $parts[0];
 	$data = $parts[1];
 	
-	$data = unserialize(stripslashes($data));
+	// Use json_decode instead of unserialize to prevent PHP Object Injection
+	$data = json_decode(stripslashes($data), true);
 	
-	// Give them nice names
-	$user_id = $data[0];
-	$username = $data[1];
-	$group_id = $data[2];
-	
-	// Check the user exists
-	$result = $dbim->query('SELECT id 
-							FROM '.DB_PREFIX.'users 
-							WHERE (id = "'.$user_id.'") 
-								AND (username = "'.$username.'")
-									AND (group_id="'.$group_id.'")');
-	
-	if ((md5($user_id.$username.$group_id) == $hash) && $dbim->num_rows($result) == 1)
+	if (!is_array($data) || count($data) < 3)
 	{
-		$uam->user_login($user_id, $username, $group_id);
+		// Invalid cookie data — discard silently
+		$data = null;
 	}
+	
+	if ($data)
+	{
+		// Give them nice names
+		$user_id = $data[0];
+		$username = $data[1];
+		$group_id = $data[2];
 		
-	// Initialise permissions
-	$uam->all_permissions($user_id);
+		// Verify HMAC-signed cookie
+		$expected_hash = hash_hmac('sha256', $data[0].'::'.$data[1].'::'.$data[2], defined('SECRET_KEY') ? SECRET_KEY : 'Od3DefaultKey_changeMe');
+		
+		// Check the user exists using parameterized query
+		$result = $dbim->pquery('SELECT id 
+								FROM '.DB_PREFIX.'users 
+								WHERE (id = ?) 
+									AND (username = ?)
+										AND (group_id = ?)',
+								array($user_id, $username, $group_id));
+		
+		if (hash_equals($expected_hash, $hash) && $dbim->num_rows_p($result) == 1)
+		{
+			$uam->user_login($user_id, $username, $group_id);
+		}
+			
+		// Initialise permissions
+		$uam->all_permissions($user_id);
+	}
 }	
 else
 {				 

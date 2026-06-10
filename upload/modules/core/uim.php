@@ -53,6 +53,10 @@ class uim_main
 	// Get the template file requested
 	function fetch_template($template)
 	{		
+		// Sanitize template path to prevent directory traversal
+		$template = preg_replace('/[^a-zA-Z0-9_\/\-]/', '', $template);
+		$template = preg_replace('/\.\./', '', $template);
+		
 		// Spawn a new object
 		$dir = 'templates/'.$this->theme;
 		$file = $template.'.tpl.php';
@@ -276,13 +280,36 @@ class uim_template
 		// First on the menu, sir, the dish of the day: {if:}'s
 		preg_match_all('/{if:(.+)}/', $template, $conditionals_if);
 		
+		// List of PHP superglobals and globals that should NOT be converted to $this->vars references
+		$skip_vars = array('$_GET', '$_POST', '$_SESSION', '$_SERVER', '$_COOKIE', '$_REQUEST', '$_FILES', '$_ENV',
+							'$GLOBALS', '$this', '$lm', '$dbim', '$uim', '$fcm', '$fldm', '$uam', '$sm', '$ehm',
+							'$site_config', '$config', '$start_time', '$end_time', '$total_time');
+		
 		foreach ($conditionals_if['1'] as $condition) 
 		{			
+			$cond_safe = $condition;
+			
 			// Quote unquoted array indices in conditions (e.g., $a[key] -> $a['key']) to avoid undefined constant notices
-			$cond_safe = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[([a-zA-Z0-9_]+)\]/', function($m){ return '$'.$m[1]."['".$m[2]."']"; }, $condition);
-			// Replace array variable accesses in conditions with safe isset() accessors to avoid undefined array key notices
-			$cond_safe = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[\'([a-zA-Z0-9_]+)\'\]/', function($m){
+			$cond_safe = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[([a-zA-Z0-9_]+)\]/', function($m){ return '$'.$m[1]."['".$m[2]."']"; }, $cond_safe);
+			
+			// Convert template variable accesses in conditions to $this->vars references
+			// This replaces $var['key'] with $this->vars['var']['key'] for non-skip vars
+			$cond_safe = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[\'([a-zA-Z0-9_]+)\'\]/', function($m) use ($skip_vars) {
+				if (in_array('$'.$m[1], $skip_vars)) {
+					return $m[0]; // Keep superglobals/globals as-is
+				}
 				return '(isset($this->vars[\''.$m[1].'\'][\''.$m[2].'\']) ? $this->vars[\''.$m[1].'\'][\''.$m[2].'\'] : false)';
+			}, $cond_safe);
+			
+			// Convert simple template variables ($var) in conditions to $this->vars['var']
+			// Skip superglobals and known globals to avoid breaking references to $lm, $dbim, etc.
+			$cond_safe = preg_replace_callback('/\$([a-zA-Z0-9_]+)(?![\'\"\[\)\w])/', function($m) use ($skip_vars) {
+				$full_match = $m[0];
+				$var_name = $m[1];
+				if (in_array($full_match, $skip_vars)) {
+					return $full_match; // Keep superglobals/globals as-is
+				}
+				return '(isset($this->vars[\''.$var_name.'\']) ? $this->vars[\''.$var_name.'\'] : false)';
 			}, $cond_safe);
 			
 			// Make the php
@@ -297,12 +324,29 @@ class uim_template
 		preg_match_all('/\{elseif:(.+)\}/', $template, $conditionals_elseif);
 		foreach ($conditionals_elseif['1'] as $condition_elseif)
 		{
+			$cond_safe_elseif = $condition_elseif;
+			
 			// Quote unquoted array indices in elseif conditions
-			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[([a-zA-Z0-9_]+)\]/', function($m){ return '$'.$m[1]."['".$m[2]."']"; }, $condition_elseif);
-			// Replace array variable accesses in conditions with safe isset() accessors
-			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[\'([a-zA-Z0-9_]+)\'\]/', function($m){
+			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[([a-zA-Z0-9_]+)\]/', function($m){ return '$'.$m[1]."['".$m[2]."']"; }, $cond_safe_elseif);
+			
+			// Convert template variable accesses in conditions to $this->vars references
+			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)\[\'([a-zA-Z0-9_]+)\'\]/', function($m) use ($skip_vars) {
+				if (in_array('$'.$m[1], $skip_vars)) {
+					return $m[0];
+				}
 				return '(isset($this->vars[\''.$m[1].'\'][\''.$m[2].'\']) ? $this->vars[\''.$m[1].'\'][\''.$m[2].'\'] : false)';
 			}, $cond_safe_elseif);
+			
+			// Convert simple template variables ($var) in elseif conditions
+			$cond_safe_elseif = preg_replace_callback('/\$([a-zA-Z0-9_]+)(?![\'\"\[\)\w])/', function($m) use ($skip_vars) {
+				$full_match = $m[0];
+				$var_name = $m[1];
+				if (in_array($full_match, $skip_vars)) {
+					return $full_match;
+				}
+				return '(isset($this->vars[\''.$var_name.'\']) ? $this->vars[\''.$var_name.'\'] : false)';
+			}, $cond_safe_elseif);
+			
 			// Replace the elseif
 			$template = str_replace('{elseif:'.$condition_elseif.'}', '<?php } elseif ('.$cond_safe_elseif.') { ?>', $template);
 		}
@@ -345,14 +389,6 @@ class uim_template
 		{
 			// Parse the block
 			$this->parse($block);
-			
-			// Ensure vars is an array before extracting (avoid extract() fatal when null)
-			if (!is_array($this->vars)) {
-				$this->vars = array();
-			}
-			
-			// Extract the vars
-			extract($this->vars);
 			
 			// Start output buffering, because we're going to
 			// eval it, and otherwise it would be outputted
@@ -454,9 +490,17 @@ class uim_template
 		// Assign them
 		$this->assign_var('global_vars', $global_vars);
 		
-		// Assign get/post vars
-		$this->assign_vars(array('get_vars' => $_GET,
-								 'post_vars' => $_POST));
+		// Assign safe request vars (whitelist only — avoid exposing arbitrary user input as template variables)
+		$safe_get = array();
+		$safe_get['cmd'] = isset($_GET['cmd']) ? htmlspecialchars($_GET['cmd'], ENT_QUOTES, 'UTF-8') : '';
+		$safe_get['id'] = isset($_GET['id']) ? intval($_GET['id']) : 0;
+		$safe_get['cat_id'] = isset($_GET['cat_id']) ? intval($_GET['cat_id']) : 0;
+		$safe_get['page'] = isset($_GET['page']) ? intval($_GET['page']) : 0;
+		$safe_get['sort'] = isset($_GET['sort']) ? htmlspecialchars($_GET['sort'], ENT_QUOTES, 'UTF-8') : '';
+		$safe_get['order'] = isset($_GET['order']) ? htmlspecialchars($_GET['order'], ENT_QUOTES, 'UTF-8') : '';
+		$safe_get['search'] = isset($_GET['search']) ? htmlspecialchars($_GET['search'], ENT_QUOTES, 'UTF-8') : '';
+		$this->assign_var('get_vars', $safe_get);
+		$this->assign_var('post_vars', array()); // POST vars not exposed by default
 								 
 		// Assign user's permissions (always assign an array to avoid undefined variable in templates)
 		if ($uam->user_authed() && isset($uam->permissions))
@@ -479,17 +523,6 @@ class uim_template
 		
 		// Parse it
 		$this->parse($this->template);
-		
-		// Extract vars into local namespace
-		// this is for conditionals, where people will type
-		// things like {if: $var == 'value'} if it wasn't this
-		// way, they'd have to type {if: $this->vars['var'] == 'value'}
-		// not really very fun
-		// Ensure vars is an array before extracting to avoid fatal extract() error
-		if (!is_array($this->vars)) {
-			$this->vars = array();
-		}
-		extract($this->vars);
 		
 		// Are we just dumping the PHP code?
 		if ($return === 'php')

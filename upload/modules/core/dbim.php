@@ -101,5 +101,72 @@ class dbim
 	{
 		return ($this->connection) ? @mysql_insert_id($this->connection) : od_fatal('[DBIM] Query Failed: '.mysql_error()); 
 	}
+	
+	// Execute a parameterized query using PDO prepared statements
+	// $sql: SQL with ? placeholders
+	// $params: array of parameter values
+	// Returns: PDOStatement on success, or falls back to query() on failure
+	function pquery($sql, $params = array())
+	{
+		// Try to get the PDO connection from the helper's polyfill
+		if (function_exists('_od_get_pdo'))
+		{
+			$pdo = _od_get_pdo($this->connection);
+			if ($pdo instanceof PDO)
+			{
+				try
+				{
+					$stmt = $pdo->prepare($sql);
+					$stmt->execute($params);
+					$this->query_count++;
+					return $stmt;
+				}
+				catch (PDOException $e)
+				{
+					od_fatal('[DBIM] pquery Failed: '.$e->getMessage().' SQL: '.$sql);
+				}
+			}
+		}
+		
+		// Fallback: if PDO is not available, escape params and use regular query()
+		// This handles environments where native mysql_* functions are used directly
+		$escaped_sql = $sql;
+		if (!empty($params))
+		{
+			// Replace ? placeholders with escaped values
+			foreach ($params as $param)
+			{
+				$escaped_param = (is_null($param)) ? 'NULL' : '"'.mysql_real_escape_string((string)$param, $this->connection).'"';
+				$pos = strpos($escaped_sql, '?');
+				if ($pos !== false)
+				{
+					$escaped_sql = substr_replace($escaped_sql, $escaped_param, $pos, 1);
+				}
+			}
+		}
+		return $this->query($escaped_sql);
+	}
+	
+	// Fetch a row from a PDO statement (used with pquery results)
+	function fetch_array_p($stmt)
+	{
+		if ($stmt instanceof PDOStatement)
+		{
+			return $stmt->fetch(PDO::FETCH_ASSOC);
+		}
+		// Fallback for legacy mysql result resources
+		return $this->fetch_array($stmt);
+	}
+	
+	// Get row count from a PDO statement (used with pquery results)
+	function num_rows_p($stmt)
+	{
+		if ($stmt instanceof PDOStatement)
+		{
+			return $stmt->rowCount();
+		}
+		// Fallback for legacy mysql result resources
+		return $this->num_rows($stmt);
+	}
 }
 ?>
