@@ -31,11 +31,12 @@ if ($uam->permitted('acp_users_delete_user'))
 		if (empty($_REQUEST['confirm_yes']) && empty($_REQUEST['confirm_no']))
 		{
 			// Get user info
-			$result = $dbim->query('SELECT id, username, firstname, lastname 
+			$result = $dbim->pquery('SELECT id, username, firstname, lastname 
 									FROM '.DB_PREFIX.'users 
-									WHERE id = '.$_REQUEST['id']);
+									WHERE id = ?',
+									array($_REQUEST['id']));
 			
-			$row = $dbim->fetch_array($result);
+			$row = $dbim->fetch_array_p($result);
 			
 			// Load template
 			$delete_user = $uim->fetch_template('admin/generic_yes_no');
@@ -54,9 +55,10 @@ if ($uam->permitted('acp_users_delete_user'))
 		elseif (!empty($_REQUEST['confirm_yes']))
 		{
 			// Delete user
-			$dbim->query('DELETE FROM '.DB_PREFIX.'users
-							WHERE (id = '.$_REQUEST['id'].')
-							LIMIT 1');
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'users
+							WHERE (id = ?)
+							LIMIT 1',
+							array($_REQUEST['id']));
 							
 			$success = true; // For redirect EOF
 			$delete_user->assign_var('success', true);
@@ -70,11 +72,11 @@ if ($uam->permitted('acp_users_delete_user'))
 	else
 	{
 		// Display a list of users
-		$result = $dbim->query('SELECT id, username, firstname, lastname 
+		$result = $dbim->pquery('SELECT id, username, firstname, lastname 
 								FROM '.DB_PREFIX.'users 
-								ORDER BY username');
+								ORDER BY username', array());
 		
-		while ($user = $dbim->fetch_array($result))
+		while ($user = $dbim->fetch_array_p($result))
 		{
 			$delete_user->assign_var('user', $user);
 			$delete_user->use_block('user');

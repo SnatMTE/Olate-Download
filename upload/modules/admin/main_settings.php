@@ -65,41 +65,58 @@ if ($uam->permitted('acp_main_settings'))
 		$_REQUEST['allow_user_lang'] = (!isset($_REQUEST['allow_user_lang'])) ? 0 : 1;
 		
 		// And finally, the SQL
-		$dbim->query('UPDATE '.DB_PREFIX.'config 
-						SET site_name = "'.htmlspecialchars($_REQUEST['site_name']).'", 
-							url = "'.$_REQUEST['url'].'",
-							flood_interval = "'.$_REQUEST['flood_interval'].'", 
-							admin_email = "'.$_REQUEST['admin_email'].'", 
-							language = "'.$_REQUEST['language'].'", 
-							template = "'.$_REQUEST['template'].'", 
-							date_format = "'.$_REQUEST['date_format'].'", 
-							filesize_format = "'.$_REQUEST['filesize_format'].'", 
-							mirrors = "'.$_REQUEST['mirrors'].'", 
-							page_amount = "'.$_REQUEST['page_amount'].'", 
-							latest_files = "'.$_REQUEST['latest_files'].'",
-							enable_topfiles = "'.$_REQUEST['enable_topfiles'].'",  
-							top_files = "'.$_REQUEST['top_files'].'", 
-							enable_allfiles = "'.$_REQUEST['enable_allfiles'].'", 
-							enable_comments = "'.$_REQUEST['enable_comments'].'", 
-							approve_comments = "'.$_REQUEST['approve_comments'].'", 
-							enable_search = "'.$_REQUEST['enable_search'].'", 
-							enable_ratings = "'.$_REQUEST['enable_ratings'].'",
-							enable_stats = "'.$_REQUEST['enable_stats'].'", 
-							enable_rss = "'.$_REQUEST['enable_rss'].'",
-							enable_count = "'.$_REQUEST['enable_count'].'",
-							enable_useruploads  = "'.$_REQUEST['enable_useruploads'].'",
-							enable_actual_upload  = "'.$_REQUEST['enable_actual_upload'].'",
-							enable_mirrors  = "'.$_REQUEST['enable_mirrors'].'",
-							enable_leech_protection  = "'.$_REQUEST['enable_leech_protection'].'",
-							uploads_allowed_ext  = "'.$_REQUEST['uploads_allowed_ext'].'",
-							userupload_always_approve  = "'.$_REQUEST['userupload_always_approve'].'",
-							filter_cats  = "'.$_REQUEST['filter_cats'].'",
-							enable_recommend_friend  = "'.$_REQUEST['enable_recommend_friend'].'",
-							enable_recommend_confirm  = "'.$_REQUEST['enable_recommend_confirm'].'",
-							acp_check_extensions  = "'.$_REQUEST['acp_check_extensions'].'",
-							use_fckeditor  = "'.$_REQUEST['use_fckeditor'].'",
-							allow_user_lang  = "'.$_REQUEST['allow_user_lang'].'"
-						LIMIT 1');
+		$dbim->pquery('UPDATE '.DB_PREFIX.'config 
+						SET site_name = ?, 
+							url = ?,
+							flood_interval = ?, 
+							admin_email = ?, 
+							language = ?, 
+							template = ?, 
+							date_format = ?, 
+							filesize_format = ?, 
+							mirrors = ?, 
+							page_amount = ?, 
+							latest_files = ?,
+							enable_topfiles = ?,  
+							top_files = ?, 
+							enable_allfiles = ?, 
+							enable_comments = ?, 
+							approve_comments = ?, 
+							enable_search = ?, 
+							enable_ratings = ?,
+							enable_stats = ?, 
+							enable_rss = ?,
+							enable_count = ?,
+							enable_useruploads  = ?,
+							enable_actual_upload  = ?,
+							enable_mirrors  = ?,
+							enable_leech_protection  = ?,
+							uploads_allowed_ext  = ?,
+							userupload_always_approve  = ?,
+							filter_cats  = ?,
+							enable_recommend_friend  = ?,
+							enable_recommend_confirm  = ?,
+							acp_check_extensions  = ?,
+							use_fckeditor  = ?,
+							allow_user_lang  = ?
+						LIMIT 1',
+						array(htmlspecialchars($_REQUEST['site_name']), $_REQUEST['url'],
+							$_REQUEST['flood_interval'], $_REQUEST['admin_email'],
+							$_REQUEST['language'], $_REQUEST['template'],
+							$_REQUEST['date_format'], $_REQUEST['filesize_format'],
+							$_REQUEST['mirrors'], $_REQUEST['page_amount'],
+							$_REQUEST['latest_files'], $_REQUEST['enable_topfiles'],
+							$_REQUEST['top_files'], $_REQUEST['enable_allfiles'],
+							$_REQUEST['enable_comments'], $_REQUEST['approve_comments'],
+							$_REQUEST['enable_search'], $_REQUEST['enable_ratings'],
+							$_REQUEST['enable_stats'], $_REQUEST['enable_rss'],
+							$_REQUEST['enable_count'], $_REQUEST['enable_useruploads'],
+							$_REQUEST['enable_actual_upload'], $_REQUEST['enable_mirrors'],
+							$_REQUEST['enable_leech_protection'], $_REQUEST['uploads_allowed_ext'],
+							$_REQUEST['userupload_always_approve'], $_REQUEST['filter_cats'],
+							$_REQUEST['enable_recommend_friend'], $_REQUEST['enable_recommend_confirm'],
+							$_REQUEST['acp_check_extensions'], $_REQUEST['use_fckeditor'],
+							$_REQUEST['allow_user_lang']));
 							
 		$success = true; // For redirect EOF
 		$settings->assign_var('success', true);
@@ -114,9 +131,9 @@ if ($uam->permitted('acp_main_settings'))
 	{
 		// Reset statistics
 		$dbim->query('TRUNCATE TABLE '.DB_PREFIX.'stats');
-		$dbim->query('UPDATE '.DB_PREFIX.'files
+		$dbim->pquery('UPDATE '.DB_PREFIX.'files
 						SET downloads = 0,
-							views = 0');
+							views = 0', array());
 		
 		$success = true; // For redirect EOF
 		$settings->assign_var('reset', true);

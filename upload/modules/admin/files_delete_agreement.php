@@ -29,11 +29,12 @@ if ($uam->permitted('acp_files_delete_agreement'))
 		{
 			validate_types($_REQUEST, array('id' => 'INT'));
 			
-			$check_result = $dbim->query('SELECT id, agreement_id
+			$check_result = $dbim->pquery('SELECT id, agreement_id
 											FROM '.DB_PREFIX.'files
-											WHERE (agreement_id = '.$_REQUEST['id'].')');
+											WHERE (agreement_id = ?)',
+											array($_REQUEST['id']));
 									
-			if ($dbim->num_rows($check_result) == 0)
+			if ($dbim->num_rows_p($check_result) == 0)
 			{
 				if (empty($_REQUEST['confirm_yes']) && empty($_REQUEST['confirm_no']))
 				{
@@ -46,12 +47,13 @@ if ($uam->permitted('acp_files_delete_agreement'))
 					$agreement_delete->assign_var('action', 'admin.php?cmd=files_delete_agreement&submit=1&id='.$_REQUEST['id']);
 					
 					// Get agreement name
-					$result = $dbim->query('SELECT name 
+					$result = $dbim->pquery('SELECT name 
 											FROM '.DB_PREFIX.'agreements 
-											WHERE id = '.$_REQUEST['id'].'
-											LIMIT 1');
+											WHERE id = ?
+											LIMIT 1',
+											array($_REQUEST['id']));
 					
-					$row = $dbim->fetch_array($result);
+					$row = $dbim->fetch_array_p($result);
 					
 					// Add file to items list
 					$text = str_replace('_NAME_', $row['name'], $lm->language('admin', 'agreement_delete_list_desc'));
@@ -62,9 +64,10 @@ if ($uam->permitted('acp_files_delete_agreement'))
 				elseif (!empty($_REQUEST['confirm_yes']))
 				{
 					// There are no files in the category
-					$dbim->query('DELETE FROM '.DB_PREFIX.'agreements
-									WHERE (id = '.$_REQUEST['id'].')
-									LIMIT 1');
+					$dbim->pquery('DELETE FROM '.DB_PREFIX.'agreements
+									WHERE (id = ?)
+									LIMIT 1',
+									array($_REQUEST['id']));
 									
 					$success = true; // For redirect EOF
 					$agreement_delete->assign_var('result', 1);
@@ -90,10 +93,10 @@ if ($uam->permitted('acp_files_delete_agreement'))
 	else
 	{
 		// Get the agreements
-		$agreements_result = $dbim->query('SELECT id, name, contents
-											FROM '.DB_PREFIX.'agreements');
+		$agreements_result = $dbim->pquery('SELECT id, name, contents
+											FROM '.DB_PREFIX.'agreements', array());
 											
-		while ($agreement = $dbim->fetch_array($agreements_result))
+		while ($agreement = $dbim->fetch_array_p($agreements_result))
 		{
 			$agreement_delete->assign_var('agreement', $agreement);
 			$agreement_delete->use_block('agreements');

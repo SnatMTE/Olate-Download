@@ -27,11 +27,12 @@ if ($uam->permitted('acp_files_edit_comment'))
 	
 	if (!empty($_REQUEST['id']) && !isset($_REQUEST['submit']))
 	{	
-		$comment_result = $dbim->query('SELECT id, name, email, comment
+		$comment_result = $dbim->pquery('SELECT id, name, email, comment
 											FROM '.DB_PREFIX.'comments
-											WHERE (id = '.$_REQUEST['id'].')');
+											WHERE (id = ?)',
+											array($_REQUEST['id']));
 											
-		$comment = $dbim->fetch_array($comment_result);
+		$comment = $dbim->fetch_array_p($comment_result);
 		$edit->assign_var('comment', $comment);
 		
 		if (!empty($_REQUEST['redir']))
@@ -45,11 +46,12 @@ if ($uam->permitted('acp_files_edit_comment'))
 	}
 	elseif (!empty($_REQUEST['id']) && isset($_REQUEST['submit']))
 	{
-		$comment_result = $dbim->query('UPDATE '.DB_PREFIX.'comments
-											SET name = "'.$_REQUEST['name'].'",
-												email = "'.$_REQUEST['email'].'",
-												comment = "'.$_REQUEST['comment'].'"
-											WHERE (id = '.$_REQUEST['id'].')');
+		$comment_result = $dbim->pquery('UPDATE '.DB_PREFIX.'comments
+											SET name = ?,
+												email = ?,
+												comment = ?
+											WHERE (id = ?)',
+											array($_REQUEST['name'], $_REQUEST['email'], $_REQUEST['comment'], $_REQUEST['id']));
 									
 		$success = true; // For redirect EOF
 		$edit->assign_var('success', true);

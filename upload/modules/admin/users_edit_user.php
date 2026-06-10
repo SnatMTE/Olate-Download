@@ -26,21 +26,22 @@ if ($uam->permitted('acp_users_edit_user'))
 	// Have they specified a user id?
 	if (!empty($_REQUEST['id']))
 	{	
-		$result = $dbim->query('SELECT u.*, g.id AS group_id, g.name AS group_name 
+		$result = $dbim->pquery('SELECT u.*, g.id AS group_id, g.name AS group_name 
 								FROM '.DB_PREFIX.'users u, '.DB_PREFIX.'usergroups g 
-								WHERE (u.id = "'.$_REQUEST['id'].'") 
-									AND (u.group_id = g.id)');
-		$user = $dbim->fetch_array($result);
+								WHERE (u.id = ?) 
+									AND (u.group_id = g.id)',
+								array($_REQUEST['id']));
+		$user = $dbim->fetch_array_p($result);
 		
 		// Show the form
 		$user_edit = $uim->fetch_template('admin/users_edit_user');
 		$user_edit->assign_var('user', $user);
 		
 		// Get all the groups
-		$result = $dbim->query('SELECT id, name 
-								FROM '.DB_PREFIX.'usergroups');
+		$result = $dbim->pquery('SELECT id, name 
+								FROM '.DB_PREFIX.'usergroups', array());
 			
-		while ($group = $dbim->fetch_array($result))
+		while ($group = $dbim->fetch_array_p($result))
 		{
 			$user_edit->assign_var('group', $group);
 			$user_edit->use_block('group');
@@ -56,21 +57,22 @@ if ($uam->permitted('acp_users_edit_user'))
 			$error->assign_var('error_message', $uam->auth_error);
 			$error->show();
 			
-			$result = $dbim->query('SELECT u.*, g.id AS group_id, g.name AS group_name 
+			$result = $dbim->pquery('SELECT u.*, g.id AS group_id, g.name AS group_name 
 									FROM '.DB_PREFIX.'users u, '.DB_PREFIX.'usergroups g 
-									WHERE (u.id = "'.$_REQUEST['user_id'].'") 
-										AND (u.group_id = g.id)');
-			$user = $dbim->fetch_array($result);
+									WHERE (u.id = ?) 
+										AND (u.group_id = g.id)',
+									array($_REQUEST['user_id']));
+			$user = $dbim->fetch_array_p($result);
 			
 			// Reshow the form
 			$user_edit = $uim->fetch_template('admin/users_edit_user');
 			$user_edit->assign_var('user', $user);
 			
 			// Get all the groups
-			$result = $dbim->query('SELECT id, name 
-									FROM '.DB_PREFIX.'usergroups');
+			$result = $dbim->pquery('SELECT id, name 
+									FROM '.DB_PREFIX.'usergroups', array());
 			
-			while ($group = $dbim->fetch_array($result))
+			while ($group = $dbim->fetch_array_p($result))
 			{
 				$user_edit->assign_var('group', $group);
 				$user_edit->use_block('group');
@@ -90,13 +92,13 @@ if ($uam->permitted('acp_users_edit_user'))
 	else
 	{
 		// Display a list of users
-		$result = $dbim->query('SELECT id, username, firstname, lastname 
+		$result = $dbim->pquery('SELECT id, username, firstname, lastname 
 								FROM '.DB_PREFIX.'users 
-								ORDER BY username');
+								ORDER BY username', array());
 		
 		$list = $uim->fetch_template('admin/users_edit_user_list');
 		
-		while ($user = $dbim->fetch_array($result))
+		while ($user = $dbim->fetch_array_p($result))
 		{
 			$list->assign_var('user', $user);
 			$list->use_block('user');

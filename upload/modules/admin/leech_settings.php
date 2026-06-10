@@ -49,11 +49,10 @@ if ($uam->permitted('acp_leech_settings'))
 		if (eregi('^([a-z0-9\-]|\.|\*)+$', $domain))
 		{
 			// Insert it
-			$sql = 'INSERT INTO '.DB_PREFIX.'leech_settings
-					SET domain = "'.$domain.'",
-						action = '.$action;
-			
-			$dbim->query($sql);
+			$dbim->pquery('INSERT INTO '.DB_PREFIX.'leech_settings
+							SET domain = ?,
+								action = ?',
+							array($domain, $action));
 		}
 		else
 		{
@@ -90,13 +89,12 @@ if ($uam->permitted('acp_leech_settings'))
 				$template->assign_var('action', 'admin.php?cmd=leech_settings&submit_delete_allow=1');
 				
 				// Get details of what we're deleting
-				$sql = 'SELECT id, domain FROM '.DB_PREFIX.'leech_settings
-						WHERE id IN('.$id_list_imploded.')
-						ORDER BY domain ASC';
+				$placeholders = implode(', ', array_fill(0, count($id_list), '?'));
+				$result = $dbim->pquery('SELECT id, domain FROM '.DB_PREFIX.'leech_settings
+						WHERE id IN('.$placeholders.')
+						ORDER BY domain ASC', $id_list);
 				
-				$result = $dbim->query($sql);
-				
-				while ($row = $dbim->fetch_array($result))
+				while ($row = $dbim->fetch_array_p($result))
 				{
 					// Add text to list of entries
 					$text = str_replace('_DOMAIN_', $row['domain'], $lm->language('admin', 'leech_settings_domain'));
@@ -112,10 +110,9 @@ if ($uam->permitted('acp_leech_settings'))
 			elseif (!empty($_REQUEST['confirm_yes']))
 			{
 				// Build SQL
-				$sql = 'DELETE FROM '.DB_PREFIX.'leech_settings
-						WHERE id IN('.$id_list_imploded.')';
-				
-				$dbim->query($sql);
+				$placeholders = implode(', ', array_fill(0, count($id_list), '?'));
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'leech_settings
+						WHERE id IN('.$placeholders.')', $id_list);
 			}
 		}
 	}
@@ -142,13 +139,12 @@ if ($uam->permitted('acp_leech_settings'))
 				$template->assign_var('action', 'admin.php?cmd=leech_settings&submit_delete_deny=1');
 				
 				// Get details of what we're deleting
-				$sql = 'SELECT id, domain FROM '.DB_PREFIX.'leech_settings
-						WHERE id IN('.$id_list_imploded.')
-						ORDER BY domain ASC';
+				$placeholders = implode(', ', array_fill(0, count($id_list), '?'));
+				$result = $dbim->pquery('SELECT id, domain FROM '.DB_PREFIX.'leech_settings
+						WHERE id IN('.$placeholders.')
+						ORDER BY domain ASC', $id_list);
 				
-				$result = $dbim->query($sql);
-				
-				while ($row = $dbim->fetch_array($result))
+				while ($row = $dbim->fetch_array_p($result))
 				{
 					// Add text to list of entries
 					$text = str_replace('_DOMAIN_', $row['domain'], $lm->language('admin', 'leech_settings_domain'));
@@ -164,10 +160,9 @@ if ($uam->permitted('acp_leech_settings'))
 			elseif (!empty($_REQUEST['confirm_yes']))
 			{
 				// Build SQL
-				$sql = 'DELETE FROM '.DB_PREFIX.'leech_settings
-						WHERE id IN('.$id_list_imploded.')';
-				
-				$dbim->query($sql);
+				$placeholders = implode(', ', array_fill(0, count($id_list), '?'));
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'leech_settings
+						WHERE id IN('.$placeholders.')', $id_list);
 			}
 		}
 	}
@@ -181,11 +176,10 @@ if ($uam->permitted('acp_leech_settings'))
 			$id_list_imploded = implode(', ', $id_list);
 			
 			// Build SQL
-			$sql = 'UPDATE '.DB_PREFIX.'leech_settings
+			$placeholders = implode(', ', array_fill(0, count($id_list), '?'));
+			$dbim->pquery('UPDATE '.DB_PREFIX.'leech_settings
 					SET action = 1
-					WHERE id IN('.$id_list_imploded.')';
-			
-			$dbim->query($sql);
+					WHERE id IN('.$placeholders.')', $id_list);
 		}
 	}
 	// Or vice versa?
@@ -198,11 +192,10 @@ if ($uam->permitted('acp_leech_settings'))
 			$id_list_imploded = implode(', ', $id_list);
 			
 			// Build SQL
-			$sql = 'UPDATE '.DB_PREFIX.'leech_settings
+			$placeholders = implode(', ', array_fill(0, count($id_list), '?'));
+			$dbim->pquery('UPDATE '.DB_PREFIX.'leech_settings
 					SET action = 0
-					WHERE id IN('.$id_list_imploded.')';
-			
-			$dbim->query($sql);
+					WHERE id IN('.$placeholders.')', $id_list);
 		}
 	}
 	
@@ -210,16 +203,14 @@ if ($uam->permitted('acp_leech_settings'))
 	if (empty($hide_form) || $hide_form !== true)
 	{
 		// Get data
-		$sql = 'SELECT id, domain, action
+		$result = $dbim->pquery('SELECT id, domain, action
 				FROM '.DB_PREFIX.'leech_settings
-				ORDER BY domain ASC';
-		
-		$result = $dbim->query($sql);
+				ORDER BY domain ASC', array());
 		
 		$allow_list_count = 0;
 		$deny_list_count = 0;
 		
-		while ($entry = $dbim->fetch_array($result))
+		while ($entry = $dbim->fetch_array_p($result))
 		{
 			// Are we adding this to the allow list or the deny list?
 			if (intval($entry['action']) == 1)

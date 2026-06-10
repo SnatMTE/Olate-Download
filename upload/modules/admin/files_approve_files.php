@@ -33,9 +33,10 @@ if ($uam->permitted('acp_files_approve_files'))
 				if (intval($value) == 1)
 				{
 					// Update in database
-					$result = $dbim->query('UPDATE '.DB_PREFIX.'files
+					$result = $dbim->pquery('UPDATE '.DB_PREFIX.'files
 											SET status = 1
-											WHERE id = '.$id);
+											WHERE id = ?',
+											array($id));
 					
 					if (!$result)
 					{
@@ -64,8 +65,8 @@ if ($uam->permitted('acp_files_approve_files'))
 				FROM '.DB_PREFIX.'files 
 				WHERE status = 0';
 		
-		$result = $dbim->query($sql);
-		$row = $dbim->fetch_array($result);
+		$result = $dbim->pquery($sql, array());
+		$row = $dbim->fetch_array_p($result);
 		
 		if ($row['count'] > 0)
 		{

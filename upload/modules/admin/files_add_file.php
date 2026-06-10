@@ -32,19 +32,21 @@ if ($uam->permitted('acp_files_add_file'))
 			if (move_uploaded_file($_FILES['uploadfile']['tmp_name'], './uploads/'.basename($_FILES['uploadfile']['name']))) 
 			{
 			   // File was uploaded successfully - add as a mirror
-			   $dbim->query('INSERT INTO '.DB_PREFIX.'mirrors
-								SET file_id = '.$_REQUEST['file_id'].', 
+			   $dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
+								SET file_id = ?, 
 									name = "Mirror 1", 
 									location = "Earth", 
-									url = "'.$site_config['url'].'uploads/'.basename($_FILES['uploadfile']['name']).'"');
+									url = ?',
+								array($_REQUEST['file_id'], $site_config['url'].'uploads/'.basename($_FILES['uploadfile']['name'])));
 				
 			   $filesize = filesize('./uploads/'.basename($_FILES['uploadfile']['name']));
 			   
 				// Set file active
-				$dbim->query('UPDATE '.DB_PREFIX.'files
+				$dbim->pquery('UPDATE '.DB_PREFIX.'files
 								SET status = 1,
-									size = '.$filesize.'
-								WHERE (id = '.$_REQUEST['file_id'].')');
+									size = ?
+								WHERE (id = ?)',
+								array($filesize, $_REQUEST['file_id']));
 								
 				// Template
 				$add_file = $uim->fetch_template('admin/files_add_file');
@@ -134,21 +136,25 @@ if ($uam->permitted('acp_files_add_file'))
 		// Get the activation time
 		$activate_at = mktime($_REQUEST['hour'], $_REQUEST['minute'], 0, $_REQUEST['month'], $_REQUEST['day'], $_REQUEST['year']);
 		
-		$dbim->query('INSERT INTO '.DB_PREFIX.'files
-						SET category_id = "'.$_REQUEST['category'].'", 
-							name = "'.$_REQUEST['name'].'", 
-							description_small = "'.$_REQUEST['description_small'].'", 
-							description_big = "'.$_REQUEST['description_big'].'", 
-							downloads = "'.$_REQUEST['downloads'].'",
-							views = "'.$_REQUEST['views'].'", 
-							size = "'.$filesize.'", 
+		$dbim->pquery('INSERT INTO '.DB_PREFIX.'files
+						SET category_id = ?, 
+							name = ?, 
+							description_small = ?, 
+							description_big = ?, 
+							downloads = ?,
+							views = ?, 
+							size = ?, 
 							date = "'.time().'",
-							agreement_id = "'.$_REQUEST['agreement'].'",
-							password = "'.$password.'",
+							agreement_id = ?,
+							password = ?,
 							status = 1,
-							convert_newlines = '.$convert_newlines.',
-							keywords = "'.$_REQUEST['keywords'].'",
-							activate_at = "'.$activate_at.'"');
+							convert_newlines = ?,
+							keywords = ?,
+							activate_at = ?',
+						array($_REQUEST['category'], $_REQUEST['name'], $_REQUEST['description_small'],
+							$_REQUEST['description_big'], $_REQUEST['downloads'], $_REQUEST['views'],
+							$filesize, $_REQUEST['agreement'], $password, $convert_newlines,
+							$_REQUEST['keywords'], $activate_at));
 		
 		$file_id = $dbim->insert_id();
 		
@@ -160,19 +166,21 @@ if ($uam->permitted('acp_files_add_file'))
 				validate_types($_REQUEST, array('custom_field_'.$i.'_value' => 'STR_HTML'));
 				
 				// Add
-				$dbim->query('INSERT INTO '.DB_PREFIX.'customfields_data
-								SET field_id = '.$_REQUEST['custom_field_'.$i.'_field_id'].',
-									file_id = '.$file_id.',
-									value = "'.$_REQUEST['custom_field_'.$i.'_value'].'"');
+				$dbim->pquery('INSERT INTO '.DB_PREFIX.'customfields_data
+								SET field_id = ?,
+									file_id = ?,
+									value = ?',
+								array($_REQUEST['custom_field_'.$i.'_field_id'], $file_id, $_REQUEST['custom_field_'.$i.'_value']));
 			}
 		}
 		
 		if (isset($_REQUEST['upload']))
 		{
 			// Hmm, fire might result if the file is available to users with no actual download
-			$dbim->query('UPDATE '.DB_PREFIX.'files
+			$dbim->pquery('UPDATE '.DB_PREFIX.'files
 							SET status = 0
-							WHERE (id = '.$file_id.')');
+							WHERE (id = ?)',
+							array($file_id));
 				
 			// Upload the file then jim..
 			// Template
@@ -187,11 +195,12 @@ if ($uam->permitted('acp_files_add_file'))
 					
 				if (!empty($_REQUEST['mirror'.$i.'_name']) && !empty($_REQUEST['mirror'.$i.'_location'])&& !empty($_REQUEST['mirror'.$i.'_url']))
 				{
-					$dbim->query('INSERT INTO '.DB_PREFIX.'mirrors
-									SET file_id = '.$file_id.', 
-										name = "'.$_REQUEST['mirror'.$i.'_name'].'", 
-										location = "'.$_REQUEST['mirror'.$i.'_location'].'", 
-										url = "'.$_REQUEST['mirror'.$i.'_url'].'"');
+					$dbim->pquery('INSERT INTO '.DB_PREFIX.'mirrors
+									SET file_id = ?, 
+										name = ?, 
+										location = ?, 
+										url = ?',
+									array($file_id, $_REQUEST['mirror'.$i.'_name'], $_REQUEST['mirror'.$i.'_location'], $_REQUEST['mirror'.$i.'_url']));
 				}
 			}			
 					
@@ -218,22 +227,22 @@ if ($uam->permitted('acp_files_add_file'))
 	$add_file->assign_var('date_message', $date_message);
 	
 	// Get the agreements
-	$agreements_result = $dbim->query('SELECT id, name, contents
-										FROM '.DB_PREFIX.'agreements');
+	$agreements_result = $dbim->pquery('SELECT id, name, contents
+										FROM '.DB_PREFIX.'agreements', array());
 										
-	while ($agreement = $dbim->fetch_array($agreements_result))
+	while ($agreement = $dbim->fetch_array_p($agreements_result))
 	{
 		$add_file->assign_var('agreement', $agreement);
 		$add_file->use_block('agreements');
 	}
 	
 	// Custom fields
-	$custom_query = $dbim->query('SELECT id, label, value
-									FROM '.DB_PREFIX.'customfields');
-	$rows = $dbim->num_rows($custom_query);		
+	$custom_query = $dbim->pquery('SELECT id, label, value
+									FROM '.DB_PREFIX.'customfields', array());
+	$rows = $dbim->num_rows_p($custom_query);		
 	$add_file->assign_var('custom_field_total', $rows);		
 	$id = 1;
-	while ($custom_fields = $dbim->fetch_array($custom_query))
+	while ($custom_fields = $dbim->fetch_array_p($custom_query))
 	{
 		$custom_fields['uid'] = $id;
 		$add_file->assign_var('custom_field', $custom_fields);

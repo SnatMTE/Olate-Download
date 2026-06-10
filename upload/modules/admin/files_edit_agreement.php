@@ -28,10 +28,11 @@ if ($uam->permitted('acp_files_edit_agreement'))
 		$agreement_edit = $uim->fetch_template('admin/files_edit_agreement');
 		$_REQUEST['contents'] = ereg_replace("\"","\"\"",$_REQUEST['contents']);
 		
-		$agreement_result = $dbim->query('SELECT id, name, contents
+		$agreement_result = $dbim->pquery('SELECT id, name, contents
 											FROM '.DB_PREFIX.'agreements
-											WHERE (id = '.$_REQUEST['id'].')');										
-		$agreement_row = $dbim->fetch_array($agreement_result);
+											WHERE (id = ?)',
+											array($_REQUEST['id']));										
+		$agreement_row = $dbim->fetch_array_p($agreement_result);
 		$agreement_edit->assign_var('agreement', $agreement_row);
 		
 		// Use FCKeditor or not?
@@ -62,10 +63,11 @@ if ($uam->permitted('acp_files_edit_agreement'))
 		// Template
 		$agreement_edit = $uim->fetch_template('admin/files_edit_agreement');
 		
-		$dbim->query('UPDATE '.DB_PREFIX.'agreements
-						SET name = "'.$_REQUEST['name'].'", 
-							contents = "'.$_REQUEST['contents'].'"
-						WHERE (id = '.$_REQUEST['id'].')');
+		$dbim->pquery('UPDATE '.DB_PREFIX.'agreements
+						SET name = ?, 
+							contents = ?
+						WHERE (id = ?)',
+						array($_REQUEST['name'], $_REQUEST['contents'], $_REQUEST['id']));
 						
 		$success = true; // For redirect EOF
 		$agreement_edit->assign_var('success', true);
@@ -77,10 +79,10 @@ if ($uam->permitted('acp_files_edit_agreement'))
 		$agreement_edit = $uim->fetch_template('admin/files_edit_agreement_select');
 		
 		// Get the agreements
-		$agreements_result = $dbim->query('SELECT id, name, contents
-											FROM '.DB_PREFIX.'agreements');
+		$agreements_result = $dbim->pquery('SELECT id, name, contents
+											FROM '.DB_PREFIX.'agreements', array());
 											
-		while ($agreement = $dbim->fetch_array($agreements_result))
+		while ($agreement = $dbim->fetch_array_p($agreements_result))
 		{
 			$agreement_edit->assign_var('agreement', $agreement);
 			$agreement_edit->use_block('agreements');

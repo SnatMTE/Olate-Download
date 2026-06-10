@@ -27,15 +27,15 @@ if ($uam->permitted('acp_files_approve_comments'))
 	
 	if (empty($_REQUEST['id']))
 	{	
-		$comments_result = $dbim->query('SELECT id, file_id, timestamp, name, email, comment, status
+		$comments_result = $dbim->pquery('SELECT id, file_id, timestamp, name, email, comment, status
 											FROM '.DB_PREFIX.'comments
 											WHERE (status = 0)
-											ORDER BY timestamp ASC');
+											ORDER BY timestamp ASC', array());
 		
 		// Yoo-hoo, anyone there?
-		if ($dbim->num_rows($comments_result) != 0)
+		if ($dbim->num_rows_p($comments_result) != 0)
 		{
-			while ($comment = $dbim->fetch_array($comments_result))
+			while ($comment = $dbim->fetch_array_p($comments_result))
 			{		
 				// Get details of file comment belongs to
 				$file = $fldm->get_details($comment['file_id']);
@@ -71,10 +71,11 @@ if ($uam->permitted('acp_files_approve_comments'))
 	else
 	{
 		// Approve it
-		$dbim->query('UPDATE '.DB_PREFIX.'comments
+		$dbim->pquery('UPDATE '.DB_PREFIX.'comments
 						SET status = 1
-						WHERE (id = '.$_REQUEST['id'].')
-						LIMIT 1');
+						WHERE (id = ?)
+						LIMIT 1',
+						array($_REQUEST['id']));
 						
 		$success = true; // For redirect EOF
 		$approve->assign_var('success', true);						

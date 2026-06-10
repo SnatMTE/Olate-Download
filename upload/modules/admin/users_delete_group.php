@@ -28,20 +28,22 @@ if ($uam->permitted('acp_users_add_user'))
 	// Have they specified a user id?
 	if (!empty($_REQUEST['id']))
 	{
-		$check_result = $dbim->query('SELECT group_id
+		$check_result = $dbim->pquery('SELECT group_id
 										FROM '.DB_PREFIX.'users
-										WHERE (group_id = '.$_REQUEST['id'].')');
+										WHERE (group_id = ?)',
+										array($_REQUEST['id']));
 		
-		if ($dbim->num_rows($check_result) == 0)
+		if ($dbim->num_rows_p($check_result) == 0)
 		{
 			if (empty($_REQUEST['confirm_yes']) && empty($_REQUEST['confirm_no']))
 			{
 				// Get user info
-				$result = $dbim->query('SELECT name
+				$result = $dbim->pquery('SELECT name
 										FROM '.DB_PREFIX.'usergroups 
-										WHERE id = '.$_REQUEST['id']);
+										WHERE id = ?',
+										array($_REQUEST['id']));
 				
-				$row = $dbim->fetch_array($result);
+				$row = $dbim->fetch_array_p($result);
 				
 				// Load template
 				$delete_group = $uim->fetch_template('admin/generic_yes_no');
@@ -60,9 +62,10 @@ if ($uam->permitted('acp_users_add_user'))
 			elseif (!empty($_REQUEST['confirm_yes']))
 			{
 				// Delete usergroup
-				$dbim->query('DELETE FROM '.DB_PREFIX.'usergroups
-								WHERE (id = '.$_REQUEST['id'].')
-								LIMIT 1');
+				$dbim->pquery('DELETE FROM '.DB_PREFIX.'usergroups
+								WHERE (id = ?)
+								LIMIT 1',
+								array($_REQUEST['id']));
 								
 				$success = true; // For redirect EOF
 				$delete_group->assign_var('result', 1);
@@ -82,11 +85,11 @@ if ($uam->permitted('acp_users_add_user'))
 	else
 	{
 		// Display a list of users
-		$result = $dbim->query('SELECT id, name 
+		$result = $dbim->pquery('SELECT id, name 
 								FROM '.DB_PREFIX.'usergroups 
-								ORDER BY name');
+								ORDER BY name', array());
 		
-		while ($group = $dbim->fetch_array($result))
+		while ($group = $dbim->fetch_array_p($result))
 		{
 			$delete_group->assign_var('group', $group);
 			$delete_group->use_block('group');

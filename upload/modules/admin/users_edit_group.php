@@ -25,10 +25,11 @@ if ($uam->permitted('acp_users_edit_group'))
 	// Have they specified a user id?
 	if (!empty($_REQUEST['id']))
 	{
-		$result = $dbim->query('SELECT id, name 
+		$result = $dbim->pquery('SELECT id, name 
 								FROM '.DB_PREFIX.'usergroups 
-								WHERE (id = "'.$_REQUEST['id'].'")');
-		$group = $dbim->fetch_array($result);
+								WHERE (id = ?)',
+								array($_REQUEST['id']));
+		$group = $dbim->fetch_array_p($result);
 		
 		// Show the form
 		$group_edit = $uim->fetch_template('admin/users_edit_group');
@@ -50,10 +51,11 @@ if ($uam->permitted('acp_users_edit_group'))
 			$error->assign_var('error_message', $lm->language('admin', 'enter_group_name'));
 			$error->show();
 			
-			$result = $dbim->query('SELECT id, name 
+			$result = $dbim->pquery('SELECT id, name 
 									FROM '.DB_PREFIX.'usergroups 
-									WHERE (id = "'.$_REQUEST['id'].'")');
-			$group = $dbim->fetch_array($result);
+									WHERE (id = ?)',
+									array($_REQUEST['id']));
+			$group = $dbim->fetch_array_p($result);
 			
 			// Show the form
 			$group_edit = $uim->fetch_template('admin/users_edit_group');
@@ -63,15 +65,17 @@ if ($uam->permitted('acp_users_edit_group'))
 		}
 		else
 		{
-			$dbim->query('UPDATE '.DB_PREFIX.'usergroups 
-							SET name = "'.$_REQUEST['name'].'" 
-							WHERE (id = "'.$_REQUEST['group_id'].'")');
+			$dbim->pquery('UPDATE '.DB_PREFIX.'usergroups 
+							SET name = ? 
+							WHERE (id = ?)',
+							array($_REQUEST['name'], $_REQUEST['group_id']));
 
 			// Update permissions - Start by deleting any current 
 			// ones they may have
-			$dbim->query('DELETE FROM '.DB_PREFIX.'userpermissions
+			$dbim->pquery('DELETE FROM '.DB_PREFIX.'userpermissions
 							WHERE (type = "user_group")	
-								AND (type_value = "'.$_REQUEST['group_id'].'")');
+								AND (type_value = ?)',
+							array($_REQUEST['group_id']));
 			
 			// A list of permissions
 			$permissions = $uam->list_permissions();
@@ -84,11 +88,12 @@ if ($uam->permitted('acp_users_edit_group'))
 				$setting = (isset($user_permissions["$permission"])) ? 1 : 0;
 				
 				// Insert it - This is pretty damn query heavy :(
-				$dbim->query('INSERT INTO '.DB_PREFIX.'userpermissions 
-								SET permission_id = "'.$permission_id.'", 
+				$dbim->pquery('INSERT INTO '.DB_PREFIX.'userpermissions 
+								SET permission_id = ?, 
 									type = "user_group",
-									type_value = "'.$_REQUEST['group_id'].'", 
-									setting = "'.$setting.'"');
+									type_value = ?, 
+									setting = ?',
+								array($permission_id, $_REQUEST['group_id'], $setting));
 			}	
 			
 			$message = $uim->fetch_template('admin/users_edit_group');
@@ -100,13 +105,13 @@ if ($uam->permitted('acp_users_edit_group'))
 	else
 	{
 		// Display a list of users
-		$result = $dbim->query('SELECT id, name 
+		$result = $dbim->pquery('SELECT id, name 
 								FROM '.DB_PREFIX.'usergroups 
-								ORDER BY name');
+								ORDER BY name', array());
 		
 		$list = $uim->fetch_template('admin/users_edit_group_list');
 		
-		while ($group = $dbim->fetch_array($result))
+		while ($group = $dbim->fetch_array_p($result))
 		{
 			$list->assign_var('group', $group);
 			$list->use_block('group');

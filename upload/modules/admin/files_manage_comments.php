@@ -29,19 +29,22 @@ if ($uam->permitted('acp_files_manage_comments'))
 	{
 		$template_manage = $uim->fetch_template('admin/files_manage_comments');
 		
-		// Initialise array
+		// Initialise arrays
 		$sql_conditions = array();
+		$sql_params = array();
 		
 		// Specified comment id?
 		if (!empty($_REQUEST['comment_id']))
 		{
-			$sql_conditions[] = '(id = "'.$_REQUEST['comment_id'].'")';
+			$sql_conditions[] = '(id = ?)';
+			$sql_params[] = $_REQUEST['comment_id'];
 		}
 		
 		// Specified a file ID?
 		if (!empty($_REQUEST['file_id']) && $_REQUEST['file_id'] != '')
 		{
-			$sql_conditions[] = '(file_id = "'.$_REQUEST['file_id'].'")';
+			$sql_conditions[] = '(file_id = ?)';
+			$sql_params[] = $_REQUEST['file_id'];
 		}
 		
 		// Specified a date?
@@ -50,25 +53,29 @@ if ($uam->permitted('acp_files_manage_comments'))
 			$date_parts = explode('/', $_REQUEST['date']);
 			$timestamp = mktime(0, 0, 0, $date_parts['1'], $date_parts['0'], $date_parts['2']);
 			
-			$sql_conditions[] = '(timestamp >= "'.$timestamp.'")';
+			$sql_conditions[] = '(timestamp >= ?)';
+			$sql_params[] = $timestamp;
 		}
 		
 		// Specified a name?
 		if (!empty($_REQUEST['name']))
 		{
-			$sql_conditions[] = '(name LIKE "'.$_REQUEST['name'].'")';
+			$sql_conditions[] = '(name LIKE ?)';
+			$sql_params[] = $_REQUEST['name'];
 		}
 		
 		// Specified an email address?
 		if (!empty($_REQUEST['email']))
 		{
-			$sql_conditions[] = '(email LIKE "'.$_REQUEST['email'].'")';
+			$sql_conditions[] = '(email LIKE ?)';
+			$sql_params[] = $_REQUEST['email'];
 		}
 		
 		// Specified an email address?
 		if (!empty($_REQUEST['status']))
 		{
-			$sql_conditions[] = '(status = "'.$_REQUEST['status'].'")';
+			$sql_conditions[] = '(status = ?)';
+			$sql_params[] = $_REQUEST['status'];
 		}
 		
 		// Search database
@@ -84,13 +91,13 @@ if ($uam->permitted('acp_files_manage_comments'))
 		// Add sorting on the end
 		$search_sql .= ' ORDER BY timestamp ASC';
 		
-		$search_result = $dbim->query($search_sql);
+		$search_result = $dbim->pquery($search_sql, $sql_params);
 															
-		if ($dbim->num_rows($search_result) >= 1)
+		if ($dbim->num_rows_p($search_result) >= 1)
 		{
 			$comments = array();
 			
-			while ($comment = $dbim->fetch_array($search_result))
+			while ($comment = $dbim->fetch_array_p($search_result))
 			{			
 				// Format the date
 				$comment['timestamp'] = format_date($comment['timestamp']);			
@@ -120,7 +127,7 @@ if ($uam->permitted('acp_files_manage_comments'))
 			}
 			
 			// Result count
-			$template_manage->assign_var('result_count', $dbim->num_rows($search_result));
+			$template_manage->assign_var('result_count', $dbim->num_rows_p($search_result));
 		}
 		else
 		{
@@ -140,8 +147,9 @@ if ($uam->permitted('acp_files_manage_comments'))
 			case 1:
 				foreach ($_POST['comment'] as $comment)
 				{
-					$delete = $dbim->query('DELETE FROM '.DB_PREFIX.'comments
-											WHERE (id = '.intval($comment).')');
+					$delete = $dbim->pquery('DELETE FROM '.DB_PREFIX.'comments
+											WHERE (id = ?)',
+											array(intval($comment)));
 				}
 				$template_manage->assign_var('action', 1);
 				$success = true;
@@ -150,9 +158,10 @@ if ($uam->permitted('acp_files_manage_comments'))
 			case 2:
 				foreach ($_POST['comment'] as $comment)
 				{
-					$dbim->query('UPDATE '.DB_PREFIX.'comments
+					$dbim->pquery('UPDATE '.DB_PREFIX.'comments
 											SET status = 0
-											WHERE (id = '.intval($comment).')');
+											WHERE (id = ?)',
+											array(intval($comment)));
 				}
 				$template_manage->assign_var('action', 2);
 				$success = true;
@@ -161,9 +170,10 @@ if ($uam->permitted('acp_files_manage_comments'))
 			case 3:
 				foreach ($_POST['comment'] as $comment)
 				{
-					$dbim->query('UPDATE '.DB_PREFIX.'comments
+					$dbim->pquery('UPDATE '.DB_PREFIX.'comments
 											SET status = 1
-											WHERE (id = '.intval($comment).')');
+											WHERE (id = ?)',
+											array(intval($comment)));
 				}
 				$template_manage->assign_var('action', 3);
 				$success = true;
@@ -180,13 +190,13 @@ if ($uam->permitted('acp_files_manage_comments'))
 		$template_search = $uim->fetch_template('admin/files_manage_comments_search');
 		
 		// Show all files
-		$files_result = $dbim->query('SELECT id, name, category_id, description_small, description_big, downloads, size, date 
+		$files_result = $dbim->pquery('SELECT id, name, category_id, description_small, description_big, downloads, size, date 
 										FROM '.DB_PREFIX.'files
-										ORDER BY name DESC');
+										ORDER BY name DESC', array());
 		
 		$files = array();
 		
-		while ($file = $dbim->fetch_array($files_result))
+		while ($file = $dbim->fetch_array_p($files_result))
 		{
 			// If set, get the category details
 			if ($file['category_id'] != 0)
